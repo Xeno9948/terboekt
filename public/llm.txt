@@ -19,6 +19,7 @@ https://hometerboekt.be/api/rates and the /prijzen page.
 - Book / contact: https://hometerboekt.be/contact
 - Rental and booking terms: https://hometerboekt.be/voorwaarden
 - Cancellation: https://hometerboekt.be/annulatie
+- Cookie policy: https://hometerboekt.be/cookies
 - Holiday home in Genk: https://hometerboekt.be/vakantiehuis-genk
 - Holiday home with pool: https://hometerboekt.be/vakantiehuis-zwembad-limburg
 - Visit Genk: https://hometerboekt.be/genk

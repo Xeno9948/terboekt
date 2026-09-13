@@ -34,6 +34,9 @@ return static function (Database $db): void {
         'property_address' => (string) $json['address'],
         'contact_email' => (string) $json['email'],
         'house_rules_url' => (string) $json['houseRulesUrl'],
+        'privacy_url' => (string) ($json['privacyUrl'] ?? '/cookies'),
+        'cancellation_url' => (string) ($json['cancellationUrl'] ?? '/annulatie'),
+        'analytics_id' => '',
         'timezone' => (string) $json['timezone'],
         // Bank details stay empty until the manager configures them in admin.
         'bank_account_holder' => '',

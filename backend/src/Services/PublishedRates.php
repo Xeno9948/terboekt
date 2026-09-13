@@ -173,6 +173,10 @@ final class PublishedRates
             $settings->get('cancellation_url', (string) ($data['cancellationUrl'] ?? '/annulatie')),
             '/annulatie'
         );
+        $data['privacyUrl'] = $this->cleanPublicUrl(
+            $settings->get('privacy_url', (string) ($data['privacyUrl'] ?? '/cookies')),
+            '/cookies'
+        );
         $data['timezone'] = $settings->get('timezone', (string) ($data['timezone'] ?? 'Europe/Brussels')) ?? 'Europe/Brussels';
         $data['depositPercentage'] = $settings->depositPercentage();
         $data['depositDeadlineDays'] = $settings->depositDeadlineDays();

@@ -503,12 +503,21 @@ section.tight { padding: 3rem 0; }
 }
 .lookbook-head h2 { margin-bottom: 0.4rem; }
 .lookbook-track {
+    --lookbook-inset: max(var(--spacing-padding), calc((100vw - min(100vw, var(--spacing-container))) / 2 + var(--spacing-padding)));
     display: flex;
     gap: 1rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding: 0 max(1.5rem, calc((100vw - var(--spacing-container)) / 2)) 1rem;
+    scroll-padding-inline: var(--lookbook-inset);
+    padding: 0 0 1rem;
     scrollbar-width: thin;
+}
+.lookbook-track::before,
+.lookbook-track::after {
+    content: "";
+    flex: 0 0 var(--lookbook-inset);
+    width: var(--lookbook-inset);
+    pointer-events: none;
 }
 .lookbook-slide {
     flex: 0 0 min(78vw, 640px);
@@ -751,37 +760,6 @@ section.tight { padding: 3rem 0; }
     width: 1rem;
 }
 
-.kitchen-feature-copy {
-    max-width: 40rem;
-    margin-bottom: 1.6rem;
-}
-.kitchen-feature-copy p {
-    margin: 0.7rem 0 0;
-    color: var(--color-text-muted);
-    max-width: 46ch;
-}
-.kitchen-feature-photo {
-    margin: 0 0 1.75rem;
-}
-.kitchen-feature-photo img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    cursor: zoom-in;
-}
-.kitchen-feature-photo figcaption {
-    margin-top: 0.7rem;
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-}
-.kitchen-feature-list {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.55rem 2.25rem;
-    margin-top: 0;
-}
-
 .soft { background: var(--color-secondary); }
 .dark {
     background: var(--color-primary);
@@ -904,8 +882,9 @@ section.tight { padding: 3rem 0; }
 }
 .photo-switch--cover .photo-switch-stage img {
     object-fit: cover;
+    object-position: center;
 }
-.photo-switch--cover .photo-switch-stage img:first-child {
+.photo-switch--low .photo-switch-stage img:first-child {
     object-position: 50% 70%;
 }
 
@@ -1196,11 +1175,98 @@ footer {
 .contact-info i { color: var(--color-accent); margin-top: 0.2rem; }
 
 .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem 1.35rem;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding-top: 1rem;
     color: rgba(255, 255, 255, 0.78);
     font-size: 0.9rem;
 }
+
+.footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1.1rem;
+}
+
+.footer-legal a,
+.footer-legal button {
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.footer-legal a:hover,
+.footer-legal button:hover {
+    color: var(--color-white);
+}
+
+.cookie-banner {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 8000;
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.35rem 1.15rem;
+    background: var(--color-white);
+    color: var(--color-primary);
+    border: 1px solid rgba(16, 14, 12, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 18px 48px rgba(16, 14, 12, 0.16);
+}
+
+.cookie-banner[hidden] { display: none !important; }
+
+.cookie-banner h2 {
+    margin: 0 0 0.4rem;
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+}
+
+.cookie-banner p { margin: 0 0 0.55rem; line-height: 1.5; }
+
+.cookie-banner a { color: var(--color-accent-dark); font-weight: 600; }
+
+.cookie-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+}
+
+.cookie-banner-actions .btn { font-size: 0.72rem; }
+
+.cookie-prefs {
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(16, 14, 12, 0.08);
+}
+
+.cookie-prefs[hidden] { display: none !important; }
+
+.cookie-pref {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+}
+
+.cookie-pref input { margin-top: 0.25rem; }
+
+body.has-cookie-banner { padding-bottom: 2rem; }
 
 .legal {
     max-width: 760px;
@@ -1266,7 +1332,6 @@ footer {
     .intro-photo img { height: 220px; }
 
     .split > div > img { height: 280px; }
-    .kitchen-feature-list { grid-template-columns: 1fr; }
     .bath-split { grid-template-columns: 1fr; }
     .photo-switch-stage { height: min(70vh, 520px); }
     .photo-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }

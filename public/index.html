@@ -25,7 +25,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="assets/css/style.css?v=snap5">
+    <link rel="stylesheet" href="assets/css/style.css?v=snap8">
 </head>
 
 <body class="has-hero">
@@ -157,27 +157,35 @@
         </div>
     </section>
 
-    <section class="soft kitchen-feature">
-        <div class="container">
-            <div class="kitchen-feature-copy">
+    <section class="soft">
+        <div class="container split">
+            <div>
                 <span class="section-label" data-i18n="kitchen_label">Keuken</span>
                 <h2 data-i18n="kitchen_title">Open keuken met kookeiland</h2>
                 <p data-i18n="kitchen_lead">Koken gebeurt aan het eiland, met de tuin op ooghoogte. Achter de zwarte wand zit een volledige keuken voor acht: inductie, vaatwasser en alles wat u nodig hebt voor een week samen.</p>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_1">Koelkast met vriesvak</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_2">Vaatwasmachine</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_3">Combimagnetron</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_4">Inductiekookplaat met 4 pitten</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_5">Dolce Gusto, waterkoker, broodrooster, mixer</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_6">Keukenlinnen en ruime opbergruimte</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_7">Wasmachine en droogrek</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_8">Kinderstoel en toiletbrilverkleiner</span></li>
+                </ul>
             </div>
-            <figure class="kitchen-feature-photo js-lightbox">
-                <img src="assets/img/kitchen-island-garden.webp" alt="Zwarte open keuken met kookeiland, inductie en zicht op de tuin" loading="lazy" decoding="async">
-                <figcaption data-i18n="kitchen_caption">Kookeiland, zwarte keukenwand en de tuin door het hoekraam.</figcaption>
+            <figure class="photo-switch photo-switch--cover" data-photo-switch>
+                <div class="photo-switch-stage">
+                    <img class="is-current" src="assets/img/kitchen-island-induction.webp" alt="Zwarte open keuken met kookeiland en inductie" loading="lazy" decoding="async">
+                    <img src="assets/img/kitchen-island-garden.webp" alt="Open keuken met kookeiland en zicht op de tuin" loading="lazy" decoding="async">
+                </div>
+                <button class="photo-switch-btn prev" type="button" aria-label="Vorige foto"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="photo-switch-btn next" type="button" aria-label="Volgende foto"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="photo-switch-dots" role="tablist" aria-label="Keukenfoto’s">
+                    <button type="button" class="is-active" aria-label="Foto 1"></button>
+                    <button type="button" aria-label="Foto 2"></button>
+                </div>
             </figure>
-            <ul class="checklist kitchen-feature-list">
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_1">Koelkast met vriesvak</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_2">Vaatwasmachine</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_3">Combimagnetron</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_4">Inductiekookplaat met 4 pitten</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_5">Dolce Gusto, waterkoker, broodrooster, mixer</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_6">Keukenlinnen en ruime opbergruimte</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_7">Wasmachine en droogrek</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_8">Kinderstoel en toiletbrilverkleiner</span></li>
-            </ul>
         </div>
     </section>
 
@@ -263,7 +271,7 @@
     <section>
         <div class="container split reverse">
             <div>
-                <img src="assets/img/buitenkant-zwembad-tuin.webp" alt="Verwarmd buitenzwembad en terras" loading="lazy" decoding="async">
+                <img src="assets/img/pool-terrace-dining.webp" alt="Verwarmd buitenzwembad en terras" loading="lazy" decoding="async">
             </div>
             <div>
                 <span class="section-label" data-i18n="garden_label">Tuin & zwembad</span>
@@ -324,7 +332,7 @@
 
     <section>
         <div class="container split reverse">
-            <figure class="photo-switch photo-switch--cover" data-photo-switch>
+            <figure class="photo-switch photo-switch--cover photo-switch--low" data-photo-switch>
                 <div class="photo-switch-stage">
                     <img class="is-current" src="assets/img/front-garden-mailbox.webp" alt="Voorgevel van Home Terboekt met brievenbus en voortuin" loading="lazy" decoding="async">
                     <img src="assets/img/voorgevel-huis-dag.webp" alt="Zijgevel en privéoprit van Home Terboekt" loading="lazy" decoding="async">
@@ -432,7 +440,7 @@
         </div>
         <div class="lookbook-track">
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/buitenkant-zwembad-tuin.webp" alt="Zwembad en terras" loading="lazy" decoding="async">
+                <img src="assets/img/pool-terrace-dining.webp" alt="Zwembad en terras" loading="lazy" decoding="async">
                 <figcaption data-i18n="cap_pool">Zwembad</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
@@ -479,14 +487,14 @@
     </section>
 
     <div id="footer-placeholder"></div>
-    <script defer src="components/footer.js?v=snap5"></script>
+    <script defer src="components/footer.js?v=snap8"></script>
     <script defer src="assets/js/translations.js?v=snap5"></script>
     <script defer src="assets/js/pricing.js?v=snap5"></script>
     <script defer src="assets/js/booking/api.js"></script>
     <script defer src="assets/js/booking/calendar.js"></script>
     <script defer src="assets/js/booking/home-availability.js"></script>
-    <script defer src="assets/js/gallery.js"></script>
-    <script defer src="assets/js/script.js"></script>
+    <script defer src="assets/js/gallery.js?v=snap6"></script>
+    <script defer src="assets/js/script.js?v=snap6"></script>
 </body>
 
 </html>

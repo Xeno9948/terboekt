@@ -11,6 +11,7 @@
         checkoutBefore: '10:00',
         houseRulesUrl: '/voorwaarden',
         cancellationUrl: '/annulatie',
+        privacyUrl: '/cookies',
         depositPercentage: 30,
         depositDeadlineDays: 7,
         packages: [
@@ -77,6 +78,7 @@
             depositDays: String(data.depositDeadlineDays != null ? data.depositDeadlineDays : 7),
             houseRulesUrl: data.houseRulesUrl || '/voorwaarden',
             cancellationUrl: data.cancellationUrl || '/annulatie',
+            privacyUrl: data.privacyUrl || '/cookies',
             weekendLow: formatEuro(Number(weekend.lowCents) || 0),
             weekendHigh: formatEuro(Number(weekend.highCents) || 0),
             extendedLow: formatEuro(Number(extended.lowCents) || 0),
@@ -123,6 +125,11 @@
         document.querySelectorAll('[data-site="cancellationUrl"]').forEach((el) => {
             if (el.tagName === 'A' && data.cancellationUrl) {
                 el.setAttribute('href', data.cancellationUrl);
+            }
+        });
+        document.querySelectorAll('[data-site="privacyUrl"]').forEach((el) => {
+            if (el.tagName === 'A' && vars.privacyUrl) {
+                el.setAttribute('href', vars.privacyUrl);
             }
         });
 

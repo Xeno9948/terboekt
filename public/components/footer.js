@@ -14,10 +14,7 @@ const footerHTML = `
                 <li><a href="/contact" data-i18n="nav_contact">Boeken</a></li>
                 <li><a href="/voorwaarden" data-site="houseRulesUrl" data-i18n="footer_rules">Voorwaarden</a></li>
                 <li><a href="/annulatie" data-site="cancellationUrl" data-i18n="footer_cancel">Annulatievoorwaarden</a></li>
-                <li><a href="/vakantiehuis-genk" data-i18n="nav_vakantiehuis_genk">Vakantiehuis Genk</a></li>
-                <li><a href="/vakantiehuis-zwembad-limburg" data-i18n="nav_vakantiehuis_zwembad">Vakantiehuis met zwembad</a></li>
-                <li><a href="/nationaal-park-hoge-kempen" data-i18n="nav_hoge_kempen">Nationaal Park Hoge Kempen</a></li>
-                <li><a href="/weekendje-weg-limburg" data-i18n="nav_weekendje">Weekendje weg Limburg</a></li>
+                <li><a href="/cookies" data-site="privacyUrl" data-i18n="footer_cookies">Cookiebeleid</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -40,6 +37,10 @@ const footerHTML = `
     </div>
     <div class="container footer-bottom">
         <p data-i18n="footer_copyright">&copy; 2026 Home Terboekt. Alle rechten voorbehouden.</p>
+        <div class="footer-legal">
+            <a href="/cookies" data-site="privacyUrl" data-i18n="footer_cookies">Cookiebeleid</a>
+            <button type="button" data-cookie-open data-i18n="footer_cookie_settings">Cookie-instellingen</button>
+        </div>
     </div>
 </footer>
 `;
@@ -53,6 +54,7 @@ function paintSiteFields() {
     const vat = live.vat_number || vars.vat;
     const houseRulesUrl = live.house_rules_url || vars.houseRulesUrl;
     const cancellationUrl = live.cancellation_url || vars.cancellationUrl;
+    const privacyUrl = live.privacy_url || vars.privacyUrl;
 
     if (propertyName) {
         document.querySelectorAll('[data-site="propertyName"]').forEach((el) => {
@@ -93,6 +95,13 @@ function paintSiteFields() {
             }
         });
     }
+    if (privacyUrl) {
+        document.querySelectorAll('[data-site="privacyUrl"]').forEach((el) => {
+            if (el.tagName === 'A') {
+                el.setAttribute('href', privacyUrl);
+            }
+        });
+    }
 }
 
 function applyLiveConfig(json) {
@@ -105,6 +114,8 @@ function applyLiveConfig(json) {
     const vat = String(json.vat_number || '').trim();
     const houseRules = String(json.house_rules_url || '').trim();
     const cancellation = String(json.cancellation_url || '').trim();
+    const privacy = String(json.privacy_url || '').trim();
+    const analyticsId = String(json.analytics_id || '').trim();
     if (!email && !name && !address && !vat) {
         return false;
     }
@@ -114,7 +125,9 @@ function applyLiveConfig(json) {
         property_address: address,
         vat_number: vat,
         house_rules_url: houseRules,
-        cancellation_url: cancellation
+        cancellation_url: cancellation,
+        privacy_url: privacy,
+        analytics_id: analyticsId
     };
     window.TerboektSiteVars = Object.assign({}, window.TerboektSiteVars || {}, {
         email: email || (window.TerboektSiteVars && window.TerboektSiteVars.email),
@@ -122,9 +135,11 @@ function applyLiveConfig(json) {
         address: address || (window.TerboektSiteVars && window.TerboektSiteVars.address),
         vat: vat || (window.TerboektSiteVars && window.TerboektSiteVars.vat) || 'BE1030279857',
         houseRulesUrl: houseRules || (window.TerboektSiteVars && window.TerboektSiteVars.houseRulesUrl),
-        cancellationUrl: cancellation || (window.TerboektSiteVars && window.TerboektSiteVars.cancellationUrl)
+        cancellationUrl: cancellation || (window.TerboektSiteVars && window.TerboektSiteVars.cancellationUrl),
+        privacyUrl: privacy || (window.TerboektSiteVars && window.TerboektSiteVars.privacyUrl) || '/cookies'
     });
     paintSiteFields();
+    document.dispatchEvent(new Event('config:ready'));
     return true;
 }
 
@@ -157,7 +172,9 @@ function loadLiveConfig() {
                     property_address: rates.address || '',
                     vat_number: rates.vatNumber || '',
                     house_rules_url: rates.houseRulesUrl || '',
-                    cancellation_url: rates.cancellationUrl || ''
+                    cancellation_url: rates.cancellationUrl || '',
+                    privacy_url: rates.privacyUrl || '',
+                    analytics_id: ''
                 });
             })
             .catch(() => undefined);
@@ -171,6 +188,13 @@ function loadFooter() {
     }
     document.dispatchEvent(new Event('components:ready'));
     loadLiveConfig();
+    if (!document.querySelector('script[data-terboekt-cookies]')) {
+        const script = document.createElement('script');
+        script.src = '/assets/js/cookies.js?v=snap8';
+        script.defer = true;
+        script.dataset.terboektCookies = '1';
+        document.body.appendChild(script);
+    }
 }
 
 window.paintSiteFields = paintSiteFields;

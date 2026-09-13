@@ -10,6 +10,7 @@
   "checkoutBefore": "10:00",
   "houseRulesUrl": "/voorwaarden",
   "cancellationUrl": "/annulatie",
+  "privacyUrl": "/cookies",
   "timezone": "Europe/Brussels",
   "depositPercentage": 30,
   "depositDeadlineDays": 7,

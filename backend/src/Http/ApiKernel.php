@@ -52,6 +52,8 @@ final class ApiKernel
                     'vat_number' => (string) ($settings->get('vat_number', 'BE1030279857') ?: 'BE1030279857'),
                     'house_rules_url' => (string) $settings->get('house_rules_url', '/voorwaarden'),
                     'cancellation_url' => (string) $settings->get('cancellation_url', '/annulatie'),
+                    'privacy_url' => (string) ($settings->get('privacy_url', '/cookies') ?: '/cookies'),
+                    'analytics_id' => (string) ($settings->get('analytics_id', '') ?: ''),
                 ]);
             }
             if ($method === 'GET' && $path === '/availability') {

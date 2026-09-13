@@ -57,6 +57,7 @@ if (admin_is_post()) {
             'house_rules_url',
             'privacy_url',
             'cancellation_url',
+            'analytics_id',
             'terms_version',
         ];
         $email = trim((string) ($_POST['contact_email'] ?? ''));
@@ -82,10 +83,16 @@ if (admin_is_post()) {
             if ($key === 'cancellation_url') {
                 $value = terboekt_clean_public_path($value, '/annulatie');
             }
+            if ($key === 'privacy_url') {
+                $value = terboekt_clean_public_path($value, '/cookies');
+            }
+            if ($key === 'analytics_id') {
+                $value = preg_replace('/[^A-Za-z0-9_-]/', '', $value) ?? '';
+            }
             if ($key === 'vat_number' && $value === '') {
                 $value = 'BE1030279857';
             }
-            $app->settings()->upsert($key, $value === '' ? ($key === 'bank_iban' || $key === 'bank_bic' || $key === 'bank_name' || $key === 'bank_account_holder' || $key === 'privacy_url' || $key === 'terms_version' ? '' : $value) : $value);
+            $app->settings()->upsert($key, $value === '' ? ($key === 'bank_iban' || $key === 'bank_bic' || $key === 'bank_name' || $key === 'bank_account_holder' || $key === 'analytics_id' || $key === 'terms_version' ? '' : $value) : $value);
         }
         admin_publish_public_rates($app);
         admin_set_flash('success', 'Instellingen opgeslagen. Bankvelden blijven leeg tot u ze invult.');
@@ -204,8 +211,13 @@ admin_layout_start('Instellingen', 'settings', $user);
             <input type="text" id="house_rules_url" name="house_rules_url" value="<?= h(terboekt_clean_public_path($val($s, 'house_rules_url'), '/voorwaarden')) ?>" placeholder="/voorwaarden">
         </div>
         <div class="form-group">
-            <label for="privacy_url">Privacy (URL)</label>
-            <input type="url" id="privacy_url" name="privacy_url" value="<?= h($val($s, 'privacy_url')) ?>" placeholder="https://">
+            <label for="privacy_url">Privacy en cookies (URL)</label>
+            <input type="text" id="privacy_url" name="privacy_url" value="<?= h(terboekt_clean_public_path($val($s, 'privacy_url'), '/cookies')) ?>" placeholder="/cookies">
+        </div>
+        <div class="form-group">
+            <label for="analytics_id">Google Analytics of GTM (optioneel)</label>
+            <input type="text" id="analytics_id" name="analytics_id" value="<?= h($val($s, 'analytics_id')) ?>" placeholder="G-XXXXXXXX of GTM-XXXX" autocomplete="off">
+            <p class="admin-help">Leeg laten tot u een meetcode hebt. De cookiebanner laadt dit alleen na akkoord van de bezoeker.</p>
         </div>
         <div class="form-group">
             <label for="cancellation_url">Annulatievoorwaarden (URL)</label>
