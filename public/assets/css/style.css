@@ -1,10 +1,10 @@
 :root {
     --color-primary: #1a1a1a;
     --color-secondary: #f7f5f2;
-    --color-accent: #6e4e22;
-    --color-accent-dark: #6e4e22;
-    --color-accent-hover: #1a1a1a;
-    --color-accent-rgb: 110, 78, 34;
+    --color-accent: #c0a063;
+    --color-accent-dark: #c0a063;
+    --color-accent-hover: #c0a063;
+    --color-accent-rgb: 192, 160, 99;
     --color-text: #2a2a2a;
     --color-text-muted: #4a4a4a;
     --color-white: #ffffff;
@@ -132,7 +132,9 @@ header.nav-open {
 }
 
 .logo a {
-    color: var(--color-accent);
+    color: #c0a063;
+    background: none;
+    -webkit-text-fill-color: #c0a063;
 }
 
 .main-nav ul {
@@ -559,6 +561,40 @@ section.tight { padding: 3rem 0; }
 }
 .rate-notes h3 { margin-bottom: 0.7rem; }
 .rate-notes p { margin-bottom: 0.4rem; }
+
+.prices-copy {
+    max-width: 42rem;
+}
+.prices-copy h2 {
+    margin: 1.75rem 0 0.7rem;
+}
+.prices-copy p + p {
+    margin-top: 0.85rem;
+}
+.prices-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+.faq-list {
+    display: grid;
+    gap: 1.35rem;
+    margin: 1.5rem 0 2.25rem;
+    max-width: 46rem;
+}
+.faq-list article {
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-line);
+}
+.faq-list article:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+.faq-list h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.15rem;
+}
 
 .facts {
     display: grid;
@@ -1049,7 +1085,7 @@ footer {
 
 .footer-content {
     display: grid;
-    grid-template-columns: 1.3fr 1fr 1.1fr;
+    grid-template-columns: 1.3fr 0.9fr 1.1fr 1fr;
     gap: 2rem;
     margin-bottom: 1.6rem;
 }
@@ -1124,7 +1160,8 @@ footer {
 @media (max-width: 980px) {
     .split, .split.reverse, .attraction-card, .contact-layout, .cta-band,
     .usp-grid, .room-grid, .price-grid, .facts, .footer-content,
-    .intro-layout, .info-cards, .rate-notes, .stat-bar, .booking-shell {
+    .intro-layout, .info-cards, .rate-notes, .stat-bar, .booking-shell,
+    .home-avail-layout {
         grid-template-columns: 1fr;
     }
     .stat-bar { grid-template-columns: 1fr 1fr; }
@@ -1790,42 +1827,145 @@ footer {
 }
 
 .home-avail {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
     background: var(--color-secondary);
+    border-bottom: 1px solid var(--color-line);
 }
 
-.home-avail-shell {
+.home-avail-layout {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 2.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 26rem);
+    gap: 3rem 3.25rem;
     align-items: center;
 }
 
-.home-avail-copy .booking-range {
-    display: inline-block;
-    margin: 1rem 0 0.85rem;
+.home-avail-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    min-width: 0;
 }
 
-.home-avail-copy .cal-legend {
-    margin: 0 0 1.1rem;
+.home-avail-copy h2 {
+    margin-bottom: 0.55rem;
 }
 
-.home-avail-copy .btn {
-    margin-top: 0.35rem;
-}
-
-.home-avail-cal {
-    padding: 1.25rem 1.3rem 1.35rem;
-}
-
-.home-avail-cal .cal {
+.home-avail-copy > p {
+    max-width: 38ch;
     margin: 0;
-    padding: 0;
+    font-size: 1rem;
+}
+
+.home-avail-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.home-avail-dates div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 4.75rem;
+    padding: 0.85rem 1rem 0.9rem;
+    border-radius: 14px;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.home-avail-dates span {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.28rem;
+}
+
+.home-avail-dates strong {
+    font-family: var(--font-heading);
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-primary);
+}
+
+.home-avail-card {
+    width: 100%;
+    max-width: 28rem;
+    justify-self: end;
+    padding: 1.55rem 1.6rem 1.65rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.home-avail-card .cal {
+    margin: 0;
+    padding: 0.1rem 0.05rem 0.15rem;
     border: 0;
     background: transparent;
 }
 
+.home-avail .cal-nav-btn {
+    width: 44px;
+    height: 44px;
+}
+
+.home-avail .cal-day {
+    min-height: 44px;
+}
+
+.home-avail-foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.15rem;
+}
+
+.home-avail-foot .cal-legend {
+    margin: 0;
+}
+
+.home-avail-foot .btn {
+    min-height: 48px;
+    padding-inline: 1.7rem;
+}
+
+.home-avail-carry {
+    margin: -0.35rem 0 0;
+    max-width: 34ch;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+}
+
 @media (max-width: 980px) {
-    .home-avail-shell { grid-template-columns: 1fr; }
+    .home-avail-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.35rem;
+        align-items: stretch;
+    }
+
+    .home-avail-aside {
+        display: contents;
+    }
+
+    .home-avail-copy { order: 1; }
+    .home-avail-dates { order: 2; }
+    .home-avail-card { order: 3; }
+    .home-avail-foot { order: 4; }
+}
+
+@media (max-width: 640px) {
+    .home-avail-card { padding: 1.2rem 1.05rem 1.3rem; }
+    .home-avail-foot .btn { width: 100%; }
+    .home-avail-dates div { min-height: 4.4rem; padding: 0.75rem 0.85rem 0.8rem; }
 }
 
 .booking-rates {
@@ -1927,7 +2067,7 @@ select {
     appearance: none;
     -webkit-appearance: none;
     background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236e4e22' d='M1 1.2L6 6.2 11 1.2' stroke='%236e4e22' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c0a063' d='M1 1.2L6 6.2 11 1.2' stroke='%23c0a063' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.9rem center;
     background-size: 12px;
@@ -1988,8 +2128,5 @@ body.lightbox-open header {
     .village-grid.trio {
         grid-template-columns: 1fr;
     }
-}
-
-2;
 }
 
