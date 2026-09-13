@@ -4,226 +4,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Enhanced SEO Meta Tags -->
     <meta name="description"
-        content="Home Terboekt - Luxe vakantiewoning voor 8 personen in Nationaal Park Hoge Kempen, Genk. Geniet van een privézwembad, ruime tuin en moderne voorzieningen in het hart van Belgisch Limburg.">
-    <meta name="keywords"
-        content="vakantiewoning Genk, luxe vakantiehuis Limburg, vakantiehuis met zwembad België, Nationaal Park Hoge Kempen overnachten, Bokrijk, C-mine, weekendje weg Limburg, groepsaccommodatie Genk">
-    <meta name="author" content="Home Terboekt">
+        content="Home Terboekt — luxe vakantiewoning voor 8 personen in Nationaal Park Hoge Kempen, Genk. Vier slaapkamers, verwarmd privézwembad, ruime tuin en moderne voorzieningen.">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph for Social Media -->
-    <meta property="og:title" content="Home Terboekt - Luxe Vakantiewoning in Genk">
+    <meta property="og:title" content="Home Terboekt — luxe vakantiewoning in Genk">
     <meta property="og:description"
-        content="Ontsnap aan de drukte in onze moderne vakantievilla met zwembad, gelegen aan de rand van prachtig natuurgebied.">
-    <meta property="og:image" content="assets/img/exterior-pool-garden.jpg">
+        content="Vier slaapkamers, verwarmd privézwembad en de poort van Nationaal Park Hoge Kempen voor de deur.">
+    <meta property="og:image" content="assets/img/buitenkant-zwembad-tuin.jpg">
     <meta property="og:url" content="https://hometerboekt.be">
     <meta property="og:type" content="website">
-
-    <title>Home Terboekt | Luxe Vakantiehuis met Zwembad in Genk</title>
-
-    <!-- Fonts & Icons -->
+    <title>Home Terboekt | Luxe vakantiehuis met zwembad in Genk</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-
-    <!-- Header Component -->
+    <a class="skip-link" href="#about">Skip to content</a>
     <div id="header-placeholder"></div>
 
-    <!-- Hero Section -->
     <section class="hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.jpg');">
         <div class="hero-content">
-            <h1 data-i18n="hero_title">Exclusief Verblijven in het Groene Hart van Genk</h1>
-            <p data-i18n="hero_subtitle">Een oase van rust en luxe aan de poort van Nationaal Park Hoge Kempen.</p>
+            <h1 data-i18n="hero_title">Exclusief verblijven in het groene hart van Genk</h1>
+            <p data-i18n="hero_subtitle">Een oase van rust, design en privacy aan de poort van Nationaal Park Hoge Kempen.</p>
             <div class="hero-buttons">
-                <a href="contact.html" class="btn btn-primary" data-i18n="cta_book">Reserveer Nu</a>
-                <a href="#about" class="btn btn-secondary" data-i18n="cta_explore">Ontdek de Woning</a>
-                <a href="genk.html" class="btn btn-secondary">
-                    <i class="fa-solid fa-map-location-dot"></i> <span data-i18n="btn_explore_area">Verken de
-                        Omgeving</span>
+                <a href="contact.html" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+                <a href="#about" class="btn btn-secondary" data-i18n="cta_explore">Ontdek de woning</a>
+            </div>
+        </div>
+        <button class="scroll-indicator" type="button" aria-label="Scroll">
+            <i class="fa-solid fa-chevron-down"></i>
+        </button>
+    </section>
+
+    <section class="intro-section" id="about">
+        <div class="container split">
+            <div>
+                <span class="section-badge" data-i18n="intro_badge">Welkom bij Home Terboekt</span>
+                <h2 data-i18n="intro_title">Luxe en natuur in één gezinswoning</h2>
+                <p class="lead" data-i18n="intro_lead">Stap binnen in een oase van rust, design en privacy. Onze hoogwaardig afgewerkte vakantiewoning biedt met 4 stijlvolle slaapkamers de perfecte thuisbasis voor een onvergetelijke vakantie met uw gezin.</p>
+                <p data-i18n="intro_text">Geniet van een rustig moment voor uzelf in de luxueuze badkamer met ligbad en douche, of beleef tijdens het seizoen samen de mooiste momenten rond het verwarmde buitenzwembad. Home Terboekt combineert het comfort van een vijfsterrenhotel met de geborgenheid van een eigen gezinswoning.</p>
+                <div class="facts">
+                    <div class="fact"><i class="fa-solid fa-bed"></i><span data-i18n="feat_beds">4 slaapkamers, 8 personen</span></div>
+                    <div class="fact"><i class="fa-solid fa-person-swimming"></i><span data-i18n="feat_pool">Privé verwarmd zwembad</span></div>
+                    <div class="fact"><i class="fa-solid fa-wifi"></i><span data-i18n="feat_wifi">Supersnelle wifi</span></div>
+                    <div class="fact"><i class="fa-solid fa-car"></i><span data-i18n="feat_park">Parking tot 4 auto’s</span></div>
+                </div>
+            </div>
+            <div>
+                <img src="assets/img/living-open-plan-stairs.jpg" alt="Open leefruimte met zetel, trap en eethoek">
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 data-i18n="why_title">Waarom kiezen voor Home Terboekt</h2>
+            </div>
+            <div class="usp-grid">
+                <article class="usp-card">
+                    <i class="fa-solid fa-bed"></i>
+                    <h3 data-i18n="why_1_title">Ruimte voor iedereen</h3>
+                    <p data-i18n="why_1_text">Vier comfortabele slaapkamers voor een optimale nachtrust.</p>
+                </article>
+                <article class="usp-card">
+                    <i class="fa-solid fa-bath"></i>
+                    <h3 data-i18n="why_2_title">Pure ontspanning</h3>
+                    <p data-i18n="why_2_text">Een luxe badkamer met heerlijk ligbad en ruime regendouche.</p>
+                </article>
+                <article class="usp-card">
+                    <i class="fa-solid fa-person-swimming"></i>
+                    <h3 data-i18n="why_3_title">Seizoensgebonden luxe</h3>
+                    <p data-i18n="why_3_text">Een privé, verwarmd buitenzwembad om samen te genieten.</p>
+                </article>
+                <article class="usp-card">
+                    <i class="fa-solid fa-tree"></i>
+                    <h3 data-i18n="why_4_title">Natuur voor de deur</h3>
+                    <p data-i18n="why_4_text">Directe toegang tot de mooiste wandelroutes en fietspaden.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container split reverse">
+            <div>
+                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel voor acht personen met zicht op de tuin">
+            </div>
+            <div>
+                <span class="section-label" data-i18n="living_label">Leefruimte & keuken</span>
+                <h2 data-i18n="living_title">Samen herinneringen maken</h2>
+                <p data-i18n="living_text">Een hypergeïnstalleerde leefkeuken en een gezellige zithoek met ruimte voor 8 personen.</p>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="living_1">Grote eetkamer met tafel voor 8 personen</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="living_2">Gezellige zitruimte</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="living_3">Grote flatscreen-tv met Netflix</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="living_4">Gezelschapsspellen en speelgoed voor de kleinsten</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="container split">
+            <div>
+                <h3 data-i18n="kitchen_title">Open keuken met kookeiland</h3>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_1">Koelkast met vriesvak</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_2">Vaatwasmachine</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_3">Combimagnetron</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_4">Inductiekookplaat met 4 pitten</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_5">Dolce Gusto, waterkoker, broodrooster, mixer</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_6">Keukenlinnen en ruime opbergruimte</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_7">Wasmachine en droogrek</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="kitchen_8">Kinderstoel en toiletbrilverkleiner</span></li>
+                </ul>
+            </div>
+            <div>
+                <img src="assets/img/kitchen-island-induction.jpg" alt="Zwarte keuken met kookeiland en inductieplaat">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-label" data-i18n="rooms_label">Slaapkamers</span>
+                <h2 data-i18n="rooms_title">Acht slaapplaatsen, vier kamers</h2>
+                <p data-i18n="rooms_intro">Hoogwaardige boxsprings en een kindvriendelijke kamer met stapelbed.</p>
+            </div>
+            <div class="room-grid">
+                <article class="room-card">
+                    <div class="room-img">
+                        <img src="assets/img/slaapkamer-master-roze.jpg" alt="Slaapkamer 1 met boxspring 180 bij 220">
+                    </div>
+                    <div class="room-info">
+                        <h3 data-i18n="room_1_title">Kamer 1</h3>
+                        <p data-i18n="room_1_desc">Boxspring 180 × 220 cm</p>
+                    </div>
+                </article>
+                <article class="room-card">
+                    <div class="room-img">
+                        <img src="assets/img/bedroom-boxspring.jpg" alt="Slaapkamer 2 met boxspring 180 bij 220">
+                    </div>
+                    <div class="room-info">
+                        <h3 data-i18n="room_2_title">Kamer 2</h3>
+                        <p data-i18n="room_2_desc">Boxspring 180 × 220 cm</p>
+                    </div>
+                </article>
+                <article class="room-card">
+                    <div class="room-img">
+                        <img src="assets/img/bedroom-bunk-bed.jpg" alt="Slaapkamer 3 met stapelbed">
+                    </div>
+                    <div class="room-info">
+                        <h3 data-i18n="room_3_title">Kamer 3</h3>
+                        <p data-i18n="room_3_desc">Stapelbed 140 × 200 cm en 90 × 200 cm</p>
+                    </div>
+                </article>
+                <article class="room-card">
+                    <div class="room-img">
+                        <img src="assets/img/bedroom-garden-window.jpg" alt="Slaapkamer 4 met bed 160 bij 200 en tuinzicht">
+                    </div>
+                    <div class="room-info">
+                        <h3 data-i18n="room_4_title">Kamer 4</h3>
+                        <p data-i18n="room_4_desc">Bed 160 × 200 cm</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="container split">
+            <div>
+                <span class="section-label" data-i18n="bath_label">Badkamer</span>
+                <h2 data-i18n="bath_title">Pure ontspanning na een dag in het bos</h2>
+                <p data-i18n="bath_text">Geniet van een moment voor uzelf in het ligbad of onder de ruime regendouche. Shampoo en douchegel liggen klaar.</p>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="bath_1">Dubbele wastafel</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="bath_2">Ligbad en ruime regendouche</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="bath_3">Apart toilet en gastentoilet</span></li>
+                </ul>
+            </div>
+            <div class="location-images stack">
+                <div class="img-main"><img src="assets/img/bathroom-bathtub-green.jpg" alt="Vrijstaand ligbad met groene visgraattegels"></div>
+                <div class="img-small"><img src="assets/img/bathroom-double-sink.jpg" alt="Dubbele wastafel met rond verlicht spiegel"></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container split reverse">
+            <div>
+                <img src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Verwarmd buitenzwembad en terras">
+            </div>
+            <div>
+                <span class="section-label" data-i18n="garden_label">Tuin & zwembad</span>
+                <h2 data-i18n="garden_title">Seizoensgebonden luxe in alle privacy</h2>
+                <p data-i18n="garden_text">Geniet samen van het verwarmde buitenzwembad in de volledig omheinde tuin.</p>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="garden_1">Ruim terras met tafel en 8 stoelen</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="garden_2">Ligbedden</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="garden_3">Verwarmd zwembad van 1 april tot en met 30 september, afhankelijk van het weer</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="garden_4">Volledig omheinde tuin voor privacy en veiligheid</span></li>
+                </ul>
+                <p class="caption" data-i18n="garden_caption">Ontwaken te midden van de natuur, tegenover de toegangspoort van Nationaal Park Hoge Kempen.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="container split">
+            <div>
+                <span class="section-label" data-i18n="practical_label">Praktisch</span>
+                <h2 data-i18n="practical_title">Alles voor een vlekkeloos verblijf</h2>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-clock"></i><span data-i18n="prac_checkin">Aankomst vanaf 16.00 uur</span></li>
+                    <li><i class="fa-solid fa-clock"></i><span data-i18n="prac_checkout">Vertrek voor 10.00 uur</span></li>
+                    <li><i class="fa-solid fa-bed"></i><span data-i18n="prac_linen">Bed- en badlinnen inbegrepen</span></li>
+                    <li><i class="fa-solid fa-ban"></i><span data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</span></li>
+                    <li><i class="fa-solid fa-ban"></i><span data-i18n="prac_parties">Drinkpartijen en feesten zijn niet toegelaten</span></li>
+                </ul>
+                <a class="btn-link" href="https://www.beaunita.be/huur-en-boekingsvoorwaarden/" target="_blank" rel="noopener">
+                    <span data-i18n="prac_rules">Huisreglement en reservatievoorwaarden</span>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <i class="fa-solid fa-chevron-down"></i>
-        </div>
-    </section>
-
-    <!-- Introduction / USP -->
-    <section class="intro-section" id="about">
-        <div class="container">
-            <div class="intro-grid">
-                <div class="intro-text">
-                    <span class="section-badge" data-i18n="intro_badge">Welkom Thuis</span>
-                    <h2 data-i18n="intro_title">Ultiem Comfort in een Moderne Setting</h2>
-                    <p data-i18n="intro_text_1">Home Terboekt is een recent gebouwde, stijlvolle vakantiewoning die
-                        plaats biedt aan groepen tot 8 personen. Gelegen in een rustige residentiële wijk, combineert
-                        het de privacy van een eigen huis met de luxe van een hotel.</p>
-                    <p data-i18n="intro_text_2">Geniet van onze ruime, zonovergoten leefruimte, kook uitgebreid in de
-                        volledig uitgeruste keuken met kookeiland, of ontspan in de prachtig aangelegde tuin met
-                        privézwembad.</p>
-
-                    <div class="features-list">
-                        <div class="feature">
-                            <i class="fa-solid fa-bed"></i>
-                            <span data-i18n="feat_bedrooms">3 Ruime Slaapkamers</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fa-solid fa-person-swimming"></i>
-                            <span data-i18n="feat_pool">Verwarmd Zwembad</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fa-solid fa-wifi"></i>
-                            <span data-i18n="feat_wifi">Supersnelle Wifi</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="intro-image">
-                    <img src="assets/img/woonkamer-zithoek-sofa.jpg"
-                        alt="Ruime en lichte woonkamer van Home Terboekt met comfortabele zitbank en uitzicht op de tuin">
-                </div>
+            <div>
+                <h3 data-i18n="parking_title">Parkeren & bereikbaarheid</h3>
+                <p data-i18n="parking_private">Privéparking op het eigen terrein, tot 4 auto’s.</p>
+                <p data-i18n="parking_access">Eenvoudig bereikbaar via de hoofdwegen rond het Nationaal Park.</p>
+                <h3 style="margin-top:1.2rem;" data-i18n="extra_title">Extra faciliteiten</h3>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-wheelchair"></i><span data-i18n="extra_1">Rolstoeltoegankelijk</span></li>
+                    <li><i class="fa-solid fa-key"></i><span data-i18n="extra_2">Toegang via sleutelkastje</span></li>
+                    <li><i class="fa-solid fa-car"></i><span data-i18n="extra_3">Parking tot 4 auto’s</span></li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <!-- Interior Highlights -->
-    <section class="interior-section">
-        <div class="container">
-            <div class="text-center mb-5">
-                <span class="section-label" data-i18n="interior_label">Interieur</span>
-                <h2 data-i18n="interior_title">Sfeervol & Compleet Ingericht</h2>
+    <section>
+        <div class="container split reverse">
+            <div>
+                <img src="assets/img/voorgevel-huis-dag.jpg" alt="Gevel van Home Terboekt met privéoprit">
             </div>
-
-            <div class="interior-grid">
-                <!-- Kitchen -->
-                <div class="room-card">
-                    <div class="room-img">
-                        <img src="assets/img/kitchen-island-front.jpg"
-                            alt="Luxe keuken met kookeiland en moderne inbouwapparatuur">
-                    </div>
-                    <div class="room-info">
-                        <h3 data-i18n="room_kitchen">Chef-waardige Keuken</h3>
-                        <p data-i18n="room_kitchen_desc">Kookeiland, inductie, oven en alle benodigdheden voor een
-                            culinaire avond.</p>
-                    </div>
-                </div>
-
-                <!-- Dining -->
-                <div class="room-card">
-                    <div class="room-img">
-                        <img src="assets/img/eettafel-raam-zicht.jpg"
-                            alt="Gezellige eetruimte met grote houten tafel en uitzicht op buiten">
-                    </div>
-                    <div class="room-info">
-                        <h3 data-i18n="room_dining">Gezellig Tafelen</h3>
-                        <p data-i18n="room_dining_desc">Ruime eettafel om samen te genieten van ontbijt, lunch of diner.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Bedroom -->
-                <div class="room-card">
-                    <div class="room-img">
-                        <img src="assets/img/slaapkamer-master-roze.jpg"
-                            alt="Comfortabele master bedroom met boxspring en sfeervolle inrichting">
-                    </div>
-                    <div class="room-info">
-                        <h3 data-i18n="room_sleep">Rustgevende Nachten</h3>
-                        <p data-i18n="room_sleep_desc">Hoogwaardige boxsprings en verduistering voor een perfecte
-                            nachtrust.</p>
-                    </div>
-                </div>
+            <div>
+                <span class="section-label" data-i18n="sustain_label">Duurzaam comfort</span>
+                <h2 data-i18n="sustain_title">Luxe zonder concessies, met zorg voor energie</h2>
+                <p data-i18n="sustain_text">De bouwmaterialen zijn zorgvuldig gekozen. Muren, vloeren en dak zijn uitstekend geïsoleerd. Stroom komt van zonnepanelen, verwarming en warm water van een warmtepomp. Samen met dubbel glas en ledverlichting biedt Home Terboekt het hele jaar een aangename temperatuur.</p>
             </div>
         </div>
     </section>
 
-    <!-- Location Section -->
-    <section class="location-section">
-        <div class="container">
-            <div class="grid-2 reverse-mobile">
-                <div class="location-images">
-                    <div class="img-main">
-                        <img src="assets/img/hoge-kempen-nature.jpg"
-                            alt="Nationaal Park Hoge Kempen, uitgestrekte natuur en meren">
-                    </div>
-                    <div class="img-small">
-                        <!-- Changed to c-mine-terril.webp to be specific about location -->
-                        <img src="assets/img/c-mine-terril.webp" alt="Erfgoed in Genk: C-mine en terrils">
-                    </div>
-                </div>
-                <div class="location-content">
-                    <span class="section-label" data-i18n="loc_label">Omgeving</span>
-                    <h2 data-i18n="loc_title">Ontdek Limburg op zijn Best</h2>
-                    <p data-i18n="loc_text_1">Home Terboekt is de ideale uitvalsbasis voor natuurliefhebbers en
-                        cultuurzoekers. U bevindt zich op een steenworp afstand van <strong>Nationaal Park Hoge
-                            Kempen</strong>, waar u eindeloos kunt wandelen en fietsen door bossen en hei.</p>
-                    <p data-i18n="loc_text_2">Bezoek de indrukwekkende mijnssites zoals <strong>C-mine</strong>, ga
-                        terug in de tijd in <strong>Openluchtmuseum Bokrijk</strong>, of ga shoppen in modestad Hasselt
-                        of Maasmechelen Village.</p>
-
-                    <ul class="location-list">
-                        <li><i class="fa-solid fa-tree"></i> <span data-i18n="dist_nature">5 min naar Nationaal
-                                Park</span></li>
-                        <li><i class="fa-solid fa-landmark"></i> <span data-i18n="dist_cmine">10 min naar C-mine
-                                Genk</span></li>
-                        <li><i class="fa-solid fa-bicycle"></i> <span data-i18n="dist_cycle">Direct aan
-                                fietsroutenetwerk</span></li>
-                    </ul>
-
-                    <a href="genk.html" class="btn btn-outline" data-i18n="btn_explore_area">Bekijk alle
-                        Bezienswaardigheden <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+    <section class="soft">
+        <div class="container split">
+            <div class="location-images">
+                <div class="img-main"><img src="assets/img/hoge-kempen-nature.jpg" alt="Nationaal Park Hoge Kempen"></div>
+                <div class="img-small"><img src="assets/img/c-mine-terril.webp" alt="C-mine en terrils in Genk"></div>
+            </div>
+            <div>
+                <span class="section-label" data-i18n="loc_label">Omgeving</span>
+                <h2 data-i18n="loc_title">Nationaal Park voor de deur</h2>
+                <p data-i18n="loc_text_1">Home Terboekt ligt tegenover de toegangspoort van Nationaal Park Hoge Kempen: het enige nationale park van de Hoge Kempen, met eindeloze wandel- en fietsroutes.</p>
+                <p data-i18n="loc_text_2">Genk, Bokrijk, C-mine, Maasmechelen Village en Maastricht liggen binnen handbereik.</p>
+                <ul class="location-list">
+                    <li><i class="fa-solid fa-tree"></i><span data-i18n="dist_nature">Aan de poort van het Nationaal Park</span></li>
+                    <li><i class="fa-solid fa-landmark"></i><span data-i18n="dist_cmine">Ongeveer 10 minuten naar C-mine</span></li>
+                    <li><i class="fa-solid fa-bicycle"></i><span data-i18n="dist_cycle">Direct aan het fietsroutenetwerk</span></li>
+                    <li><i class="fa-solid fa-train"></i><span data-i18n="dist_maastricht">25–30 minuten naar Maastricht</span></li>
+                </ul>
+                <a href="genk.html" class="btn btn-outline"><span data-i18n="btn_explore_area">Bekijk alle uitstappen</span> <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
-    <!-- Google Maps Section -->
     <section class="map-section">
-        <div class="container">
-            <div class="text-center mb-5">
+        <div class="container map-wrap">
+            <div class="text-center mb-3">
                 <span class="section-label" data-i18n="map_label">Locatie</span>
-                <h2 data-i18n="map_title">Vind Ons in Genk</h2>
+                <h2 data-i18n="map_title">Terboekt 28, 3600 Genk</h2>
             </div>
             <div class="map-container">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2507.6!2d5.5!3d50.96!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDU3JzM2LjAiTiA1wrAzMCcwMC4wIkU!5e0!3m2!1sen!2sbe!4v1234567890123!5m2!1sen!2sbe"
-                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe title="Home Terboekt op Google Maps"
+                    src="https://maps.google.com/maps?q=Terboekt%2028%2C%203600%20Genk%2C%20Belgium&z=15&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
 
-    <!-- Gallery Grid -->
-    <section class="gallery-full">
+    <section class="gallery-full dark">
         <div class="container">
             <div class="text-center mb-4">
                 <h2 data-i18n="gallery_heading">Sfeerimpressie</h2>
             </div>
             <div class="photo-grid">
-                <img src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Luxe vakantiewoning met zwembad en terras"
-                    class="grid-item span-2">
-                <img src="assets/img/inkomhal-gang.jpg" alt="Ruime moderne inkomhal" class="grid-item">
-                <img src="assets/img/badkamer-ligbad-luxe.jpg" alt="Luxe badkamer met ligbad en visgraat tegels"
-                    class="grid-item">
-                <img src="assets/img/slaapkamer-stapelbed-kinderen.jpg" alt="Kinderkamer met stapelbed"
-                    class="grid-item">
-                <img src="assets/img/tuin-terras-eettafel.jpg" alt="Buitenterras met eettafel en relaxstoelen"
-                    class="grid-item span-2">
+                <img class="span-2" src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Zwembad en terras">
+                <img src="assets/img/living-tv-fireplace.jpg" alt="Tv-wand met haard">
+                <img src="assets/img/living-sofa-window.jpg" alt="Zithoek met groot raam">
+                <img src="assets/img/kitchen-island-induction.jpg" alt="Keuken-eiland">
+                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel">
+                <img src="assets/img/bathroom-rainshower.jpg" alt="Regendouche">
+                <img src="assets/img/bathroom-bathtub-green.jpg" alt="Ligbad">
+                <img class="span-2" src="assets/img/tuin-terras-eettafel.jpg" alt="Tuinterras">
+                <img src="assets/img/bedroom-boxspring.jpg" alt="Boxspring slaapkamer">
+                <img src="assets/img/bedroom-bunk-closet.jpg" alt="Kinderkamer met stapelbed">
+                <img src="assets/img/inkomhal-gang.jpg" alt="Inkomhal">
+                <img src="assets/img/dining-lights-detail.jpg" alt="Hanglampen boven de eettafel">
+                <img src="assets/img/voorgevel-huis-dag.jpg" alt="Oprit en gevel">
+                <img src="assets/img/guest-toilet.jpg" alt="Gastentoilet">
             </div>
         </div>
     </section>
 
-    <!-- Footer Component -->
-    <div id="footer-placeholder"></div>
+    <section>
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-label" data-i18n="rates_label">Prijzen</span>
+                <h2 data-i18n="rates_title">Transparante tarieven</h2>
+            </div>
+            <div class="price-grid">
+                <article class="price-card">
+                    <h3 data-i18n="rate_weekend">Weekend, 2 nachten</h3>
+                    <p data-i18n="rate_weekend_sub">vrijdag–zondag</p>
+                    <span class="amount">€ 800</span>
+                    <p class="season" data-i18n="low">Laagseizoen</p>
+                    <span class="amount">€ 900</span>
+                    <p class="season" data-i18n="high">Hoogseizoen</p>
+                </article>
+                <article class="price-card">
+                    <h3 data-i18n="rate_extended">Verlengd weekend</h3>
+                    <p data-i18n="rate_extended_sub">vrijdag–maandag</p>
+                    <span class="amount">€ 1.100</span>
+                    <p class="season" data-i18n="low">Laagseizoen</p>
+                    <span class="amount">€ 1.250</span>
+                    <p class="season" data-i18n="high">Hoogseizoen</p>
+                </article>
+                <article class="price-card">
+                    <h3 data-i18n="rate_midweek">Midweek, 4 nachten</h3>
+                    <p data-i18n="rate_midweek_sub">maandag–vrijdag</p>
+                    <span class="amount">€ 1.250</span>
+                    <p class="season" data-i18n="low">Laagseizoen</p>
+                    <span class="amount">€ 1.500</span>
+                    <p class="season" data-i18n="high">Hoogseizoen</p>
+                </article>
+                <article class="price-card">
+                    <h3 data-i18n="rate_week">Week, 7 nachten</h3>
+                    <p data-i18n="rate_week_sub">vrijdag–vrijdag</p>
+                    <span class="amount">€ 2.100</span>
+                    <p class="season" data-i18n="low">Laagseizoen</p>
+                    <span class="amount">€ 2.400</span>
+                    <p class="season" data-i18n="high">Hoogseizoen</p>
+                </article>
+            </div>
+            <p class="note" data-i18n="season_high">Hoogseizoen: april tot en met september en alle schoolvakanties.</p>
+            <p class="note" data-i18n="season_low">Laagseizoen: november tot en met maart.</p>
+            <ul class="checklist" style="margin-top:1rem;">
+                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</span></li>
+                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</span></li>
+                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</span></li>
+                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_deposit">Huurwaarborg: € 500</span></li>
+            </ul>
+            <div class="cta-band" style="margin-top:1.75rem;">
+                <div>
+                    <h3 data-i18n="cta_band_title">Zien we jou binnenkort?</h3>
+                    <p data-i18n="cta_band_text">Vraag een reservatie aan voor onze luxueuze vakantiewoning.</p>
+                </div>
+                <a href="contact.html" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+            </div>
+        </div>
+    </section>
 
+    <div id="footer-placeholder"></div>
     <script src="components/header.js"></script>
     <script src="components/footer.js"></script>
     <script src="assets/js/translations.js"></script>

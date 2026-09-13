@@ -5,106 +5,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Ontdek Genk en omgeving vanuit Home Terboekt. Bezoek C-mine, Bokrijk, Nationaal Park Hoge Kempen en meer. De perfecte uitvalsbasis voor uw vakantie in Limburg.">
-    <title>Bezoek Genk & Omgeving | Home Terboekt</title>
-
+        content="Ontdek Genk en omgeving vanuit Home Terboekt: Nationaal Park Hoge Kempen, Bokrijk, C-mine, Zutendaal, Oud-Rekem, As, Maasmechelen en Maastricht.">
+    <title>Bezoek Genk & omgeving | Home Terboekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-
-    <!-- Header Component -->
     <div id="header-placeholder"></div>
 
-    <!-- Hero Section with Genk Image -->
-    <section class="page-hero"
-        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('assets/img/genk-city-view.jpg');">
+    <section class="page-hero" style="background-image: url('assets/img/hoge-kempen-nature.jpg');">
         <div class="hero-content">
-            <h1 data-i18n="genk_title">Bezoek Genk & Limburg</h1>
-            <p data-i18n="genk_subtitle">Cultuur, natuur en gastronomie binnen handbereik.</p>
+            <h1 data-i18n="genk_title">Wat te doen in en rond Genk</h1>
+            <p data-i18n="genk_subtitle">Natuur, cultuur en actieve ontspanning voor het hele gezin.</p>
         </div>
     </section>
 
-    <!-- Attractions List -->
-    <section class="attractions-section">
+    <section class="soft">
         <div class="container">
+            <p class="lead mb-4" data-i18n="genk_intro">In en rond Genk is er voor gezinnen ontzettend veel te beleven. Home Terboekt is de ideale uitvalsbasis.</p>
+            <div class="mb-4">
+                <span class="section-label" data-i18n="nature_label">Natuur & unieke ervaringen</span>
+            </div>
 
-            <!-- Hoge Kempen -->
-            <div class="attraction-card">
+            <article class="attraction-card">
                 <div class="attr-img">
                     <img src="assets/img/hoge-kempen-nature.jpg" alt="Nationaal Park Hoge Kempen">
                 </div>
-                <div class="attr-content">
+                <div>
                     <h2 data-i18n="attr_hk_title">Nationaal Park Hoge Kempen</h2>
                     <div class="attr-meta">
-                        <span><i class="fa-solid fa-location-arrow"></i> 5 min rijden</span>
-                        <span><i class="fa-solid fa-person-hiking"></i> Wandelen & Fietsen</span>
+                        <span><i class="fa-solid fa-location-arrow"></i> 2 min</span>
+                        <span><i class="fa-solid fa-person-hiking"></i> Wandelen & fietsen</span>
                     </div>
-                    <p data-i18n="attr_hk_desc">Het enige Nationale Park van België ligt letterlijk in uw achtertuin.
-                        Met meer dan 12.000 hectare aan beschermde natuur, dennenbossen, paarse heide en grote
-                        waterplassen is dit een paradijs voor elke natuurliefhebber. Start uw tocht aan de toegangspoort
-                        'Kattevennen'.</p>
-                    <a href="https://www.nationaalparkhogekempen.be" target="_blank" class="btn-link">Bezoek Website <i
-                            class="fa-solid fa-arrow-right"></i></a>
+                    <p data-i18n="attr_hk_desc">Het enige nationale park van de Hoge Kempen ligt letterlijk tegenover de woning. Dennenbossen, heide en waterplassen, met directe toegang tot wandel- en fietspaden.</p>
+                    <a href="https://www.nationaalparkhogekempen.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
-            </div>
+            </article>
 
-            <!-- C-mine -->
-            <div class="attraction-card reverse">
-                <div class="attr-img">
-                    <img src="assets/img/c-mine-terril.webp" alt="C-mine Genk Cultureel Erfgoed">
-                </div>
-                <div class="attr-content">
-                    <h2 data-i18n="attr_cmine_title">C-mine Genk</h2>
-                    <div class="attr-meta">
-                        <span><i class="fa-solid fa-location-arrow"></i> 10 min rijden</span>
-                        <span><i class="fa-solid fa-landmark"></i> Cultuur & Erfgoed</span>
-                    </div>
-                    <p data-i18n="attr_cmine_desc">Deze prachtig gerenoveerde mijnsite is hét culturele hart van Genk.
-                        Daal af in de ondergrondse gangen tijdens de C-mine expeditie, bekijk een film in de Euroscoop,
-                        of geniet van een diner in een van de industriële restaurants.</p>
-                    <a href="https://www.c-mine.be" target="_blank" class="btn-link">Bezoek Website <i
-                            class="fa-solid fa-arrow-right"></i></a>
-                </div>
+            <div class="village-grid">
+                <article class="village-card">
+                    <i class="fa-solid fa-bicycle"></i>
+                    <h3 data-i18n="attr_water_title">Fietsen door het Water</h3>
+                    <p data-i18n="attr_water_desc">Fiets in Bokrijk dwars door een grote vijver, waarbij het water aan weerszijden precies op ooghoogte staat.</p>
+                    <a href="https://www.visitlimburg.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-star"></i>
+                    <h3 data-i18n="attr_kattevennen_title">Kattevennen & Cosmodrome</h3>
+                    <p data-i18n="attr_kattevennen_desc">Ontdek de kosmos via interactieve shows, wandel de Stokkenmanroute of sla een balletje op de minigolfbaan.</p>
+                    <a href="https://www.kattevennen.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-water"></i>
+                    <h3 data-i18n="attr_molenvijver_title">Molenvijverpark</h3>
+                    <p data-i18n="attr_molenvijver_desc">Een ontspannen wandeling langs vennen en meren in dit uitgestrekte stadspark van Genk.</p>
+                    <a href="https://www.visitgenk.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
             </div>
-
-            <!-- Bokrijk -->
-            <div class="attraction-card">
-                <div class="attr-img">
-                    <!-- Using a placeholder or reusing nature shot if specific Bokrijk image is missing, 
-                     but referencing Open Air Museum context in text -->
-                    <img src="assets/img/exterior-front-day.jpg" style="object-fit: cover; opacity: 0.8;"
-                        alt="Openluchtmuseum Bokrijk">
-                </div>
-                <div class="attr-content">
-                    <h2 data-i18n="attr_bokrijk_title">Bokrijk Openluchtmuseum</h2>
-                    <div class="attr-meta">
-                        <span><i class="fa-solid fa-location-arrow"></i> 15 min rijden</span>
-                        <span><i class="fa-solid fa-child-reaching"></i> Familie & Geschiedenis</span>
-                    </div>
-                    <p data-i18n="attr_bokrijk_desc">Reis terug in de tijd en ontdek hoe mensen in Vlaanderen 100 jaar
-                        geleden leefden. Het openluchtmuseum ligt in een prachtig park met een grote gratis speeltuin en
-                        het beroemde fietspad 'Fietsen door het Water'.</p>
-                    <a href="https://www.bokrijk.be" target="_blank" class="btn-link">Bezoek Website <i
-                            class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-
         </div>
     </section>
 
-    <!-- Footer Component -->
-    <div id="footer-placeholder"></div>
+    <section>
+        <div class="container">
+            <div class="mb-4">
+                <span class="section-label" data-i18n="culture_label">Cultuur, kunst & erfgoed</span>
+            </div>
 
+            <article class="attraction-card">
+                <div class="attr-img">
+                    <img src="assets/img/c-mine-terril.webp" alt="C-mine Genk">
+                </div>
+                <div>
+                    <h2 data-i18n="attr_cmine_title">C-mine Expeditie</h2>
+                    <div class="attr-meta">
+                        <span><i class="fa-solid fa-landmark"></i> Erfgoed</span>
+                    </div>
+                    <p data-i18n="attr_cmine_desc">Duik in het mijnverleden met een ondergrondse tocht door de oude ventilatiegangen en beklim de authentieke schachtbok.</p>
+                    <a href="https://www.c-mine.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <div class="village-grid">
+                <article class="village-card">
+                    <i class="fa-solid fa-child-reaching"></i>
+                    <h3 data-i18n="attr_bokrijk_title">Openluchtmuseum Bokrijk</h3>
+                    <p data-i18n="attr_bokrijk_desc">Stap terug in de tijd, ontdek historische boerderijen en laat de kinderen ravotten in de reusachtige gratis openluchtspeeltuin.</p>
+                    <a href="https://www.bokrijk.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-palette"></i>
+                    <h3 data-i18n="attr_labio_title">LABIOMISTA</h3>
+                    <p data-i18n="attr_labio_desc">De kunst- en natuursite van Koen Vanmechelen op de fundamenten van de oude dierentuin van Zwartberg.</p>
+                    <a href="https://www.labiomista.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="container">
+            <div class="mb-4">
+                <span class="section-label" data-i18n="action_label">Actie & indoor fun</span>
+            </div>
+            <div class="village-grid">
+                <article class="village-card">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                    <h3 data-i18n="attr_battlekart_title">BattleKart Genk</h3>
+                    <p data-i18n="attr_battlekart_desc">Bestuur een elektrische kart op een interactief circuit waar een levensgroot videospel op de vloer wordt geprojecteerd.</p>
+                    <a href="https://www.battlekart.com" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-lock"></i>
+                    <h3 data-i18n="attr_escape_title">Escape Universe</h3>
+                    <p data-i18n="attr_escape_desc">Werk als gezin samen om te ontsnappen uit een van de grotere en meeslepende escape rooms in de regio.</p>
+                    <a href="https://www.escapeuniverse.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-label" data-i18n="villages_label">Dorpjes in de buurt</span>
+                <h2 data-i18n="villages_title">Charme van Belgisch Limburg</h2>
+                <p data-i18n="villages_intro">Rondom Home Terboekt liggen enkele van de meest charmante gemeenten van Limburg, elk met een eigen toegangspoort tot het Nationaal Park.</p>
+            </div>
+            <div class="village-grid">
+                <article class="village-card">
+                    <i class="fa-solid fa-leaf"></i>
+                    <h3 data-i18n="vil_zut_title">Zutendaal</h3>
+                    <p data-i18n="vil_zut_lead">Het groenste snoepje van Vlaanderen, als directe buurgemeente.</p>
+                    <ul>
+                        <li data-i18n="vil_zut_1">Toegangspoort Lieteberg: Blotevoetenpad en insecten- en vlindertuin</li>
+                        <li data-i18n="vil_zut_2">Grot van Wiemesmeer: bosrijk bedevaartsoord</li>
+                        <li data-i18n="vil_zut_3">Papendaalheide: voormalige grindwinning, nu een waterplas</li>
+                    </ul>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-chess-rook"></i>
+                    <h3 data-i18n="vil_rekem_title">Oud-Rekem (Lanaken)</h3>
+                    <p data-i18n="vil_rekem_lead">Officieel verkozen tot het Mooiste Dorp van Vlaanderen.</p>
+                    <ul>
+                        <li data-i18n="vil_rekem_1">Historische kern met authentieke straatjes</li>
+                        <li data-i18n="vil_rekem_2">Waterburcht Pietersheim met kinderboerderij en speeltuin</li>
+                    </ul>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-train"></i>
+                    <h3 data-i18n="vil_as_title">As</h3>
+                    <p data-i18n="vil_as_lead">Spoorweg- en mijnverleden, lokale poort tot het Nationaal Park.</p>
+                    <ul>
+                        <li data-i18n="vil_as_1">Station As als startpunt van wandelroutes</li>
+                        <li data-i18n="vil_as_2">Uitkijktoren van 31 meter, ontworpen als boortoren</li>
+                        <li data-i18n="vil_as_3">Miniboemeltrein in de weekends</li>
+                    </ul>
+                </article>
+                <article class="village-card">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <h3 data-i18n="vil_maas_title">Maasmechelen & Eisden</h3>
+                    <p data-i18n="vil_maas_lead">Natuur, mijnerfgoed en shoppen in één regio.</p>
+                    <ul>
+                        <li data-i18n="vil_maas_1">Maasmechelen Village: meer dan 100 modemerken</li>
+                        <li data-i18n="vil_maas_2">Toegangspoort Terhills: terrils en azuurblauwe meren</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="soft">
+        <div class="container">
+            <h2 data-i18n="maastricht_title">Dagje Maastricht</h2>
+            <p class="lead mb-4" data-i18n="maastricht_text">Vanuit Home Terboekt bent u in circa 25 tot 30 autominuten in Maastricht. Bourgondische gezelligheid, historische locaties en ondergrondse geheimen voor jong en oud.</p>
+            <div class="cta-band">
+                <div>
+                    <h3 data-i18n="cta_band_title">Zien we jou binnenkort?</h3>
+                    <p data-i18n="cta_band_text">Vraag een reservatie aan voor onze luxueuze vakantiewoning.</p>
+                </div>
+                <a href="contact.html" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
     <script src="components/header.js"></script>
     <script src="components/footer.js"></script>
     <script src="assets/js/translations.js"></script>
+    <script src="assets/js/gallery.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 

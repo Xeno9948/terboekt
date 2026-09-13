@@ -4,56 +4,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Neem contact op voor een boeking">
-    <title>Contact - Home Terboekt</title>
+    <meta name="description" content="Reserveer Home Terboekt in Genk. Vraag een verblijf aan voor 8 personen in onze luxe vakantiewoning met zwembad.">
+    <title>Boeken & contact | Home Terboekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-
-    <!-- Header Component -->
     <div id="header-placeholder"></div>
 
-    <section class="page-hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.jpg');">
+    <section class="page-hero" style="background-image: url('assets/img/living-open-plan-stairs.jpg');">
         <div class="hero-content">
-            <h1 data-i18n="contact_title">Neem Contact Op</h1>
+            <h1 data-i18n="contact_title">Reservatie aanvragen</h1>
+            <p data-i18n="contact_subtitle">Wij helpen u graag aan een zorgeloos verblijf.</p>
         </div>
     </section>
 
     <section>
-        <div class="container">
-            <div style="max-width: 600px; margin: 0 auto;">
-                <!-- 
-                TODO: Replace YOUR_FORM_ID with your actual Formspree form ID
-                Get one free at: https://formspree.io/
-            -->
-                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="container contact-layout">
+            <div>
+                <p class="lead" data-i18n="contact_intro">Wil je een verblijf boeken in onze luxueuze vakantiewoning? Vul het formulier in. We nemen zo snel mogelijk contact op.</p>
+                <h3 data-i18n="included_title">Inbegrepen in de prijs</h3>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_1">Shampoo, douchegel en handzeep</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_2">Koffie- en theefaciliteiten</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_3">Wifi</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_4">Normaal verbruik van water, verwarming en elektriciteit</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_5">Keukenlinnen, toiletpapier, keukenrol, vaatdoek, afwasmiddel, vaatwastabletten, kruiden en afvalzakken</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_6">Gebruik van de wasmachine</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_7">Voldoende parkeergelegenheid</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_8">Bed- en badlinnen</span></li>
+                </ul>
+                <p class="note" data-i18n="season_high">Hoogseizoen: april tot en met september en alle schoolvakanties.</p>
+                <p class="note" data-i18n="season_low">Laagseizoen: november tot en met maart.</p>
+                <ul class="checklist">
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</span></li>
+                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_deposit">Huurwaarborg: € 500</span></li>
+                    <li><i class="fa-solid fa-ban"></i><span data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</span></li>
+                </ul>
+            </div>
+
+            <div class="form-card">
+                <form id="booking-form" novalidate>
                     <div class="form-group">
                         <label for="name" data-i18n="form_name">Naam</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" required autocomplete="name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email" data-i18n="form_email">E-mail</label>
+                            <input type="email" id="email" name="email" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" data-i18n="form_phone">Telefoon</label>
+                            <input type="tel" id="phone" name="phone" autocomplete="tel">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkin" data-i18n="form_checkin">Aankomst</label>
+                            <input type="date" id="checkin" name="checkin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout" data-i18n="form_checkout">Vertrek</label>
+                            <input type="date" id="checkout" name="checkout" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="email" data-i18n="form_email">E-mail</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="guests" data-i18n="form_guests">Aantal personen</label>
+                        <select id="guests" name="guests" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8" selected>8</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="message" data-i18n="form_message">Bericht</label>
-                        <textarea id="message" name="message" required></textarea>
+                        <textarea id="message" name="message"></textarea>
                     </div>
-                    <button type="submit" class="btn" data-i18n="form_submit">Verstuur</button>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="rules" required>
+                            <span>
+                                <span data-i18n="form_rules">Ik heb het huisreglement en de reservatievoorwaarden gelezen.</span>
+                                <a href="https://www.beaunita.be/huur-en-boekingsvoorwaarden/" target="_blank" rel="noopener" data-i18n="form_rules_link">Huur- en boekingsvoorwaarden</a>
+                            </span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-i18n="form_submit">Verstuur aanvraag</button>
+                    <p class="form-error" data-i18n="form_error">Controleer de verplichte velden en een geldig e-mailadres.</p>
+                    <p class="form-success" data-i18n="form_success">Uw e-mailprogramma opent met de reservatieaanvraag. Verstuur het bericht om de aanvraag te bevestigen. U kunt ook rechtstreeks mailen naar info@hometerboekt.be.</p>
+                    <p class="form-help" data-i18n="mailto_hint">Het formulier opent uw e-mail. Liever direct? Schrijf naar info@hometerboekt.be.</p>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer Component -->
-    <div id="footer-placeholder"></div>
+    <section class="soft">
+        <div class="container">
+            <div class="price-grid">
+                <article class="price-card">
+                    <h3 data-i18n="rate_weekend">Weekend, 2 nachten</h3>
+                    <p data-i18n="rate_weekend_sub">vrijdag–zondag</p>
+                    <span class="amount">€ 800 / € 900</span>
+                    <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
+                </article>
+                <article class="price-card">
+                    <h3 data-i18n="rate_extended">Verlengd weekend</h3>
+                    <p data-i18n="rate_extended_sub">vrijdag–maandag</p>
+                    <span class="amount">€ 1.100 / € 1.250</span>
+                    <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
+                </article>
+                <article class="price-card">
+                    <h3 data-i18n="rate_midweek">Midweek, 4 nachten</h3>
+                    <p data-i18n="rate_midweek_sub">maandag–vrijdag</p>
+                    <span class="amount">€ 1.250 / € 1.500</span>
+                    <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
+                </article>
+                <article class="price-card">
+                    <h3 data-i18n="rate_week">Week, 7 nachten</h3>
+                    <p data-i18n="rate_week_sub">vrijdag–vrijdag</p>
+                    <span class="amount">€ 2.100 / € 2.400</span>
+                    <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
+                </article>
+            </div>
+        </div>
+    </section>
 
+    <div id="footer-placeholder"></div>
     <script src="components/header.js"></script>
     <script src="components/footer.js"></script>
     <script src="assets/js/translations.js"></script>
