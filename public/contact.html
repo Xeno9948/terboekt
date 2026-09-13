@@ -246,18 +246,19 @@
                     <dl class="booking-fees">
                         <div>
                             <dt data-i18n="book_quote_cleaning">Eindschoonmaak</dt>
-                            <dd>€ 100</dd>
+                            <dd data-fee="cleaning">€ 100</dd>
                         </div>
                         <div>
                             <dt data-i18n="book_quote_tax">Toeristenbelasting</dt>
-                            <dd>€ 1,50</dd>
+                            <dd data-fee="tax">€ 1,50</dd>
                         </div>
                         <div>
                             <dt data-i18n="book_quote_sunday">Zondagavond extra</dt>
-                            <dd>€ 150</dd>
+                            <dd data-fee="sunday">€ 150</dd>
                         </div>
                     </dl>
                     <p class="booking-aside-note" data-i18n="fee_deposit">Huurwaarborg: € 500</p>
+                    <p class="booking-aside-note" data-i18n="fee_extra_guest" data-extra-guest hidden>Extra gast vanaf de 5e persoon: € 0 per nacht</p>
                     <p class="booking-aside-note" data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</p>
                     <p class="booking-aside-note" data-i18n="season_high">Hoogseizoen: april tot en met september en alle schoolvakanties.</p>
                     <p class="booking-aside-note" data-i18n="season_low">Laagseizoen: november tot en met maart.</p>
@@ -273,25 +274,25 @@
                 <p data-i18n="rates_lead">Prijs voor de hele woning, tot 8 personen. Geen verborgen kamertoeslag.</p>
             </div>
             <div class="price-grid">
-                <article class="price-card">
+                <article class="price-card" data-rate-package="weekend">
                     <h3 data-i18n="rate_weekend">Weekend, 2 nachten</h3>
                     <p data-i18n="rate_weekend_sub">vrijdag–zondag</p>
                     <span class="amount" data-rate="weekend" data-season="both">€ 800 / € 900</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
-                <article class="price-card">
+                <article class="price-card" data-rate-package="extended">
                     <h3 data-i18n="rate_extended">Verlengd weekend</h3>
                     <p data-i18n="rate_extended_sub">vrijdag–maandag</p>
                     <span class="amount" data-rate="extended" data-season="both">€ 1.100 / € 1.250</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
-                <article class="price-card">
+                <article class="price-card" data-rate-package="midweek">
                     <h3 data-i18n="rate_midweek">Midweek, 4 nachten</h3>
                     <p data-i18n="rate_midweek_sub">maandag–vrijdag</p>
                     <span class="amount" data-rate="midweek" data-season="both">€ 1.250 / € 1.500</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
-                <article class="price-card">
+                <article class="price-card" data-rate-package="week">
                     <h3 data-i18n="rate_week">Week, 7 nachten</h3>
                     <p data-i18n="rate_week_sub">vrijdag–vrijdag</p>
                     <span class="amount" data-rate="week" data-season="both">€ 2.100 / € 2.400</span>

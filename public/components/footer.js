@@ -2,7 +2,7 @@ const footerHTML = `
 <footer>
     <div class="container footer-content">
         <div class="footer-col">
-            <h3>Home Terboekt</h3>
+            <h3 data-site="propertyName">Home Terboekt</h3>
             <p data-i18n="footer_desc">Uw luxe thuisbasis voor een onvergetelijke vakantie in Belgisch Limburg.</p>
         </div>
         <div class="footer-col">
@@ -17,8 +17,8 @@ const footerHTML = `
         <div class="footer-col">
             <h4 data-i18n="footer_contact">Contact</h4>
             <ul class="contact-info">
-                <li><i class="fa-solid fa-location-dot"></i> Terboekt 28, 3600 Genk</li>
-                <li><i class="fa-solid fa-envelope"></i> <a href="mailto:info@hometerboekt.be">info@hometerboekt.be</a></li>
+                <li><i class="fa-solid fa-location-dot"></i> <span data-site="address">Terboekt 28, 3600 Genk</span></li>
+                <li><i class="fa-solid fa-envelope"></i> <a data-site="email" href="mailto:info@hometerboekt.be">info@hometerboekt.be</a></li>
             </ul>
         </div>
     </div>

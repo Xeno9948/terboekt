@@ -204,6 +204,7 @@ final class EmailService
             'bank_name' => $s->get('bank_name', '') ?? '',
             'house_rules_url' => $s->get('house_rules_url', 'https://www.beaunita.be/huur-en-boekingsvoorwaarden/') ?? '',
             'app_base_url' => $this->config->appBaseUrl,
+            'deposit_percentage' => (string) $s->depositPercentage(),
         ];
     }
 
@@ -227,6 +228,7 @@ final class EmailService
         $guestCount = (string) ($vars['guests'] ?? '');
         $syncError = (string) ($vars['error'] ?? '');
         $bankBlock = $this->bankBlock($vars, $lang);
+        $depositPct = (string) (int) ($vars['deposit_percentage'] ?? $this->settings->depositPercentage());
 
         $map = [
             'booking_request_received' => [
@@ -236,10 +238,10 @@ final class EmailService
                 'de' => ["Anfrage erhalten {$ref}", "Hallo {$name},\n\nWir haben Ihre Anfrage {$ref} für {$checkIn} bis {$checkOut} erhalten. Dies ist noch keine Bestätigung.\n\n{$property}"],
             ],
             'bank_transfer_instructions' => [
-                'nl' => ["Voorschot voor {$ref}", "Beste {$name},\n\nOm reservatie {$ref} te bevestigen vragen we een voorschot van {$deposit} (30%) vóór {$due}.\nHet restbedrag {$remaining} volgt later. Totaal huur: {$total}.\n\n{$bankBlock}\n\nNa ontvangst bevestigen wij de boeking. Zonder managerbevestiging is de reservatie niet definitief."],
-                'en' => ["Deposit for {$ref}", "Dear {$name},\n\nTo proceed with {$ref} please transfer a 30% deposit of {$deposit} before {$due}.\nRemaining balance {$remaining}. Stay total: {$total}.\n\n{$bankBlock}\n\nThe stay is only confirmed after the manager approves."],
-                'fr' => ["Acompte {$ref}", "Bonjour {$name},\n\nPour {$ref}, veuillez verser un acompte de 30% ({$deposit}) avant le {$due}.\nSolde {$remaining}. Total {$total}.\n\n{$bankBlock}"],
-                'de' => ["Anzahlung {$ref}", "Hallo {$name},\n\nFür {$ref} überweisen Sie bitte 30% Anzahlung ({$deposit}) vor {$due}.\nRestbetrag {$remaining}. Gesamt {$total}.\n\n{$bankBlock}"],
+                'nl' => ["Voorschot voor {$ref}", "Beste {$name},\n\nOm reservatie {$ref} te bevestigen vragen we een voorschot van {$deposit} ({$depositPct}%) vóór {$due}.\nHet restbedrag {$remaining} volgt later. Totaal huur: {$total}.\n\n{$bankBlock}\n\nNa ontvangst bevestigen wij de boeking. Zonder managerbevestiging is de reservatie niet definitief."],
+                'en' => ["Deposit for {$ref}", "Dear {$name},\n\nTo proceed with {$ref} please transfer a {$depositPct}% deposit of {$deposit} before {$due}.\nRemaining balance {$remaining}. Stay total: {$total}.\n\n{$bankBlock}\n\nThe stay is only confirmed after the manager approves."],
+                'fr' => ["Acompte {$ref}", "Bonjour {$name},\n\nPour {$ref}, veuillez verser un acompte de {$depositPct}% ({$deposit}) avant le {$due}.\nSolde {$remaining}. Total {$total}.\n\n{$bankBlock}"],
+                'de' => ["Anzahlung {$ref}", "Hallo {$name},\n\nFür {$ref} überweisen Sie bitte {$depositPct}% Anzahlung ({$deposit}) vor {$due}.\nRestbetrag {$remaining}. Gesamt {$total}.\n\n{$bankBlock}"],
             ],
             'booking_confirmed' => [
                 'nl' => ["Bevestigd: {$ref}", "Beste {$name},\n\nUw verblijf {$ref} van {$checkIn} tot {$checkOut} is bevestigd. Welkom in {$property}."],

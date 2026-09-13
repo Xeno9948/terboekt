@@ -29,6 +29,15 @@ final class RateRuleRepository
     }
 
     /** @return list<array<string, mixed>> */
+    public function findAllByType(string $type): array
+    {
+        return $this->db->fetchAll(
+            'SELECT * FROM rate_rules WHERE type = :type ORDER BY priority DESC, id ASC',
+            ['type' => $type]
+        );
+    }
+
+    /** @return list<array<string, mixed>> */
     public function findPackages(): array
     {
         return $this->findByType('package');

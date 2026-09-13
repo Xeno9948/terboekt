@@ -68,6 +68,7 @@ admin_layout_start('Instellingen', 'settings', $user);
 ?>
 <form class="admin-form" method="post">
     <?= admin_csrf_field() ?>
+    <p class="admin-help">Naam, adres, e-mail, aantal gasten, slaapkamers en check-in/uit verschijnen op de website (header, footer, prijzen, huisreglement). Voorschotpercentage staat in de boekingsmail.</p>
     <section class="admin-card">
         <h2>Woning</h2>
         <div class="form-row">

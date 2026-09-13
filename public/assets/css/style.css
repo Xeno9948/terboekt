@@ -1,10 +1,10 @@
 :root {
     --color-primary: #1a1a1a;
     --color-secondary: #f7f5f2;
-    --color-accent: #c0a062;
-    --color-accent-dark: #c0a062;
-    --color-accent-hover: #a8884e;
-    --color-accent-rgb: 192, 160, 98;
+    --color-accent: #9a7340;
+    --color-accent-dark: #9a7340;
+    --color-accent-hover: #826032;
+    --color-accent-rgb: 154, 115, 64;
     --color-text: #2a2a2a;
     --color-text-muted: #4a4a4a;
     --color-white: #ffffff;
@@ -549,6 +549,10 @@ section.tight { padding: 3rem 0; }
     color: var(--color-primary);
 }
 .rate-table tbody tr + tr { border-top: 1px solid var(--color-line); }
+.rate-table tbody tr[hidden],
+.price-card[hidden] {
+    display: none;
+}
 .rate-notes {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1886,7 +1890,7 @@ select {
     appearance: none;
     -webkit-appearance: none;
     background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c0a062' d='M1 1.2L6 6.2 11 1.2' stroke='%23c0a062' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239a7340' d='M1 1.2L6 6.2 11 1.2' stroke='%239a7340' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.9rem center;
     background-size: 12px;

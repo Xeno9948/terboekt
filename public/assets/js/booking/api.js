@@ -2,9 +2,10 @@
     function t(key) {
         var lang = root.currentLang || 'nl';
         var dict = (root.translations && (root.translations[lang] || root.translations.nl)) || {};
-        if (dict[key]) return dict[key];
+        var interpolate = root.interpolateTranslation || function (value) { return value; };
+        if (dict[key]) return interpolate(dict[key]);
         if (root.translations && root.translations.nl && root.translations.nl[key]) {
-            return root.translations.nl[key];
+            return interpolate(root.translations.nl[key]);
         }
         return key;
     }

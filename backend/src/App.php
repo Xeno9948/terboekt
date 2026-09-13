@@ -103,7 +103,11 @@ final class App
 
     public function publishedRates(): Services\PublishedRates
     {
-        return $this->publishedRates ??= Services\PublishedRates::load($this->config->ratesJsonPath());
+        return $this->publishedRates ??= Services\PublishedRates::load(
+            $this->config->ratesJsonPath(),
+            $this->rates(),
+            $this->settings(),
+        );
     }
 
     public function pricing(): Services\PricingService

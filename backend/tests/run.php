@@ -98,6 +98,37 @@ $tests['migrations run on fresh sqlite'] = function (): void {
     assert_same('AIRBNB_ICAL_URL', $airbnb['url_env_key'], 'Airbnb url from env key');
 };
 
+$tests['admin pricing and settings appear in public rates payload'] = function (): void {
+    $app = bootApp();
+    $weekendLow = $app->db->fetchOne("SELECT * FROM rate_rules WHERE type = 'package' AND code = 'weekend' AND season = 'low'");
+    assert_true($weekendLow !== null, 'weekend low package exists');
+    $app->db->query(
+        'UPDATE rate_rules SET amount_cents = :c, updated_at = :u WHERE id = :id',
+        ['c' => 77700, 'u' => $app->db->now(), 'id' => (int) $weekendLow['id']]
+    );
+    $cleaning = $app->db->fetchOne("SELECT * FROM rate_rules WHERE type = 'fee' AND code = 'cleaning'");
+    assert_true($cleaning !== null, 'cleaning fee exists');
+    $app->db->query(
+        'UPDATE rate_rules SET amount_cents = :c, updated_at = :u WHERE id = :id',
+        ['c' => 12300, 'u' => $app->db->now(), 'id' => (int) $cleaning['id']]
+    );
+    $app->settings()->upsert('contact_email', 'nieuw@hometerboekt.be');
+    $app->settings()->upsert('property_name', 'Villa Test');
+    $payload = $app->publishedRates()->publicPayload();
+    $weekend = null;
+    foreach ($payload['packages'] as $pkg) {
+        if (($pkg['id'] ?? '') === 'weekend') {
+            $weekend = $pkg;
+            break;
+        }
+    }
+    assert_true($weekend !== null, 'weekend package in payload');
+    assert_same(77700, (int) $weekend['lowCents'], 'live weekend low amount');
+    assert_same(12300, (int) $payload['fees']['cleaningCents'], 'live cleaning fee');
+    assert_same('nieuw@hometerboekt.be', (string) $payload['email'], 'live contact email');
+    assert_same('Villa Test', (string) $payload['propertyName'], 'live property name');
+};
+
 $tests['all statuses persist and illegal transitions rejected'] = function (): void {
     $app = bootApp();
     $fri = fridayIn('2026-04-01');

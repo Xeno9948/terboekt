@@ -2,7 +2,7 @@ const headerHTML = `
 <header>
     <div class="header-container">
         <div class="logo">
-            <a href="index.html">Home Terboekt</a>
+            <a href="index.html" data-site="propertyName">Home Terboekt</a>
         </div>
         <nav class="main-nav" id="main-nav" aria-label="Hoofdnavigatie">
             <ul>

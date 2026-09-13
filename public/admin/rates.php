@@ -324,7 +324,7 @@ $published = $app->publishedRates()->publicPayload();
 
 admin_layout_start('Prijzen', 'rates', $user);
 ?>
-<p class="admin-help">Alleen bestaande pakketten, toeslagen en wat u zelf toevoegt. We verzinnen geen nachtprijs of IBAN. Oktober blijft onbepaald tot u een datumregel zet.</p>
+<p class="admin-help">Wijzigingen hier verschijnen meteen op de website (prijstabel, toeslagen, boekingspagina) én in de live offerte. Alleen bestaande pakketten, toeslagen en wat u zelf toevoegt. We verzinnen geen nachtprijs of IBAN. Oktober blijft onbepaald tot u een datumregel zet.</p>
 
 <section class="admin-card">
     <h2>Pakketten</h2>
