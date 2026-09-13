@@ -67,6 +67,10 @@ final class BookingRequestService
             throw new ValidationException($errors);
         }
 
+        $token = (string) ($input['cf-turnstile-response'] ?? $input['turnstile_token'] ?? $input['turnstile'] ?? '');
+        $ip = (string) ($input['remote_ip'] ?? '');
+        $this->app->turnstile()->assertValid($token !== '' ? $token : null, $ip !== '' ? $ip : null);
+
         $quote = $this->app->pricing()->calculateBookingPrice($checkIn, $checkOut, $guests, $sunday);
 
         $booking = $this->app->availability()->createBookingHoldWithinTransaction(

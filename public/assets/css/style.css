@@ -1660,6 +1660,10 @@ footer {
     color: var(--color-accent-dark);
 }
 
+.booking-turnstile {
+    margin: 1rem 0 0.25rem;
+}
+
 .booking-actions {
     display: flex;
     gap: 0.7rem;
@@ -1944,3 +1948,37 @@ body.lightbox-open header {
         grid-template-columns: 1fr;
     }
 }
+
+/* Locked contrast: gold #c0a062 fails WCAG on cream and as a white-text button fill */
+.logo a {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: #6e4e22 !important;
+    color: #6e4e22 !important;
+}
+
+.btn-primary,
+.btn-nav,
+.lang-switcher a.active,
+.lang-switcher a:hover {
+    background: #6e4e22;
+    border-color: #6e4e22;
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-nav:hover {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+}
+
+.section-label,
+.section-kicker,
+.section-badge,
+.btn-link,
+.checkbox a {
+    color: #6e4e22;
+}
+

@@ -23,6 +23,8 @@ putenv('AIRBNB_ICAL_URL=https://example.test/airbnb.ics');
 putenv('SMTP_HOST=');
 putenv('SMTP_USERNAME=');
 putenv('SMTP_PASSWORD=');
+putenv('TURNSTILE_SITE_KEY=');
+putenv('TURNSTILE_SECRET_KEY=');
 $_ENV['DATABASE_URL'] = 'sqlite::memory:';
 $_ENV['APP_ENV'] = 'test';
 $_ENV['APP_BASE_URL'] = 'http://localhost:8080';
@@ -31,6 +33,8 @@ $_ENV['AIRBNB_ICAL_URL'] = 'https://example.test/airbnb.ics';
 $_ENV['SMTP_HOST'] = '';
 $_ENV['SMTP_USERNAME'] = '';
 $_ENV['SMTP_PASSWORD'] = '';
+$_ENV['TURNSTILE_SITE_KEY'] = '';
+$_ENV['TURNSTILE_SECRET_KEY'] = '';
 
 $config = require dirname(__DIR__) . '/bootstrap.php';
 
@@ -221,6 +225,10 @@ $tests['ical parser and conservative failed sync'] = function (): void {
         {
             return new HttpResponse(200, $this->ics);
         }
+        public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('calendar sync must not POST');
+        }
     };
     $sync = new CalendarSyncService($app->db, $app->calendars(), $app->blocks(), new IcalParser(), $fakeOk, $app->config);
     $airbnb = $app->calendars()->findByProvider('airbnb');
@@ -233,6 +241,10 @@ $tests['ical parser and conservative failed sync'] = function (): void {
         public function get(string $url, int $timeoutSeconds = 20): HttpResponse
         {
             return new HttpResponse(500, '', 'upstream down');
+        }
+        public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('calendar sync must not POST');
         }
     };
     $syncFail = new CalendarSyncService($app->db, $app->calendars(), $app->blocks(), new IcalParser(), $fakeFail, $app->config);
@@ -338,6 +350,54 @@ $tests['booking persist independent of email'] = function (): void {
     assert_same(BookingStatus::REQUESTED, $result['booking']['status'], 'requested only');
     assert_true($result['booking']['reference'] !== '', 'has reference');
     assert_true(!$result['emails'][0]['sent'], 'email not required for persist');
+};
+
+$tests['turnstile secret rejects booking without token'] = function (): void {
+    putenv('TURNSTILE_SECRET_KEY=test-turnstile-secret');
+    $_ENV['TURNSTILE_SECRET_KEY'] = 'test-turnstile-secret';
+    try {
+        $config = \Terboekt\Config::fromEnv();
+        $http = new class implements HttpClient {
+            public function get(string $url, int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('Turnstile must not GET Cloudflare');
+            }
+            public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('Turnstile must not call siteverify without a token');
+            }
+        };
+        $verifier = new \Terboekt\Services\TurnstileVerifier($config, $http);
+        assert_true($verifier->required(), 'required when secret set');
+        try {
+            $verifier->assertValid(null, '127.0.0.1');
+            throw new TestFailure('empty token must fail before siteverify');
+        } catch (ValidationException $e) {
+            assert_true($e->errors !== [], 'turnstile validation errors');
+        }
+
+        $app = new App($config, new Database($config));
+        (new Migrator($app->db))->migrate();
+        $fri = fridayIn('2026-06-01');
+        $service = new BookingRequestService($app);
+        try {
+            $service->createFromPublicForm([
+                'name' => 'Captcha Guest',
+                'email' => 'captcha@example.com',
+                'checkin' => $fri->format('Y-m-d'),
+                'checkout' => $fri->modify('+2 days')->format('Y-m-d'),
+                'guests' => 2,
+                'rules' => true,
+                'language' => 'nl',
+            ]);
+            throw new TestFailure('missing turnstile token must fail');
+        } catch (ValidationException $e) {
+            assert_true($e->errors !== [], 'booking rejected without token');
+        }
+    } finally {
+        putenv('TURNSTILE_SECRET_KEY=');
+        $_ENV['TURNSTILE_SECRET_KEY'] = '';
+    }
 };
 
 $tests['overlap hold rejects second booking'] = function (): void {

@@ -145,6 +145,11 @@ final class App
         );
     }
 
+    public function turnstile(): Services\TurnstileVerifier
+    {
+        return new Services\TurnstileVerifier($this->config, new Http\CurlHttpClient());
+    }
+
     public function email(): Services\EmailService
     {
         return $this->email ??= new Services\EmailService(

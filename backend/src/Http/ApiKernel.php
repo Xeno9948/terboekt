@@ -40,6 +40,13 @@ final class ApiKernel
             if ($method === 'GET' && $path === '/rates') {
                 JsonResponse::send(200, ['ok' => true, 'rates' => $this->app->publishedRates()->publicPayload()]);
             }
+            if ($method === 'GET' && $path === '/config') {
+                JsonResponse::send(200, [
+                    'ok' => true,
+                    'turnstile_site_key' => $this->app->turnstile()->siteKey(),
+                    'turnstile_required' => $this->app->turnstile()->required(),
+                ]);
+            }
             if ($method === 'GET' && $path === '/availability') {
                 $this->availability();
             }
@@ -143,7 +150,11 @@ final class ApiKernel
     private function createBooking(): void
     {
         $service = new BookingRequestService($this->app);
-        $result = $service->createFromPublicForm($this->jsonBody() + $_POST);
+        $ip = (string) ($_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '');
+        if (str_contains($ip, ',')) {
+            $ip = trim(explode(',', $ip)[0]);
+        }
+        $result = $service->createFromPublicForm($this->jsonBody() + $_POST + ['remote_ip' => $ip]);
         $booking = $result['booking'];
         JsonResponse::send(201, [
             'ok' => true,

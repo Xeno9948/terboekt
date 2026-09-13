@@ -100,8 +100,13 @@
             bank: null,
             bankConfigured: false,
             transferNote: '',
-            busy: false
+            busy: false,
+            turnstileSiteKey: '0x4AAAAAAEyvms1vfsdgTJ4P',
+            turnstileRequired: false
         };
+        var turnstileRetryTimer = null;
+        var turnstileRetries = 0;
+        var TURNSTILE_RETRY_LIMIT = 12;
 
         var calendar = root.TerboektCalendar.mount(calendarRoot, {
             onChange: function (range) {
@@ -175,7 +180,11 @@
             document.querySelectorAll('.booking-progress-static').forEach(function (el) {
                 el.classList.toggle('is-active', next === 'result');
             });
-            if (next === 'review') renderReview();
+            if (next === 'review') {
+                renderReview();
+                turnstileRetries = 0;
+                renderTurnstile();
+            }
             if (next === 'result') renderResult();
             applyI18n();
             form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -310,8 +319,65 @@
                 special_requests: String(form.message.value || '').trim(),
                 rules: !!form.rules.checked,
                 language: root.currentLang || 'nl',
-                sunday_evening: !!(form.sunday_evening && form.sunday_evening.checked)
+                sunday_evening: !!(form.sunday_evening && form.sunday_evening.checked),
+                turnstile_token: turnstileToken(),
+                'cf-turnstile-response': turnstileToken()
             };
+        }
+
+        function turnstileWidgetId() {
+            var box = $('#booking-turnstile', form);
+            return (box && box.dataset.widgetId) || undefined;
+        }
+
+        function turnstileToken() {
+            var input = form.querySelector('[name="cf-turnstile-response"]');
+            if (input && input.value) return input.value;
+            if (root.turnstile && typeof root.turnstile.getResponse === 'function') {
+                try { return root.turnstile.getResponse(turnstileWidgetId()) || ''; } catch (err) { return ''; }
+            }
+            return '';
+        }
+
+        function resetTurnstile() {
+            if (root.turnstile && typeof root.turnstile.reset === 'function') {
+                try { root.turnstile.reset(turnstileWidgetId()); } catch (err) { /* ignore */ }
+            }
+        }
+
+        function scheduleTurnstileRetry() {
+            if (state.step !== 'review' || turnstileRetries >= TURNSTILE_RETRY_LIMIT) return;
+            turnstileRetries += 1;
+            clearTimeout(turnstileRetryTimer);
+            turnstileRetryTimer = setTimeout(renderTurnstile, 250);
+        }
+
+        function renderTurnstile() {
+            var box = $('#booking-turnstile', form);
+            if (!box) return;
+            var siteKey = state.turnstileSiteKey;
+            if (!siteKey) {
+                scheduleTurnstileRetry();
+                return;
+            }
+            if (!root.turnstile || typeof root.turnstile.render !== 'function') {
+                scheduleTurnstileRetry();
+                return;
+            }
+            turnstileRetries = 0;
+            clearTimeout(turnstileRetryTimer);
+            if (box.dataset.rendered === '1') {
+                resetTurnstile();
+                return;
+            }
+            box.innerHTML = '';
+            var widgetId = root.turnstile.render(box, {
+                sitekey: siteKey,
+                theme: 'light',
+                language: root.currentLang || 'nl'
+            });
+            box.dataset.rendered = '1';
+            if (widgetId != null) box.dataset.widgetId = String(widgetId);
         }
 
         function dlRow(label, value) {
@@ -420,6 +486,11 @@
                 showError(form, t('form_error'));
                 return;
             }
+            if (state.turnstileRequired && !turnstileToken()) {
+                renderTurnstile();
+                showError(form, t('book_captcha'));
+                return;
+            }
             state.busy = true;
             if (submitBtn) {
                 submitBtn.disabled = true;
@@ -432,7 +503,8 @@
                 submitBtn.textContent = t('form_submit');
             }
             if (!result.ok) {
-                showError(form, root.TerboektApi.errorText(result));
+                resetTurnstile();
+                showError(form, root.TerboektApi.errorText(result) || t('book_captcha'));
                 return;
             }
             state.booking = result.data;
@@ -549,8 +621,20 @@
         root.TerboektQuote.render(quoteRoot, null, { mode: 'idle' });
         updateNextStay();
         loadAvailability();
+        loadTurnstileConfig();
         if (state.checkin && state.checkout) refreshQuote();
         applyI18n();
+
+        async function loadTurnstileConfig() {
+            var result = await root.TerboektApi.request('GET', 'api/config');
+            var data = (result.ok && result.data) || {};
+            state.turnstileSiteKey = data.turnstile_site_key || '0x4AAAAAAEyvms1vfsdgTJ4P';
+            state.turnstileRequired = !!data.turnstile_required;
+            if (state.step === 'review') {
+                turnstileRetries = 0;
+                renderTurnstile();
+            }
+        }
     }
 
     root.TerboektCheckout = { init: init };
