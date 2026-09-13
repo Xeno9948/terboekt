@@ -123,7 +123,7 @@ final class BookingRequestService
         $emails[] = $this->app->email()->sendTemplate(
             'manager_new_booking_request',
             $this->app->email()->managerEmail(),
-            $vars,
+            $vars + ['language' => 'nl'] + $this->app->mailActions()->urlsFor($booking),
             (int) $booking['id']
         );
 

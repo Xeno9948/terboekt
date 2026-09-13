@@ -98,6 +98,60 @@ $tests['migrations run on fresh sqlite'] = function (): void {
     assert_same('AIRBNB_ICAL_URL', $airbnb['url_env_key'], 'Airbnb url from env key');
 };
 
+$tests['manager email approve link confirms booking'] = function (): void {
+    $app = bootApp();
+    $fri = fridayIn('2026-05-01');
+    $service = new BookingRequestService($app);
+    $result = $service->createFromPublicForm([
+        'name' => 'Mama Test',
+        'email' => 'gast@example.com',
+        'checkin' => $fri->format('Y-m-d'),
+        'checkout' => $fri->modify('+2 days')->format('Y-m-d'),
+        'guests' => 4,
+        'rules' => true,
+        'language' => 'nl',
+    ]);
+    $booking = $result['booking'];
+    $urls = $app->mailActions()->urlsFor($booking);
+    assert_true(str_contains($urls['approve_url'], 'mail-action.php'), 'approve url');
+    assert_true(str_contains($urls['reject_url'], 'action=reject'), 'reject url');
+
+    $query = [];
+    parse_str((string) parse_url($urls['approve_url'], PHP_URL_QUERY), $query);
+    $loaded = $app->mailActions()->bookingFromRequest(
+        (string) $query['ref'],
+        (string) $query['action'],
+        (string) $query['exp'],
+        (string) $query['sig']
+    );
+    assert_same($booking['reference'], $loaded['reference'], 'signed booking');
+
+    try {
+        $app->mailActions()->bookingFromRequest((string) $query['ref'], 'approve', (string) $query['exp'], 'deadbeef');
+        throw new TestFailure('bad signature must fail');
+    } catch (ValidationException) {
+    }
+
+    $updated = $app->mailActions()->apply($booking, 'approve');
+    assert_same(BookingStatus::CONFIRMED, $updated['status'], 'approved from mail');
+
+    $rendered = $app->email()->render('manager_new_booking_request', [
+        'language' => 'nl',
+        'reference' => $booking['reference'],
+        'guest_name' => 'Mama Test',
+        'guest_email' => 'gast@example.com',
+        'check_in' => $fri->format('Y-m-d'),
+        'check_out' => $fri->modify('+2 days')->format('Y-m-d'),
+        'guests' => 4,
+        'total_cents' => 90000,
+        'deposit_cents' => 27000,
+        'approve_url' => $urls['approve_url'],
+        'reject_url' => $urls['reject_url'],
+    ]);
+    assert_true(str_contains($rendered['html'], 'Goedkeuren'), 'approve button in html');
+    assert_true(str_contains($rendered['text'], $urls['approve_url']), 'approve url in text');
+};
+
 $tests['admin pricing and settings appear in public rates payload'] = function (): void {
     $app = bootApp();
     $weekendLow = $app->db->fetchOne("SELECT * FROM rate_rules WHERE type = 'package' AND code = 'weekend' AND season = 'low'");
@@ -687,7 +741,7 @@ $tests['guest supplied prices are ignored'] = function (): void {
     assert_same(7, (int) $created->diff($due)->format('%a'), '7 day payment deadline');
 };
 
-$tests['illegal transitions include requested to confirmed'] = function (): void {
+$tests['guest and system cannot confirm without manager'] = function (): void {
     $app = bootApp();
     $fri = fridayIn('2026-04-01');
     $booking = $app->availability()->createBookingHoldWithinTransaction(
@@ -696,19 +750,24 @@ $tests['illegal transitions include requested to confirmed'] = function (): void
             $app->status()->recordCreated($created);
         }
     );
+    $confirmedFromRequest = $app->status()->transition((int) $booking['id'], BookingStatus::CONFIRMED, 'admin', 'owner@test');
+    assert_same(BookingStatus::CONFIRMED, $confirmedFromRequest['status'], 'manager may confirm from REQUESTED');
+
+    $later = $fri->modify('+14 days');
+    $second = $app->availability()->createBookingHoldWithinTransaction(
+        testHoldFields($later->format('Y-m-d'), $later->modify('+2 days')->format('Y-m-d'), 'illegal2@example.com'),
+        function (array $created) use ($app): void {
+            $app->status()->recordCreated($created);
+        }
+    );
     try {
-        $app->status()->transition((int) $booking['id'], BookingStatus::CONFIRMED, 'admin', 'owner@test');
-        throw new TestFailure('REQUESTED → CONFIRMED must fail');
-    } catch (IllegalTransitionException) {
-    }
-    try {
-        $app->status()->transition((int) $booking['id'], BookingStatus::CONFIRMED, 'guest', (string) $booking['guest_email']);
+        $app->status()->transition((int) $second['id'], BookingStatus::CONFIRMED, 'guest', (string) $second['guest_email']);
         throw new TestFailure('guest must not confirm');
     } catch (ConfirmationRequiresManagerException | IllegalTransitionException) {
     }
-    $app->status()->transition((int) $booking['id'], BookingStatus::AWAITING_DEPOSIT, 'guest', (string) $booking['guest_email']);
+    $app->status()->transition((int) $second['id'], BookingStatus::AWAITING_DEPOSIT, 'guest', (string) $second['guest_email']);
     try {
-        $app->status()->transition((int) $booking['id'], BookingStatus::CONFIRMED, 'system');
+        $app->status()->transition((int) $second['id'], BookingStatus::CONFIRMED, 'system');
         throw new TestFailure('system must not confirm');
     } catch (ConfirmationRequiresManagerException) {
     }

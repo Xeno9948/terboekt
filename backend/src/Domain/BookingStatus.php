@@ -41,7 +41,7 @@ final class BookingStatus
      * @var array<string, list<string>>
      */
     public const TRANSITIONS = [
-        self::REQUESTED => [self::AWAITING_DEPOSIT, self::REJECTED, self::EXPIRED, self::CANCELLED],
+        self::REQUESTED => [self::AWAITING_DEPOSIT, self::CONFIRMED, self::REJECTED, self::EXPIRED, self::CANCELLED],
         self::AWAITING_DEPOSIT => [self::CONFIRMED, self::REJECTED, self::EXPIRED, self::CANCELLED],
         self::CONFIRMED => [self::CANCELLED],
         self::REJECTED => [],

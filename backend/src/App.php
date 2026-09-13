@@ -179,4 +179,9 @@ final class App
     {
         return $this->auth ??= new Services\AuthService($this->db, $this->admins(), $this->config);
     }
+
+    public function mailActions(): Services\ManagerMailAction
+    {
+        return new Services\ManagerMailAction($this);
+    }
 }

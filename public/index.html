@@ -382,6 +382,27 @@
         </div>
     </section>
 
+    <section class="home-avail" id="availability">
+        <div class="container home-avail-shell">
+            <div class="home-avail-copy">
+                <span class="section-label" data-i18n="home_avail_kicker">Beschikbaarheid</span>
+                <h2 data-i18n="home_avail_title">Wanneer wilt u komen?</h2>
+                <p data-i18n="book_dates_help">Tik op aankomst, daarna op vertrek. Geblokkeerde dagen kunt u niet kiezen.</p>
+                <p class="booking-range is-empty" data-home-range>Kies aankomst en vertrek</p>
+                <div class="cal-legend">
+                    <span><i class="leg-available"></i> <span data-i18n="book_legend_available">Beschikbaar</span></span>
+                    <span><i class="leg-range"></i> <span data-i18n="book_legend_selected">Selectie</span></span>
+                    <span><i class="leg-blocked"></i> <span data-i18n="book_unavailable">Niet beschikbaar</span></span>
+                </div>
+                <p class="form-help booking-note" data-home-note hidden></p>
+                <a href="contact.html" class="btn btn-primary" data-home-cta data-i18n="cta_book">Reserveer nu</a>
+            </div>
+            <div class="form-card home-avail-cal">
+                <div data-home-cal class="cal" aria-label="Beschikbaarheidskalender"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="rates-section">
         <div class="container">
             <div class="section-intro">
@@ -453,6 +474,9 @@
     <script src="components/footer.js"></script>
     <script src="assets/js/translations.js"></script>
     <script src="assets/js/pricing.js"></script>
+    <script src="assets/js/booking/api.js"></script>
+    <script src="assets/js/booking/calendar.js"></script>
+    <script src="assets/js/booking/home-availability.js"></script>
     <script src="assets/js/gallery.js"></script>
     <script src="assets/js/script.js"></script>
 </body>

@@ -36,6 +36,12 @@ function admin_handle_booking_post(App $app, array $user, array $booking): void
                 $mailer->notifyTransition($updated, BookingStatus::AWAITING_DEPOSIT);
                 admin_set_flash('success', 'Voorschot gevraagd. De gast krijgt de overschrijvingsmail (als SMTP ingesteld is).');
             })(),
+            'approve_now' => (static function () use ($app, $booking, $user): void {
+                $updated = $app->mailActions()->apply($booking, 'approve');
+                if ((string) $updated['status'] === BookingStatus::CONFIRMED) {
+                    admin_set_flash('success', 'Boeking bevestigd. De gast krijgt een bevestigingsmail.');
+                }
+            })(),
             'confirm_deposit' => (static function () use ($app, $mailer, $ref, $actor, $booking): void {
                 if (empty($_POST['confirm_ack'])) {
                     admin_set_flash('error', 'Bevestig eerst het vakje: het voorschot is ontvangen. Een boeking wordt nooit automatisch bevestigd.');

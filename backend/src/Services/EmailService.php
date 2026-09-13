@@ -229,6 +229,8 @@ final class EmailService
         $syncError = (string) ($vars['error'] ?? '');
         $bankBlock = $this->bankBlock($vars, $lang);
         $depositPct = (string) (int) ($vars['deposit_percentage'] ?? $this->settings->depositPercentage());
+        $approveUrl = trim((string) ($vars['approve_url'] ?? ''));
+        $rejectUrl = trim((string) ($vars['reject_url'] ?? ''));
 
         $map = [
             'booking_request_received' => [
@@ -274,10 +276,10 @@ final class EmailService
                 'de' => ["Änderung {$ref}", "Hallo {$name},\n\nReservierung {$ref} wurde geändert: {$checkIn} bis {$checkOut}."],
             ],
             'manager_new_booking_request' => [
-                'nl' => ["Nieuwe aanvraag {$ref}", "Nieuwe reservatieaanvraag {$ref} van {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} personen.\nTotaal {$total}, voorschot {$deposit}.\nStatus: REQUESTED — bevestig nooit automatisch.\n\nOpen in beheer (inloggen vereist):\n" . rtrim((string) $vars['app_base_url'], '/') . '/admin/booking.php?ref=' . rawurlencode($ref)],
-                'en' => ["New request {$ref}", "New booking request {$ref} from {$name}.\n{$checkIn} → {$checkOut}. Total {$total}. Status REQUESTED — never auto-confirm."],
-                'fr' => ["Nouvelle demande {$ref}", "Nouvelle demande {$ref} de {$name}. {$checkIn} → {$checkOut}."],
-                'de' => ["Neue Anfrage {$ref}", "Neue Anfrage {$ref} von {$name}. {$checkIn} → {$checkOut}."],
+                'nl' => ["Nieuwe aanvraag {$ref}", $this->managerRequestText('nl', $ref, $name, $guestEmail, $checkIn, $checkOut, $guestCount, $total, $deposit, $approveUrl, $rejectUrl, (string) $vars['app_base_url'])],
+                'en' => ["New request {$ref}", $this->managerRequestText('en', $ref, $name, $guestEmail, $checkIn, $checkOut, $guestCount, $total, $deposit, $approveUrl, $rejectUrl, (string) $vars['app_base_url'])],
+                'fr' => ["Nouvelle demande {$ref}", $this->managerRequestText('fr', $ref, $name, $guestEmail, $checkIn, $checkOut, $guestCount, $total, $deposit, $approveUrl, $rejectUrl, (string) $vars['app_base_url'])],
+                'de' => ["Neue Anfrage {$ref}", $this->managerRequestText('de', $ref, $name, $guestEmail, $checkIn, $checkOut, $guestCount, $total, $deposit, $approveUrl, $rejectUrl, (string) $vars['app_base_url'])],
             ],
             'manager_payment_deadline_warning' => [
                 'nl' => ["Voorschottermijn {$ref}", "Het voorschot voor {$ref} is nog niet gemarkeerd als ontvangen. Deadline: {$due}."],
@@ -308,7 +310,56 @@ final class EmailService
         $langKey = in_array($lang, ['nl', 'en', 'fr', 'de'], true) ? $lang : 'nl';
         [$subject, $text] = $map[$template][$langKey];
         $htmlBody = nl2br(htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8'), false);
+        if ($template === 'manager_new_booking_request' && $approveUrl !== '') {
+            $htmlBody .= $this->managerActionButtonsHtml($approveUrl, $rejectUrl);
+        }
         return ['subject' => $subject, 'body_html' => $htmlBody, 'body_text' => $text];
+    }
+
+    private function managerRequestText(
+        string $lang,
+        string $ref,
+        string $name,
+        string $guestEmail,
+        string $checkIn,
+        string $checkOut,
+        string $guestCount,
+        string $total,
+        string $deposit,
+        string $approveUrl,
+        string $rejectUrl,
+        string $baseUrl,
+    ): string {
+        $adminUrl = rtrim($baseUrl, '/') . '/admin/booking.php?ref=' . rawurlencode($ref);
+        $intro = match ($lang) {
+            'en' => "New booking request {$ref} from {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} guests.\nTotal {$total}, deposit {$deposit}.\n\nTap Approve to confirm the stay now. The guest then receives a confirmation email.",
+            'fr' => "Nouvelle demande {$ref} de {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} personnes.\nTotal {$total}, acompte {$deposit}.\n\nAppuyez sur Approuver pour confirmer le séjour. Le client recevra alors un e-mail de confirmation.",
+            'de' => "Neue Anfrage {$ref} von {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} Personen.\nGesamt {$total}, Anzahlung {$deposit}.\n\nTippen Sie auf Genehmigen, um den Aufenthalt jetzt zu bestätigen. Der Gast erhält dann eine Bestätigung.",
+            default => "Nieuwe reservatieaanvraag {$ref} van {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} personen.\nTotaal {$total}, voorschot {$deposit}.\n\nTik op Goedkeuren om de boeking meteen te bevestigen. De gast krijgt dan een bevestigingsmail.",
+        };
+        $links = '';
+        if ($approveUrl !== '') {
+            $links .= match ($lang) {
+                'en' => "\n\nApprove:\n{$approveUrl}\n\nDecline:\n{$rejectUrl}",
+                'fr' => "\n\nApprouver :\n{$approveUrl}\n\nRefuser :\n{$rejectUrl}",
+                'de' => "\n\nGenehmigen:\n{$approveUrl}\n\nAblehnen:\n{$rejectUrl}",
+                default => "\n\nGoedkeuren:\n{$approveUrl}\n\nWeigeren:\n{$rejectUrl}",
+            };
+        }
+        return $intro . $links . "\n\n" . $adminUrl;
+    }
+
+    private function managerActionButtonsHtml(string $approveUrl, string $rejectUrl): string
+    {
+        $approve = htmlspecialchars($approveUrl, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $reject = htmlspecialchars($rejectUrl, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $html = '<p style="margin:28px 0 12px;"><a href="' . $approve
+            . '" style="display:inline-block;background:#2f6b4f;color:#ffffff;padding:14px 22px;border-radius:10px;text-decoration:none;font-weight:600;">Goedkeuren</a></p>';
+        if ($rejectUrl !== '') {
+            $html .= '<p style="margin:0;"><a href="' . $reject
+                . '" style="color:#8a3b32;text-decoration:underline;">Weigeren</a></p>';
+        }
+        return $html;
     }
 
     /** @param array<string, mixed> $vars */

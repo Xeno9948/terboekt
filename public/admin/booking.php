@@ -76,13 +76,20 @@ admin_layout_start('Boeking ' . (string) $booking['reference'], 'bookings', $use
 <?php if ($canAsk || $canConfirm || $canReject || $canCancel || $canHold): ?>
 <section class="admin-card">
     <h2>Acties</h2>
-    <p class="admin-help">Een boeking wordt nooit vanzelf bevestigd. Alleen de knop hieronder na het aanvinken telt.</p>
+    <p class="admin-help">Een boeking wordt nooit vanzelf bevestigd. U keurt goed via de e-mailknop of hieronder.</p>
     <div class="admin-actions">
+        <?php if ($status === BookingStatus::REQUESTED): ?>
+            <form method="post" data-confirm="Boeking nu bevestigen? De gast krijgt meteen een bevestigingsmail.">
+                <?= admin_csrf_field() ?>
+                <input type="hidden" name="action" value="approve_now">
+                <button class="btn btn-primary" type="submit">Goedkeuren nu</button>
+            </form>
+        <?php endif; ?>
         <?php if ($canAsk): ?>
             <form method="post">
                 <?= admin_csrf_field() ?>
                 <input type="hidden" name="action" value="ask_deposit">
-                <button class="btn btn-primary" type="submit">Vraag voorschot</button>
+                <button class="btn btn-secondary" type="submit">Vraag voorschot</button>
             </form>
         <?php endif; ?>
         <?php if ($canHold): ?>
@@ -107,7 +114,7 @@ admin_layout_start('Boeking ' . (string) $booking['reference'], 'bookings', $use
             <button class="btn btn-primary" type="submit">Bevestig boeking</button>
         </form>
     <?php elseif ($status === BookingStatus::REQUESTED): ?>
-        <p class="admin-help">Eerst voorschot vragen. Daarna kunt u bevestigen wanneer het geld binnen is.</p>
+        <p class="admin-help">U kunt meteen goedkeuren, of eerst een voorschot vragen en later bevestigen.</p>
     <?php endif; ?>
 
     <?php if ($status === BookingStatus::AWAITING_DEPOSIT): ?>

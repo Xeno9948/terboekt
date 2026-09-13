@@ -1,10 +1,10 @@
 :root {
     --color-primary: #1a1a1a;
     --color-secondary: #f7f5f2;
-    --color-accent: #9a7340;
-    --color-accent-dark: #9a7340;
-    --color-accent-hover: #826032;
-    --color-accent-rgb: 154, 115, 64;
+    --color-accent: #c0a062;
+    --color-accent-dark: #c0a062;
+    --color-accent-hover: #a8884e;
+    --color-accent-rgb: 192, 160, 98;
     --color-text: #2a2a2a;
     --color-text-muted: #4a4a4a;
     --color-white: #ffffff;
@@ -132,8 +132,10 @@ header.nav-open {
 }
 
 .logo a {
-    background: none;
-    -webkit-text-fill-color: var(--color-accent);
+    background: linear-gradient(135deg, var(--color-accent) 0%, #e2c48a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     color: var(--color-accent);
 }
 
@@ -1791,6 +1793,45 @@ footer {
     color: var(--color-text-muted);
 }
 
+.home-avail {
+    background: var(--color-secondary);
+}
+
+.home-avail-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.home-avail-copy .booking-range {
+    display: inline-block;
+    margin: 1rem 0 0.85rem;
+}
+
+.home-avail-copy .cal-legend {
+    margin: 0 0 1.1rem;
+}
+
+.home-avail-copy .btn {
+    margin-top: 0.35rem;
+}
+
+.home-avail-cal {
+    padding: 1.25rem 1.3rem 1.35rem;
+}
+
+.home-avail-cal .cal {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+@media (max-width: 980px) {
+    .home-avail-shell { grid-template-columns: 1fr; }
+}
+
 .booking-rates {
     padding-top: 2.4rem;
 }
@@ -1890,7 +1931,7 @@ select {
     appearance: none;
     -webkit-appearance: none;
     background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239a7340' d='M1 1.2L6 6.2 11 1.2' stroke='%239a7340' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c0a062' d='M1 1.2L6 6.2 11 1.2' stroke='%23c0a062' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.9rem center;
     background-size: 12px;

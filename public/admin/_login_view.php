@@ -53,7 +53,7 @@ function admin_login_or_user(): ?array
     <div class="admin-login-wrap">
         <p class="section-kicker">Home Terboekt</p>
         <h1>Beheer</h1>
-        <p class="lead">Alleen voor de eigenaar. Er zijn geen publieke goedkeuringslinks.</p>
+        <p class="lead">Alleen voor de eigenaar. Nieuwe aanvragen kunt u ook goedkeuren via de e-mailknop.</p>
         <div class="form-card">
             <form method="post" action="/admin/" autocomplete="on">
                 <input type="hidden" name="csrf" value="<?= h($csrf) ?>">
