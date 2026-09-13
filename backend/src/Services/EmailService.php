@@ -76,6 +76,15 @@ final class EmailService
         return $this->transport->configured();
     }
 
+    public function managerEmail(): string
+    {
+        $fromSettings = trim((string) ($this->settings->get('manager_email') ?? ''));
+        if ($fromSettings !== '' && filter_var($fromSettings, FILTER_VALIDATE_EMAIL)) {
+            return $fromSettings;
+        }
+        return trim($this->config->managerEmail);
+    }
+
     /**
      * @param array<string, mixed> $vars
      * @return array{subject: string, html: string, text: string}
@@ -218,7 +227,7 @@ final class EmailService
                 'de' => ["Änderung {$ref}", "Hallo {$name},\n\nReservierung {$ref} wurde geändert: {$checkIn} bis {$checkOut}."],
             ],
             'manager_new_booking_request' => [
-                'nl' => ["Nieuwe aanvraag {$ref}", "Nieuwe reservatieaanvraag {$ref} van {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} personen.\nTotaal {$total}, voorschot {$deposit}.\nStatus: REQUESTED — bevestig nooit automatisch."],
+                'nl' => ["Nieuwe aanvraag {$ref}", "Nieuwe reservatieaanvraag {$ref} van {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} personen.\nTotaal {$total}, voorschot {$deposit}.\nStatus: REQUESTED — bevestig nooit automatisch.\n\nOpen in beheer (inloggen vereist):\n" . rtrim((string) $vars['app_base_url'], '/') . '/admin/booking.php?ref=' . rawurlencode($ref)],
                 'en' => ["New request {$ref}", "New booking request {$ref} from {$name}.\n{$checkIn} → {$checkOut}. Total {$total}. Status REQUESTED — never auto-confirm."],
                 'fr' => ["Nouvelle demande {$ref}", "Nouvelle demande {$ref} de {$name}. {$checkIn} → {$checkOut}."],
                 'de' => ["Neue Anfrage {$ref}", "Neue Anfrage {$ref} von {$name}. {$checkIn} → {$checkOut}."],

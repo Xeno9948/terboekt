@@ -34,7 +34,7 @@ if (admin_is_post()) {
             if ($fromEmail !== '') {
                 $app->settings()->upsert('contact_email', $fromEmail);
             }
-            admin_set_flash('success', 'E-mailgegevens opgeslagen. Verzenden gebruikt nog de server-SMTP tot die aangepast is.');
+            admin_set_flash('success', 'E-mailgegevens opgeslagen. Nieuwe aanvragen gaan naar het manageradres.');
         } elseif ($action === 'send_test') {
             $to = trim((string) ($_POST['to'] ?? $user['email']));
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
@@ -78,8 +78,8 @@ admin_layout_start('E-mail', 'email', $user);
         <dd><?= h($config->smtpFromName) ?> &lt;<?= h($config->smtpFromEmail) ?>&gt;</dd>
         <dt>Reply-to (server)</dt>
         <dd><?= h($config->smtpReplyTo) ?></dd>
-        <dt>Manager-inbox (server)</dt>
-        <dd><?= h($config->managerEmail) ?></dd>
+        <dt>Aanvragen gaan naar</dt>
+        <dd><?= h($app->email()->managerEmail() ?: '—') ?></dd>
         <dt>SMTP-host</dt>
         <dd><?= h($config->smtpHost ?: '—') ?></dd>
         <dt>SMTP-wachtwoord</dt>
@@ -109,8 +109,9 @@ admin_layout_start('E-mail', 'email', $user);
                 <input type="email" id="mail_reply_to" name="mail_reply_to" value="<?= h((string) ($s->get('mail_reply_to', $config->smtpReplyTo) ?? '')) ?>">
             </div>
             <div class="form-group">
-                <label for="manager_email">Manager e-mail</label>
-                <input type="email" id="manager_email" name="manager_email" value="<?= h((string) ($s->get('manager_email', $config->managerEmail) ?? '')) ?>">
+                <label for="manager_email">Manager e-mail (aanvragen + goedkeuren)</label>
+                <input type="email" id="manager_email" name="manager_email" value="<?= h((string) ($s->get('manager_email', $config->managerEmail) ?? '')) ?>" placeholder="bijv. mama@…">
+                <p class="form-help">Hier komt de mail bij een nieuwe reservatie, met een link naar beheer om het voorschot te bevestigen. Geen publieke goedkeuringslink.</p>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Bewaar gegevens</button>

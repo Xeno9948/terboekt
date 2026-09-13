@@ -118,7 +118,7 @@ final class BookingRequestService
         $emails[] = $this->app->email()->sendTemplate('booking_request_received', $email, $vars, (int) $booking['id']);
         $emails[] = $this->app->email()->sendTemplate(
             'manager_new_booking_request',
-            $this->app->config->managerEmail,
+            $this->app->email()->managerEmail(),
             $vars,
             (int) $booking['id']
         );

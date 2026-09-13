@@ -1,6 +1,7 @@
 FROM php:8.3-cli-alpine
 
-RUN apk add --no-cache icu-data-full \
+RUN apk add --no-cache icu-data-full ca-certificates openssl \
+    && update-ca-certificates \
     && docker-php-ext-install -j"$(nproc)" pdo pdo_mysql
 
 WORKDIR /app

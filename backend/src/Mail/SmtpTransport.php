@@ -38,8 +38,8 @@ final class SmtpTransport
         $host = (string) $this->config->smtpHost;
         $port = $this->config->smtpPort;
         $secure = strtolower($this->config->smtpSecure);
-        $implicitSsl = $port === 465 || $secure === 'ssl';
-        $startTls = !$implicitSsl && ($port === 587 || $secure === 'tls');
+        $implicitSsl = $port === 465 || ($secure === 'ssl' && $port !== 587);
+        $startTls = !$implicitSsl && ($port === 587 || $secure === 'tls' || $secure === 'starttls');
 
         $remote = ($implicitSsl ? 'ssl://' : 'tcp://') . $host . ':' . $port;
         $context = stream_context_create([
@@ -47,6 +47,8 @@ final class SmtpTransport
                 'verify_peer' => true,
                 'verify_peer_name' => true,
                 'allow_self_signed' => false,
+                'peer_name' => $host,
+                'SNI_enabled' => true,
                 'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT,
             ],
         ]);
@@ -54,7 +56,11 @@ final class SmtpTransport
         $errstr = '';
         $fp = @stream_socket_client($remote, $errno, $errstr, 20, STREAM_CLIENT_CONNECT, $context);
         if (!is_resource($fp)) {
-            throw new \RuntimeException("SMTP connect failed: {$errstr} ({$errno})");
+            throw new \RuntimeException(
+                "SMTP-verbinding mislukt naar {$host}:{$port}"
+                . ($errstr !== '' ? " ({$errstr}" . ($errno ? ", code {$errno}" : '') . ')' : ($errno ? " (code {$errno})" : ''))
+                . '. Controleer host/poort of dat de mailserver Railway toelaat.'
+            );
         }
         stream_set_timeout($fp, 20);
 

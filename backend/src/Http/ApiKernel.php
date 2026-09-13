@@ -193,7 +193,7 @@ final class ApiKernel
         $warnings = [];
         foreach ($sync as $row) {
             if (!empty($row['last_error']) || !empty($row['stale'])) {
-                $this->app->email()->sendTemplate('manager_calendar_sync_warning', $this->app->config->managerEmail, [
+                $this->app->email()->sendTemplate('manager_calendar_sync_warning', $this->app->email()->managerEmail(), [
                     'error' => $row['last_error'] ?? 'stale',
                     'language' => 'nl',
                 ]);

@@ -61,7 +61,7 @@ final class BookingExpiryService
             $vars,
             $id
         );
-        $manager = $this->app->config->managerEmail;
+        $manager = $this->app->email()->managerEmail();
         if ($manager !== '') {
             $emails[] = $this->app->email()->sendTemplate('manager_booking_expired', $manager, $vars, $id);
         }
