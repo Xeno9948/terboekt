@@ -17,9 +17,12 @@
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=c0a064">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="assets/img/hoge-kempen-nature.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -91,8 +94,9 @@
 
 <body class="has-hero">
     <div id="header-placeholder"></div>
+    <script src="components/header.js"></script>
 
-    <section class="page-hero" style="background-image: url('assets/img/hoge-kempen-nature.jpg');">
+    <section class="page-hero" style="background-image: url('assets/img/hoge-kempen-nature.webp');">
         <div class="hero-content">
             <h1 data-i18n="seo_hk_title">Verblijven aan Nationaal Park Hoge Kempen</h1>
             <p data-i18n="seo_hk_subtitle">Wandelen en fietsen vanaf de toegangspoort in Genk.</p>
@@ -117,7 +121,7 @@
     <section>
         <div class="container split reverse">
             <div>
-                <img src="assets/img/hoge-kempen-nature.jpg" alt="Dennenbos en natuur in Nationaal Park Hoge Kempen">
+                <img src="assets/img/hoge-kempen-nature.webp" alt="Dennenbos en natuur in Nationaal Park Hoge Kempen" loading="lazy" decoding="async">
             </div>
             <div>
                 <span class="section-label">Wandelen &amp; fietsen</span>
@@ -184,12 +188,11 @@
     </section>
 
     <div id="footer-placeholder"></div>
-    <script src="components/header.js"></script>
-    <script src="components/footer.js"></script>
-    <script src="assets/js/translations.js"></script>
-    <script src="assets/js/pricing.js"></script>
-    <script src="assets/js/gallery.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script defer src="components/footer.js?v=snap1"></script>
+    <script defer src="assets/js/translations.js?v=snap1"></script>
+    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="assets/js/gallery.js"></script>
+    <script defer src="assets/js/script.js"></script>
 </body>
 
 </html>

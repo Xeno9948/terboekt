@@ -222,6 +222,35 @@ function admin_handle_booking_post(App $app, array $user, array $booking): void
                 ]);
                 admin_set_flash('success', 'Prijs aangepast. Voorschot herberekend op ' . $percent . '%.');
             })(),
+            'refresh_deposit' => (static function () use ($app, $booking, $id): void {
+                $status = (string) $booking['status'];
+                $template = $status === BookingStatus::CONFIRMED
+                    ? 'booking_confirmed'
+                    : 'bank_transfer_instructions';
+                $result = $app->email()->sendTemplate($template, (string) $booking['guest_email'], admin_booking_vars($booking), $id);
+                admin_set_flash(
+                    $result['sent'] ? 'success' : 'error',
+                    $result['sent']
+                        ? ($status === BookingStatus::CONFIRMED ? 'Bevestigingsmail opnieuw verstuurd.' : 'Voorschotmail opnieuw verstuurd.')
+                        : ('Verzenden mislukt: ' . ($result['error'] ?? 'onbekend'))
+                );
+            })(),
+            'clear_deposit' => (static function () use ($app, $mailer, $ref, $actor, $booking): void {
+                if ((string) $booking['status'] !== BookingStatus::CONFIRMED) {
+                    admin_set_flash('error', 'Alleen een betaald voorschot op een bevestigde boeking kan worden gewist.');
+                    return;
+                }
+                $updated = $app->status()->transition(
+                    $ref,
+                    BookingStatus::AWAITING_DEPOSIT,
+                    'admin',
+                    $actor,
+                    'Betaald voorschot gewist',
+                    ['deposit_received_at' => null]
+                );
+                $mailer->notifyTransition($updated, BookingStatus::AWAITING_DEPOSIT);
+                admin_set_flash('success', 'Voorschot gewist. De boeking wacht opnieuw op betaling. De gast krijgt de overschrijvingsmail.');
+            })(),
             'resend_email' => (static function () use ($app, $booking, $id): void {
                 $template = (string) ($_POST['template'] ?? '');
                 $allowed = [

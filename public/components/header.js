@@ -49,8 +49,4 @@ function loadHeader() {
     });
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadHeader);
-} else {
-    loadHeader();
-}
+loadHeader();

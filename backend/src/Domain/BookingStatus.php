@@ -43,7 +43,7 @@ final class BookingStatus
     public const TRANSITIONS = [
         self::REQUESTED => [self::AWAITING_DEPOSIT, self::CONFIRMED, self::REJECTED, self::EXPIRED, self::CANCELLED],
         self::AWAITING_DEPOSIT => [self::CONFIRMED, self::REJECTED, self::EXPIRED, self::CANCELLED],
-        self::CONFIRMED => [self::CANCELLED],
+        self::CONFIRMED => [self::AWAITING_DEPOSIT, self::CANCELLED],
         self::REJECTED => [],
         self::EXPIRED => [],
         self::CANCELLED => [],

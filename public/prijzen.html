@@ -17,9 +17,12 @@
     <title>Prijzen vakantiehuis Genk | Tarieven 8 personen met zwembad</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=c0a064">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="assets/img/living-open-plan-stairs.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -204,8 +207,9 @@
 <body class="has-hero">
     <a class="skip-link" href="#prijzen-inhoud">Skip to content</a>
     <div id="header-placeholder"></div>
+    <script src="components/header.js"></script>
 
-    <section class="page-hero" style="background-image: url('assets/img/living-open-plan-stairs.jpg');">
+    <section class="page-hero" style="background-image: url('assets/img/living-open-plan-stairs.webp');">
         <div class="hero-content">
             <h1 data-i18n="prices_hero_title">Prijzen vakantiehuis in Genk</h1>
             <p data-i18n="prices_hero_sub">Tarieven voor 8 personen, vier slaapkamers en een verwarmd privézwembad.</p>
@@ -274,7 +278,7 @@
                 </ul>
             </div>
             <div>
-                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel voor acht personen in vakantiewoning Home Terboekt in Genk">
+                <img src="assets/img/dining-table-eight.webp" alt="Eettafel voor acht personen in vakantiewoning Home Terboekt in Genk" loading="lazy" decoding="async">
             </div>
         </div>
     </section>
@@ -282,7 +286,7 @@
     <section>
         <div class="container split reverse">
             <div>
-                <img src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Verwarmd privézwembad en terras van het vakantiehuis in Genk">
+                <img src="assets/img/buitenkant-zwembad-tuin.webp" alt="Verwarmd privézwembad en terras van het vakantiehuis in Genk" loading="lazy" decoding="async">
             </div>
             <div>
                 <h2 data-i18n="extras_title">Extra</h2>
@@ -325,6 +329,13 @@
                     <p data-i18n="prices_faq_4_a">Stuur een aanvraag via de reservatiepagina. Op de homepage staat de beschikbaarheidskalender. Aankomst vanaf 16.00 uur, vertrek voor 10.00 uur. Het huisreglement beschrijft de voorwaarden.</p>
                 </article>
             </div>
+            <p class="related-label" data-i18n="related_label">Lees ook</p>
+            <div class="related-links">
+                <a href="/weekendje-weg-limburg" class="btn-link"><span data-i18n="nav_weekendje">Weekendje weg Limburg</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/vakantiehuis-genk" class="btn-link"><span data-i18n="nav_vakantiehuis_genk">Vakantiehuis Genk</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/vakantiehuis-zwembad-limburg" class="btn-link"><span data-i18n="nav_vakantiehuis_zwembad">Vakantiehuis met zwembad</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/nationaal-park-hoge-kempen" class="btn-link"><span data-i18n="nav_hoge_kempen">Nationaal Park Hoge Kempen</span> <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
             <div class="cta-band">
                 <div>
                     <h3 data-i18n="cta_band_title">Zien we jou binnenkort?</h3>
@@ -336,11 +347,10 @@
     </section>
 
     <div id="footer-placeholder"></div>
-    <script src="components/header.js"></script>
-    <script src="components/footer.js"></script>
-    <script src="assets/js/translations.js"></script>
-    <script src="assets/js/pricing.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script defer src="components/footer.js?v=snap1"></script>
+    <script defer src="assets/js/translations.js?v=snap1"></script>
+    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="assets/js/script.js"></script>
 </body>
 
 </html>

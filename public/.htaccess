@@ -13,3 +13,12 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{DOCUMENT_ROOT}/$1.html -f
 RewriteRule ^([a-z0-9-]+)/?$ $1.html [L]
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|mjs|woff2|webp|jpg|jpeg|png|gif|svg|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "rates\.json$">
+        Header set Cache-Control "public, max-age=60"
+    </FilesMatch>
+</IfModule>

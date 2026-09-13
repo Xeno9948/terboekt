@@ -69,11 +69,23 @@ final class BookingStatusService
             }
 
             $fields = array_merge($extraFields, ['status' => $to]);
+            if ($from === BookingStatus::CONFIRMED && $to === BookingStatus::AWAITING_DEPOSIT) {
+                if ($actorType !== 'admin') {
+                    throw IllegalTransitionException::from($from, $to);
+                }
+                $fields['deposit_received_at'] = $extraFields['deposit_received_at'] ?? null;
+                if (empty($extraFields['deposit_due_at'])) {
+                    $fields['deposit_due_at'] = $this->deadlineFromNow();
+                }
+                if (empty($extraFields['payment_due_at'])) {
+                    $fields['payment_due_at'] = $fields['deposit_due_at'];
+                }
+            }
             if ($to === BookingStatus::AWAITING_DEPOSIT) {
-                if (empty($booking['deposit_due_at']) && empty($extraFields['deposit_due_at'])) {
+                if (empty($booking['deposit_due_at']) && empty($fields['deposit_due_at']) && empty($extraFields['deposit_due_at'])) {
                     $fields['deposit_due_at'] = $booking['payment_due_at'] ?? $this->deadlineFromNow();
                 }
-                if (empty($booking['payment_due_at']) && empty($extraFields['payment_due_at'])) {
+                if (empty($booking['payment_due_at']) && empty($fields['payment_due_at']) && empty($extraFields['payment_due_at'])) {
                     $fields['payment_due_at'] = $fields['deposit_due_at'] ?? $booking['deposit_due_at'] ?? $this->deadlineFromNow();
                 }
             }

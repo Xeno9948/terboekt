@@ -56,7 +56,7 @@ admin_layout_start('Boekingen', 'bookings', $user);
         <p class="admin-empty">Geen boekingen gevonden.</p>
     <?php else: ?>
         <div class="admin-table-wrap">
-            <table class="admin-table">
+            <table class="admin-table admin-table-cards">
                 <thead>
                     <tr>
                         <th>Referentie</th>
@@ -70,15 +70,15 @@ admin_layout_start('Boekingen', 'bookings', $user);
                 <tbody>
                 <?php foreach ($bookings as $row): ?>
                     <tr>
-                        <td><a href="booking.php?ref=<?= h((string) $row['reference']) ?>"><?= h((string) $row['reference']) ?></a></td>
-                        <td>
+                        <td data-label="Referentie"><a href="booking.php?ref=<?= h((string) $row['reference']) ?>"><?= h((string) $row['reference']) ?></a></td>
+                        <td data-label="Gast">
                             <?= h((string) $row['guest_name']) ?><br>
                             <span class="caption"><?= h((string) $row['guest_email']) ?></span>
                         </td>
-                        <td><?= h(admin_format_date((string) $row['check_in'])) ?> – <?= h(admin_format_date((string) $row['check_out'])) ?></td>
-                        <td><?= (int) $row['guests'] ?></td>
-                        <td><?= h(admin_money((int) $row['total_cents'])) ?></td>
-                        <td><span class="admin-badge <?= h(admin_status_class((string) $row['status'])) ?>"><?= h(admin_status_label((string) $row['status'])) ?></span></td>
+                        <td data-label="Data"><?= h(admin_format_date((string) $row['check_in'])) ?> – <?= h(admin_format_date((string) $row['check_out'])) ?></td>
+                        <td data-label="Gasten"><?= (int) $row['guests'] ?></td>
+                        <td data-label="Totaal"><?= h(admin_money((int) $row['total_cents'])) ?></td>
+                        <td data-label="Status"><span class="admin-badge <?= h(admin_status_class((string) $row['status'])) ?>"><?= h(admin_status_label((string) $row['status'])) ?></span></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

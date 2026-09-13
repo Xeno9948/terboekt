@@ -10,16 +10,20 @@
     <title>Boeken & contact | Home Terboekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=c0a064">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="assets/img/buitenkant-zwembad-tuin.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
 </head>
 
 <body class="has-hero booking-page">
     <a class="skip-link" href="#booking">Skip to booking</a>
     <div id="header-placeholder"></div>
+    <script src="components/header.js"></script>
 
-    <section class="booking-hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.jpg');">
+    <section class="booking-hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.webp');">
         <div class="container">
             <div class="booking-hero-copy">
                 <p class="section-kicker booking-hero-kicker" data-i18n="book_kicker">Boeken · Genk</p>
@@ -221,7 +225,7 @@
 
             <aside class="booking-aside">
                 <article class="booking-aside-card booking-aside-stay">
-                    <img src="assets/img/living-open-plan-stairs.jpg" alt="Open leefruimte van Home Terboekt">
+                    <img src="assets/img/living-open-plan-stairs.webp" alt="Open leefruimte van Home Terboekt" loading="lazy" decoding="async">
                     <div>
                         <p class="section-kicker" data-i18n="stay_card">Verblijf</p>
                         <h2>Home Terboekt</h2>
@@ -301,20 +305,24 @@
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
             </div>
+            <div class="related-links">
+                <a href="/prijzen" class="btn-link"><span data-i18n="prices_more">Bekijk alle prijzen</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/weekendje-weg-limburg" class="btn-link"><span data-i18n="nav_weekendje">Weekendje weg Limburg</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/vakantiehuis-genk" class="btn-link"><span data-i18n="nav_vakantiehuis_genk">Vakantiehuis Genk</span> <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
         </div>
     </section>
 
     <div id="footer-placeholder"></div>
-    <script src="components/header.js"></script>
-    <script src="components/footer.js"></script>
-    <script src="assets/js/translations.js"></script>
-    <script src="assets/js/pricing.js"></script>
-    <script src="assets/js/booking/api.js"></script>
-    <script src="assets/js/booking/calendar.js"></script>
-    <script src="assets/js/booking/quote.js"></script>
+    <script defer src="components/footer.js?v=snap1"></script>
+    <script defer src="assets/js/translations.js?v=snap1"></script>
+    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="assets/js/booking/api.js"></script>
+    <script defer src="assets/js/booking/calendar.js"></script>
+    <script defer src="assets/js/booking/quote.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-    <script src="assets/js/booking/checkout.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script defer src="assets/js/booking/checkout.js"></script>
+    <script defer src="assets/js/script.js"></script>
 </body>
 
 </html>

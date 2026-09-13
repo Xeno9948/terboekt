@@ -36,6 +36,30 @@ if (preg_match('#^/([a-z0-9-]+)/?$#', $uri, $match) === 1) {
 }
 $file = __DIR__ . $uri;
 if ($uri !== '/' && is_file($file)) {
+    $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    $types = [
+        'css' => 'text/css; charset=UTF-8',
+        'js' => 'application/javascript; charset=UTF-8',
+        'mjs' => 'application/javascript; charset=UTF-8',
+        'json' => 'application/json; charset=UTF-8',
+        'webp' => 'image/webp',
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'gif' => 'image/gif',
+        'svg' => 'image/svg+xml',
+        'ico' => 'image/x-icon',
+        'woff2' => 'font/woff2',
+        'woff' => 'font/woff',
+    ];
+    $publicAsset = preg_match('#^/(assets|components)/#', $uri) === 1;
+    if ($publicAsset && isset($types[$ext])) {
+        header('Content-Type: ' . $types[$ext]);
+        $cache = $ext === 'json' ? 'public, max-age=60' : 'public, max-age=31536000, immutable';
+        header('Cache-Control: ' . $cache);
+        readfile($file);
+        return true;
+    }
     return false;
 }
 return false;

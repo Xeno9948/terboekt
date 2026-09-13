@@ -96,7 +96,7 @@ admin_layout_start('Instellingen', 'settings', $user);
 ?>
 <form class="admin-form" method="post">
     <?= admin_csrf_field() ?>
-    <p class="admin-help">Naam, adres, e-mail, aantal gasten, slaapkamers en check-in/uit verschijnen op de website (header, footer, prijzen, huisreglement). Voorschotpercentage staat in de boekingsmail.</p>
+    <p class="admin-help">Contact e-mail is het adres in de footer, op voorwaarden en in gastmails. Afzender op de pagina E-mail is iets anders.</p>
     <section class="admin-card">
         <h2>Woning</h2>
         <div class="form-row">
@@ -163,7 +163,7 @@ admin_layout_start('Instellingen', 'settings', $user);
 
     <section class="admin-card">
         <h2>Bankgegevens</h2>
-        <p class="admin-help">Leeg laten tot u echte gegevens hebt. We vullen geen IBAN in.</p>
+        <p class="admin-help">Leeg laten tot u echte gegevens hebt.</p>
         <div class="form-row">
             <div class="form-group">
                 <label for="bank_account_holder">Rekeninghouder</label>
@@ -184,16 +184,6 @@ admin_layout_start('Instellingen', 'settings', $user);
                 <input type="text" id="bank_name" name="bank_name" value="<?= h($val($s, 'bank_name')) ?>">
             </div>
         </div>
-    </section>
-
-    <section class="admin-card">
-        <h2>Website-pagina’s</h2>
-        <p class="admin-help">Publieke paden zonder <code>.html</code>. Nieuwe <code>public/*.html</code>-bestanden komen automatisch in de sitemap. Pas hieronder de URL’s aan die in footer en mails staan.</p>
-        <ul class="admin-help">
-            <?php foreach (terboekt_public_pages() as $page): ?>
-                <li><a href="<?= h($page['path']) ?>" target="_blank" rel="noopener"><?= h($page['path']) ?></a> ← <?= h($page['file']) ?></li>
-            <?php endforeach; ?>
-        </ul>
     </section>
 
     <section class="admin-card">
@@ -232,7 +222,7 @@ admin_layout_start('Instellingen', 'settings', $user);
             <button class="btn btn-outline" type="submit">Zet tweestapsverificatie uit</button>
         </form>
     <?php else: ?>
-        <p class="admin-help">Aanbevolen. Na het wachtwoord sturen we een eenmalige code naar <?= h((string) $user['email']) ?>. E-mail moet werken (Resend in productie).</p>
+        <p class="admin-help">Na het wachtwoord sturen we een code naar <?= h((string) $user['email']) ?>.</p>
         <form class="admin-form" method="post">
             <?= admin_csrf_field() ?>
             <input type="hidden" name="action" value="enable_otp">

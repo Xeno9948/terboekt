@@ -71,11 +71,7 @@ function admin_redirect(string $url): never
 
 function admin_publish_public_rates(App $app): void
 {
-    try {
-        $app->publishPublicRates();
-    } catch (Throwable $e) {
-        error_log('publish public rates: ' . $e->getMessage());
-    }
+    $app->publishPublicRates();
 }
 
 function admin_money(int $cents): string

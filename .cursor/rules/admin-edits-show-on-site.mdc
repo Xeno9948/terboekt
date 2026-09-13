@@ -23,5 +23,5 @@ Applies to: homepage, `/prijzen` (table **and** FAQ **and** JSON-LD), `/contact`
 ✅ FAQ: "Een weekend is {weekendLow} … {weekendHigh}"
 
 ❌ Footer email hardcoded after Instellingen → contact e-mail changed
-✅ Footer reads `data-site="email"` from `/api/rates`
+✅ Footer reads `data-site="email"` from live `/api/config` (`contact_email`) / `/api/rates`
 ```

@@ -169,6 +169,7 @@ $tests['admin pricing and settings appear in public rates payload'] = function (
     $app->settings()->upsert('contact_email', 'nieuw@hometerboekt.be');
     $app->settings()->upsert('property_name', 'Villa Test');
     $app->settings()->upsert('house_rules_url', 'voorwaarden.html');
+    assert_same('nieuw@hometerboekt.be', (string) $app->settings()->get('contact_email'), 'settings store contact email');
     $payload = $app->publishedRates()->publicPayload();
     $weekend = null;
     foreach ($payload['packages'] as $pkg) {
@@ -241,6 +242,14 @@ $tests['all statuses persist and illegal transitions rejected'] = function (): v
 
     $confirmed = $app->status()->transition((int) $booking['id'], BookingStatus::CONFIRMED, 'admin', 'owner@test');
     assert_same(BookingStatus::CONFIRMED, $confirmed['status'], 'confirmed by admin');
+    assert_true(!empty($confirmed['deposit_received_at']), 'deposit marked received');
+
+    $reopened = $app->status()->transition((int) $booking['id'], BookingStatus::AWAITING_DEPOSIT, 'admin', 'owner@test', 'Voorschot ongedaan');
+    assert_same(BookingStatus::AWAITING_DEPOSIT, $reopened['status'], 'admin may undo paid deposit');
+    assert_true(empty($reopened['deposit_received_at']), 'deposit received cleared');
+
+    $confirmed = $app->status()->transition((int) $booking['id'], BookingStatus::CONFIRMED, 'admin', 'owner@test');
+    assert_same(BookingStatus::CONFIRMED, $confirmed['status'], 'reconfirmed after undo');
 
     try {
         $app->status()->transition((int) $booking['id'], BookingStatus::REQUESTED, 'admin', 'owner@test');

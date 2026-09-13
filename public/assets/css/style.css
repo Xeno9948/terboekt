@@ -44,6 +44,7 @@ body {
 
 img {
     max-width: 100%;
+    height: auto;
     display: block;
 }
 
@@ -286,6 +287,25 @@ header.nav-open {
 }
 
 .btn-link:hover { gap: 0.7rem; color: var(--color-primary); }
+
+.related-label {
+    margin: 2rem 0 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.related-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1.35rem;
+    margin-top: 1.1rem;
+}
+
+.related-links .btn-link { margin-top: 0; }
 
 /* Hero */
 .hero,
@@ -1182,6 +1202,12 @@ footer {
     border-radius: 50%;
     cursor: pointer;
     font-size: 1.4rem;
+}
+
+.lookbook,
+.map-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 520px;
 }
 
 .lightbox-close { top: 16px; right: 16px; }

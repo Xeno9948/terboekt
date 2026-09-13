@@ -316,6 +316,7 @@ const translations = {
         footer_desc: 'Uw luxe thuisbasis voor een onvergetelijke vakantie in Belgisch Limburg.',
         footer_links: 'Navigatie',
         footer_discover: 'Ontdek',
+        related_label: 'Lees ook',
         nav_prijzen: 'Prijzen',
         nav_vakantiehuis_genk: 'Vakantiehuis Genk',
         nav_vakantiehuis_zwembad: 'Vakantiehuis met zwembad',
@@ -677,6 +678,7 @@ const translations = {
         footer_desc: 'Your luxury base for an unforgettable holiday in Belgian Limburg.',
         footer_links: 'Navigation',
         footer_discover: 'Discover',
+        related_label: 'Read more',
         nav_prijzen: 'Prices',
         nav_vakantiehuis_genk: 'Holiday home Genk',
         nav_vakantiehuis_zwembad: 'Holiday home with pool',
@@ -1038,6 +1040,7 @@ const translations = {
         footer_desc: 'Votre base de luxe pour des vacances inoubliables dans le Limbourg belge.',
         footer_links: 'Navigation',
         footer_discover: 'Découvrir',
+        related_label: 'À lire aussi',
         nav_prijzen: 'Tarifs',
         nav_vakantiehuis_genk: 'Maison de vacances Genk',
         nav_vakantiehuis_zwembad: 'Maison avec piscine',
@@ -1399,6 +1402,7 @@ const translations = {
         footer_desc: 'Ihre luxuriöse Basis für einen unvergesslichen Urlaub in Belgisch-Limburg.',
         footer_links: 'Navigation',
         footer_discover: 'Entdecken',
+        related_label: 'Weiterlesen',
         nav_prijzen: 'Preise',
         nav_vakantiehuis_genk: 'Ferienhaus Genk',
         nav_vakantiehuis_zwembad: 'Ferienhaus mit Pool',
@@ -1487,6 +1491,9 @@ function applyTranslations(lang) {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = interpolateTranslation(dict[key]);
     });
+    if (typeof window.paintSiteFields === 'function') {
+        window.paintSiteFields();
+    }
     document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (dict[key]) el.setAttribute('placeholder', dict[key]);
@@ -1517,15 +1524,16 @@ function bindLanguageSwitcher() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootTranslations() {
     bindLanguageSwitcher();
     applyTranslations(currentLang);
-});
+}
 
-document.addEventListener('components:ready', () => {
-    bindLanguageSwitcher();
-    applyTranslations(currentLang);
-});
+document.addEventListener('DOMContentLoaded', bootTranslations);
+document.addEventListener('components:ready', bootTranslations);
+if (document.readyState !== 'loading') {
+    bootTranslations();
+}
 
 window.applyTranslations = applyTranslations;
 window.interpolateTranslation = interpolateTranslation;

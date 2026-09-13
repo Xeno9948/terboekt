@@ -17,16 +17,20 @@
     <title>Home Terboekt | Luxe vakantiehuis met zwembad in Genk</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=c0a064">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="assets/img/buitenkant-zwembad-tuin.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
 </head>
 
 <body class="has-hero">
     <a class="skip-link" href="#about">Skip to content</a>
     <div id="header-placeholder"></div>
+    <script src="components/header.js"></script>
 
-    <section class="hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.jpg');">
+    <section class="hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.webp');">
         <div class="hero-content">
             <h1 data-i18n="hero_title">Exclusief verblijven in het groene hart van Genk</h1>
             <p data-i18n="hero_subtitle">Een oase van rust, design en privacy aan de poort van Nationaal Park Hoge Kempen.</p>
@@ -46,9 +50,13 @@
                 <span class="section-label" data-i18n="intro_badge">Welkom bij Home Terboekt</span>
                 <h2 data-i18n="intro_title">Luxe en natuur in één gezinswoning</h2>
                 <p class="lead" data-i18n="intro_lead">Stap binnen in een oase van rust, design en privacy. Onze hoogwaardig afgewerkte vakantiewoning biedt met 4 stijlvolle slaapkamers de perfecte thuisbasis voor een onvergetelijke vakantie met uw gezin.</p>
+                <a href="/vakantiehuis-genk" class="btn-link">
+                    <span data-i18n="nav_vakantiehuis_genk">Vakantiehuis Genk</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
             <figure class="intro-photo">
-                <img src="assets/img/living-open-plan-stairs.jpg" alt="Open leefruimte met zetel, trap en eethoek">
+                <img src="assets/img/living-open-plan-stairs.webp" alt="Open leefruimte met zetel, trap en eethoek" width="640" height="480" fetchpriority="high" decoding="async">
             </figure>
         </div>
         <div class="container">
@@ -130,7 +138,7 @@
     <section>
         <div class="container split reverse">
             <div>
-                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel voor acht personen met zicht op de tuin">
+                <img src="assets/img/dining-table-eight.webp" alt="Eettafel voor acht personen met zicht op de tuin" loading="lazy" decoding="async">
             </div>
             <div>
                 <span class="section-label" data-i18n="living_label">Leefruimte & keuken</span>
@@ -162,7 +170,7 @@
                 </ul>
             </div>
             <div>
-                <img src="assets/img/kitchen-island-induction.jpg" alt="Zwarte keuken met kookeiland en inductieplaat">
+                <img src="assets/img/kitchen-island-induction.webp" alt="Zwarte keuken met kookeiland en inductieplaat" loading="lazy" decoding="async">
             </div>
         </div>
     </section>
@@ -177,7 +185,7 @@
             <div class="room-grid">
                 <article class="room-card">
                     <div class="room-img">
-                        <img src="assets/img/slaapkamer-master-roze.jpg" alt="Slaapkamer 1 met boxspring 180 bij 220">
+                        <img src="assets/img/slaapkamer-master-roze.webp" alt="Slaapkamer 1 met boxspring 180 bij 220" loading="lazy" decoding="async">
                     </div>
                     <div class="room-info">
                         <h3 data-i18n="room_1_title">Kamer 1</h3>
@@ -186,7 +194,7 @@
                 </article>
                 <article class="room-card">
                     <div class="room-img">
-                        <img src="assets/img/bedroom-boxspring.jpg" alt="Slaapkamer 2 met boxspring 180 bij 220">
+                        <img src="assets/img/bedroom-boxspring.webp" alt="Slaapkamer 2 met boxspring 180 bij 220" loading="lazy" decoding="async">
                     </div>
                     <div class="room-info">
                         <h3 data-i18n="room_2_title">Kamer 2</h3>
@@ -195,7 +203,7 @@
                 </article>
                 <article class="room-card">
                     <div class="room-img">
-                        <img src="assets/img/bedroom-bunk-bed.jpg" alt="Slaapkamer 3 met stapelbed">
+                        <img src="assets/img/bedroom-bunk-bed.webp" alt="Slaapkamer 3 met stapelbed" loading="lazy" decoding="async">
                     </div>
                     <div class="room-info">
                         <h3 data-i18n="room_3_title">Kamer 3</h3>
@@ -204,7 +212,7 @@
                 </article>
                 <article class="room-card">
                     <div class="room-img">
-                        <img src="assets/img/bedroom-garden-window.jpg" alt="Slaapkamer 4 met bed 160 bij 200 en tuinzicht">
+                        <img src="assets/img/bedroom-garden-window.webp" alt="Slaapkamer 4 met bed 160 bij 200 en tuinzicht" loading="lazy" decoding="async">
                     </div>
                     <div class="room-info">
                         <h3 data-i18n="room_4_title">Kamer 4</h3>
@@ -229,8 +237,8 @@
             </div>
             <figure class="photo-switch" data-photo-switch>
                 <div class="photo-switch-stage">
-                    <img class="is-current" src="assets/img/bathroom-bathtub-green.jpg" alt="Vrijstaand ligbad met groene visgraattegels">
-                    <img src="assets/img/bathroom-double-sink.jpg" alt="Dubbele wastafel met ronde verlicht spiegel">
+                    <img class="is-current" src="assets/img/bathroom-bathtub-green.webp" alt="Vrijstaand ligbad met groene visgraattegels" loading="lazy" decoding="async">
+                    <img src="assets/img/bathroom-double-sink.webp" alt="Dubbele wastafel met ronde verlicht spiegel" loading="lazy" decoding="async">
                 </div>
                 <button class="photo-switch-btn prev" type="button" aria-label="Vorige foto"><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="photo-switch-btn next" type="button" aria-label="Volgende foto"><i class="fa-solid fa-chevron-right"></i></button>
@@ -245,7 +253,7 @@
     <section>
         <div class="container split reverse">
             <div>
-                <img src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Verwarmd buitenzwembad en terras">
+                <img src="assets/img/buitenkant-zwembad-tuin.webp" alt="Verwarmd buitenzwembad en terras" loading="lazy" decoding="async">
             </div>
             <div>
                 <span class="section-label" data-i18n="garden_label">Tuin & zwembad</span>
@@ -258,6 +266,16 @@
                     <li><i class="fa-solid fa-check"></i><span data-i18n="garden_4">Volledig omheinde tuin voor privacy en veiligheid</span></li>
                 </ul>
                 <p class="caption" data-i18n="garden_caption">Ontwaken te midden van de natuur, tegenover de toegangspoort van Nationaal Park Hoge Kempen.</p>
+                <div class="related-links">
+                    <a href="/vakantiehuis-zwembad-limburg" class="btn-link">
+                        <span data-i18n="nav_vakantiehuis_zwembad">Vakantiehuis met zwembad</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="/nationaal-park-hoge-kempen" class="btn-link">
+                        <span data-i18n="nav_hoge_kempen">Nationaal Park Hoge Kempen</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -297,7 +315,7 @@
     <section>
         <div class="container split reverse">
             <div>
-                <img src="assets/img/voorgevel-huis-dag.jpg" alt="Gevel van Home Terboekt met privéoprit">
+                <img src="assets/img/voorgevel-huis-dag.webp" alt="Gevel van Home Terboekt met privéoprit" loading="lazy" decoding="async">
             </div>
             <div>
                 <span class="section-label" data-i18n="sustain_label">Duurzaam comfort</span>
@@ -310,8 +328,8 @@
     <section class="soft">
         <div class="container split">
             <div class="location-images">
-                <div class="img-main"><img src="assets/img/hoge-kempen-nature.jpg" alt="Nationaal Park Hoge Kempen"></div>
-                <div class="img-small"><img src="assets/img/c-mine-terril.webp" alt="C-mine en terrils in Genk"></div>
+                <div class="img-main"><img src="assets/img/hoge-kempen-nature.webp" alt="Nationaal Park Hoge Kempen" loading="lazy" decoding="async"></div>
+                <div class="img-small"><img src="assets/img/c-mine-terril.webp" alt="C-mine en terrils in Genk" loading="lazy" decoding="async"></div>
             </div>
             <div>
                 <span class="section-label" data-i18n="loc_label">Omgeving</span>
@@ -324,7 +342,17 @@
                     <li><i class="fa-solid fa-bicycle"></i><span data-i18n="dist_cycle">Direct aan het fietsroutenetwerk</span></li>
                     <li><i class="fa-solid fa-train"></i><span data-i18n="dist_maastricht">25–30 minuten naar Maastricht</span></li>
                 </ul>
-                <a href="/genk" class="btn btn-outline"><span data-i18n="btn_explore_area">Bekijk alle uitstappen</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <div class="related-links">
+                    <a href="/genk" class="btn btn-outline"><span data-i18n="btn_explore_area">Bekijk alle uitstappen</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/nationaal-park-hoge-kempen" class="btn-link">
+                        <span data-i18n="nav_hoge_kempen">Nationaal Park Hoge Kempen</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="/weekendje-weg-limburg" class="btn-link">
+                        <span data-i18n="nav_weekendje">Weekendje weg Limburg</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -385,35 +413,35 @@
         </div>
         <div class="lookbook-track">
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Zwembad en terras">
+                <img src="assets/img/buitenkant-zwembad-tuin.webp" alt="Zwembad en terras" loading="lazy" decoding="async">
                 <figcaption data-i18n="cap_pool">Zwembad</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/living-tv-fireplace.jpg" alt="Zithoek met tv en haard">
+                <img src="assets/img/living-tv-fireplace.webp" alt="Zithoek met tv en haard" loading="lazy" decoding="async">
                 <figcaption data-i18n="cap_living">Wonen</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel voor acht">
+                <img src="assets/img/dining-table-eight.webp" alt="Eettafel voor acht" loading="lazy" decoding="async">
                 <figcaption data-i18n="cap_dining">Eten</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/kitchen-island-induction.jpg" alt="Keuken-eiland">
+                <img src="assets/img/kitchen-island-induction.webp" alt="Keuken-eiland" loading="lazy" decoding="async">
                 <figcaption data-i18n="cap_kitchen">Koken</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/bathroom-bathtub-green.jpg" alt="Ligbad">
+                <img src="assets/img/bathroom-bathtub-green.webp" alt="Ligbad" loading="lazy" decoding="async">
                 <figcaption data-i18n="bath_label">Badkamer</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/bedroom-boxspring.jpg" alt="Boxspring slaapkamer">
+                <img src="assets/img/bedroom-boxspring.webp" alt="Boxspring slaapkamer" loading="lazy" decoding="async">
                 <figcaption data-i18n="rooms_label">Slapen</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/tuin-terras-eettafel.jpg" alt="Tuinterras">
+                <img src="assets/img/tuin-terras-eettafel.webp" alt="Tuinterras" loading="lazy" decoding="async">
                 <figcaption data-i18n="garden_label">Tuin</figcaption>
             </figure>
             <figure class="lookbook-slide js-lightbox">
-                <img src="assets/img/voorgevel-huis-dag.jpg" alt="Gevel en oprit">
+                <img src="assets/img/voorgevel-huis-dag.webp" alt="Gevel en oprit" loading="lazy" decoding="async">
                 <figcaption data-i18n="cap_arrival">Aankomst</figcaption>
             </figure>
         </div>
@@ -432,15 +460,14 @@
     </section>
 
     <div id="footer-placeholder"></div>
-    <script src="components/header.js"></script>
-    <script src="components/footer.js"></script>
-    <script src="assets/js/translations.js"></script>
-    <script src="assets/js/pricing.js"></script>
-    <script src="assets/js/booking/api.js"></script>
-    <script src="assets/js/booking/calendar.js"></script>
-    <script src="assets/js/booking/home-availability.js"></script>
-    <script src="assets/js/gallery.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script defer src="components/footer.js?v=snap1"></script>
+    <script defer src="assets/js/translations.js?v=snap1"></script>
+    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="assets/js/booking/api.js"></script>
+    <script defer src="assets/js/booking/calendar.js"></script>
+    <script defer src="assets/js/booking/home-availability.js"></script>
+    <script defer src="assets/js/gallery.js"></script>
+    <script defer src="assets/js/script.js"></script>
 </body>
 
 </html>

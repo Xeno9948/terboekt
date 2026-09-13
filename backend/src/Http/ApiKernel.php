@@ -41,10 +41,15 @@ final class ApiKernel
                 JsonResponse::send(200, ['ok' => true, 'rates' => $this->app->publishedRates()->publicPayload()]);
             }
             if ($method === 'GET' && $path === '/config') {
+                $settings = $this->app->settings();
                 JsonResponse::send(200, [
                     'ok' => true,
                     'turnstile_site_key' => $this->app->turnstile()->siteKey(),
                     'turnstile_required' => $this->app->turnstile()->required(),
+                    'property_name' => (string) $settings->get('property_name', ''),
+                    'property_address' => (string) $settings->get('property_address', ''),
+                    'contact_email' => (string) $settings->get('contact_email', ''),
+                    'house_rules_url' => (string) $settings->get('house_rules_url', ''),
                 ]);
             }
             if ($method === 'GET' && $path === '/availability') {

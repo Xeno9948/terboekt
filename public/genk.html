@@ -11,15 +11,19 @@
     <title>Bezoek Genk & omgeving | Home Terboekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=c0a064">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="assets/img/hoge-kempen-nature.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
 </head>
 
 <body class="has-hero">
     <div id="header-placeholder"></div>
+    <script src="components/header.js"></script>
 
-    <section class="page-hero" style="background-image: url('assets/img/hoge-kempen-nature.jpg');">
+    <section class="page-hero" style="background-image: url('assets/img/hoge-kempen-nature.webp');">
         <div class="hero-content">
             <h1 data-i18n="genk_title">Wat te doen in en rond Genk</h1>
             <p data-i18n="genk_subtitle">Natuur, cultuur en actieve ontspanning voor het hele gezin.</p>
@@ -29,13 +33,17 @@
     <section class="soft">
         <div class="container">
             <p class="lead mb-4" data-i18n="genk_intro">In en rond Genk is er voor gezinnen ontzettend veel te beleven. Home Terboekt is de ideale uitvalsbasis.</p>
+            <div class="related-links mb-4">
+                <a href="/vakantiehuis-genk" class="btn-link"><span data-i18n="nav_vakantiehuis_genk">Vakantiehuis Genk</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/weekendje-weg-limburg" class="btn-link"><span data-i18n="nav_weekendje">Weekendje weg Limburg</span> <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
             <div class="mb-4">
                 <span class="section-label" data-i18n="nature_label">Natuur & unieke ervaringen</span>
             </div>
 
             <article class="attraction-card">
                 <div class="attr-img">
-                    <img src="assets/img/hoge-kempen-nature.jpg" alt="Nationaal Park Hoge Kempen">
+                    <img src="assets/img/hoge-kempen-nature.webp" alt="Nationaal Park Hoge Kempen" loading="lazy" decoding="async">
                 </div>
                 <div>
                     <h2 data-i18n="attr_hk_title">Nationaal Park Hoge Kempen</h2>
@@ -44,7 +52,10 @@
                         <span><i class="fa-solid fa-person-hiking"></i> Wandelen & fietsen</span>
                     </div>
                     <p data-i18n="attr_hk_desc">Het enige nationale park van de Hoge Kempen ligt letterlijk tegenover de woning. Dennenbossen, heide en waterplassen, met directe toegang tot wandel- en fietspaden.</p>
-                    <a href="https://www.nationaalparkhogekempen.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    <div class="related-links">
+                        <a href="/nationaal-park-hoge-kempen" class="btn-link"><span data-i18n="nav_hoge_kempen">Nationaal Park Hoge Kempen</span> <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="https://www.nationaalparkhogekempen.be" target="_blank" rel="noopener" class="btn-link"><span data-i18n="visit_site">Bezoek website</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
                 </div>
             </article>
 
@@ -79,7 +90,7 @@
 
             <article class="attraction-card">
                 <div class="attr-img">
-                    <img src="assets/img/c-mine-terril.webp" alt="C-mine Genk">
+                    <img src="assets/img/c-mine-terril.webp" alt="C-mine Genk" loading="lazy" decoding="async">
                 </div>
                 <div>
                     <h2 data-i18n="attr_cmine_title">C-mine Expeditie</h2>
@@ -189,18 +200,21 @@
                     <h3 data-i18n="cta_band_title">Zien we jou binnenkort?</h3>
                     <p data-i18n="cta_band_text">Vraag een reservatie aan voor onze luxueuze vakantiewoning.</p>
                 </div>
-                <a href="/contact" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+                <div class="related-links">
+                    <a href="/contact" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+                    <a href="/prijzen" class="btn-link"><span data-i18n="nav_prices">Prijzen</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/vakantiehuis-zwembad-limburg" class="btn-link"><span data-i18n="nav_vakantiehuis_zwembad">Vakantiehuis met zwembad</span> <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
             </div>
         </div>
     </section>
 
     <div id="footer-placeholder"></div>
-    <script src="components/header.js"></script>
-    <script src="components/footer.js"></script>
-    <script src="assets/js/translations.js"></script>
-    <script src="assets/js/pricing.js"></script>
-    <script src="assets/js/gallery.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script defer src="components/footer.js?v=snap1"></script>
+    <script defer src="assets/js/translations.js?v=snap1"></script>
+    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="assets/js/gallery.js"></script>
+    <script defer src="assets/js/script.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,7 @@
     function setOpen(open) {
         if (!nav) return;
         nav.classList.toggle('is-open', open);
+        document.body.classList.toggle('admin-nav-open', open);
         if (menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
         if (backdrop) {
             if (open) backdrop.removeAttribute('hidden');
@@ -21,6 +22,13 @@
     if (backdrop) {
         backdrop.addEventListener('click', function () {
             setOpen(false);
+        });
+    }
+    if (nav) {
+        nav.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                setOpen(false);
+            });
         });
     }
 

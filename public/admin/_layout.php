@@ -36,7 +36,7 @@ function admin_layout_start(string $title, string $active, array $user): void
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css?v=c0a063">
-    <link rel="stylesheet" href="assets/admin.css">
+    <link rel="stylesheet" href="assets/admin.css?v=m1">
 </head>
 <body class="admin">
     <div class="admin-app">
@@ -53,7 +53,7 @@ function admin_layout_start(string $title, string $active, array $user): void
                     </a>
                 <?php endforeach; ?>
             </nav>
-            <p class="admin-nav-note">Bevestig nooit zonder het zelf te doen. Gasten kunnen een boeking niet zelf goedkeuren.</p>
+            <p class="admin-nav-note">Alleen u bevestigt een boeking.</p>
         </aside>
         <div class="admin-body">
             <header class="admin-bar">

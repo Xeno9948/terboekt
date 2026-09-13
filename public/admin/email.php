@@ -31,11 +31,8 @@ if (admin_is_post()) {
             $app->settings()->upsert('mail_from_email', $fromEmail !== '' ? $fromEmail : null);
             $app->settings()->upsert('mail_reply_to', $replyTo !== '' ? $replyTo : null);
             $app->settings()->upsert('manager_email', $manager !== '' ? $manager : null);
-            if ($fromEmail !== '') {
-                $app->settings()->upsert('contact_email', $fromEmail);
-            }
             admin_publish_public_rates($app);
-            admin_set_flash('success', 'E-mailgegevens opgeslagen. Nieuwe aanvragen gaan naar het manageradres.');
+            admin_set_flash('success', 'E-mailgegevens opgeslagen.');
         } elseif ($action === 'send_test') {
             $to = trim((string) ($_POST['to'] ?? $user['email']));
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
@@ -47,7 +44,7 @@ if (admin_is_post()) {
             } else {
                 $error = (string) ($result['error'] ?? 'onbekend');
                 if ($error === 'smtp_not_configured') {
-                    $error = 'Geen mailer ingesteld. Op Railway: zet RESEND_API_KEY. Lokaal kan SMTP (MailProtect) werken als uw IP is toegelaten.';
+                    $error = 'Geen mailer ingesteld. Zet RESEND_API_KEY op Railway.';
                 }
                 admin_set_flash('error', 'Verzenden mislukt: ' . $error);
             }
@@ -66,59 +63,31 @@ if (admin_is_post()) {
 }
 
 $failed = $app->emailLogs()->findFailed(50);
-$smtpOk = $config->smtpConfigured();
 $resendOk = $config->resendConfigured();
-$sendPath = $app->email()->sendPath();
 $mailOk = $app->email()->mailConfigured();
 $s = $app->settings();
-
-$sendPathLabel = match ($sendPath) {
-    'resend' => 'Resend (HTTP-API) — productiepad',
-    'smtp' => 'SMTP — lokaal/dev',
-    default => 'Geen — berichten worden gelogd als mislukt tot Resend (of lokale SMTP) is ingesteld',
+$path = $app->email()->sendPath();
+$pathLabel = match ($path) {
+    'resend' => 'Resend',
+    'smtp' => 'SMTP',
+    default => 'Niet ingesteld',
 };
 
 admin_layout_start('E-mail', 'email', $user);
 ?>
 <section class="admin-card">
-    <h2>Verzenden</h2>
-    <div class="admin-confirm-box">
-        <p class="admin-help" style="margin:0 0 0.6rem;">
-            Combell MailProtect (<code>smtp-auth.mailprotect.be</code>) laat doorgaans alleen verbindingen toe vanaf hun eigen hosting.
-            Railway-IPs krijgen een TCP-timeout (geen inlogfout). Poort 587 of 465 maakt geen verschil.
-            Productie moet een HTTP-mailer gebruiken: Resend (<code>RESEND_API_KEY</code> op Railway), met geverifieerd afzenderdomein (hometerboekt.be).
-        </p>
-        <?php if ($config->smtpUnreachableFromThisHost() && !$resendOk): ?>
-            <p class="admin-help" style="margin:0;color:#8a241c;">
-                Deze server draait op Railway en MailProtect is het enige pad. SMTP wordt niet geprobeerd (dat zou ~20s time-outen). Zet <code>RESEND_API_KEY</code> op de Railway-service.
-            </p>
-        <?php endif; ?>
-    </div>
-    <dl class="admin-dl">
-        <dt>Actief pad</dt>
-        <dd><?= h($sendPathLabel) ?></dd>
-        <dt>Resend</dt>
-        <dd><?= $resendOk ? 'Ja — HTTP-API ingesteld' : 'Nee — RESEND_API_KEY ontbreekt' ?></dd>
-        <dt>SMTP-gegevens aanwezig</dt>
-        <dd><?= $smtpOk ? 'Ja' : 'Nee' ?></dd>
-        <dt>Verzenden mogelijk</dt>
-        <dd><?= $mailOk ? 'Ja' : 'Nee — testmail hangt niet; de fout legt uit wat ontbreekt' ?></dd>
-        <dt>Afzender (server)</dt>
-        <dd><?= h($config->smtpFromName) ?> &lt;<?= h($config->smtpFromEmail) ?>&gt;</dd>
-        <dt>Reply-to (server)</dt>
-        <dd><?= h($config->smtpReplyTo) ?></dd>
-        <dt>Aanvragen gaan naar</dt>
-        <dd><?= h($app->email()->managerEmail() ?: '—') ?></dd>
-        <dt>SMTP-host</dt>
-        <dd><?= h($config->smtpHost ?: '—') ?></dd>
-        <dt>SMTP-wachtwoord</dt>
-        <dd>Niet zichtbaar</dd>
-    </dl>
+    <h2>Status</h2>
+    <p class="admin-status-line">
+        <span class="admin-badge <?= $mailOk ? 'is-confirmed' : 'is-negative' ?>"><?= $mailOk ? 'Verzenden lukt' : 'Verzenden faalt' ?></span>
+        <span><?= h($pathLabel) ?></span>
+    </p>
+    <?php if ($config->smtpUnreachableFromThisHost() && !$resendOk): ?>
+        <p class="admin-help">Zet <code>RESEND_API_KEY</code> op Railway. SMTP vanaf deze host werkt niet.</p>
+    <?php endif; ?>
 </section>
 
 <section class="admin-card">
-    <h2>Afzendergegevens</h2>
-    <p class="admin-help">Deze velden worden bewaard in de instellingen. De echte envelop komt uit de serverconfiguratie hierboven.</p>
+    <h2>Adressen</h2>
     <form class="admin-form" method="post">
         <?= admin_csrf_field() ?>
         <input type="hidden" name="action" value="save_identity">
@@ -138,19 +107,17 @@ admin_layout_start('E-mail', 'email', $user);
                 <input type="email" id="mail_reply_to" name="mail_reply_to" value="<?= h((string) ($s->get('mail_reply_to', $config->smtpReplyTo) ?? '')) ?>">
             </div>
             <div class="form-group">
-                <label for="manager_email">Manager e-mail (aanvragen + goedkeuren)</label>
-                <input type="email" id="manager_email" name="manager_email" value="<?= h((string) ($s->get('manager_email', $config->managerEmail) ?? '')) ?>" placeholder="bijv. mama@…">
-                <p class="form-help">Hier komt de mail bij een nieuwe reservatie, met een link naar beheer om het voorschot te bevestigen. Geen publieke goedkeuringslink.</p>
+                <label for="manager_email">Aanvragen naar</label>
+                <input type="email" id="manager_email" name="manager_email" value="<?= h((string) ($s->get('manager_email', $config->managerEmail) ?? '')) ?>">
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Bewaar gegevens</button>
+        <button class="btn btn-primary" type="submit">Bewaar</button>
     </form>
 </section>
 
 <section class="admin-card">
     <h2>Testmail</h2>
-    <p class="admin-help">Zelfde pad als gast- en managermails bij een boeking. Boekingen blijven bewaard als mail mislukt.</p>
-    <form class="admin-form" method="post">
+    <form class="admin-form admin-inline-form" method="post">
         <?= admin_csrf_field() ?>
         <input type="hidden" name="action" value="send_test">
         <div class="form-group">
@@ -167,18 +134,18 @@ admin_layout_start('E-mail', 'email', $user);
         <p class="admin-empty">Geen mislukte leveringen.</p>
     <?php else: ?>
         <div class="admin-table-wrap">
-            <table class="admin-table">
+            <table class="admin-table admin-table-cards">
                 <thead>
                     <tr><th>Wanneer</th><th>Sjabloon</th><th>Naar</th><th>Fout</th><th></th></tr>
                 </thead>
                 <tbody>
                 <?php foreach ($failed as $row): ?>
                     <tr>
-                        <td><?= h(admin_format_dt((string) $row['created_at'])) ?></td>
-                        <td><?= h((string) $row['template_key']) ?></td>
-                        <td><?= h((string) $row['to_email']) ?></td>
-                        <td><?= h((string) ($row['error'] ?: '—')) ?></td>
-                        <td>
+                        <td data-label="Wanneer"><?= h(admin_format_dt((string) $row['created_at'])) ?></td>
+                        <td data-label="Sjabloon"><?= h((string) $row['template_key']) ?></td>
+                        <td data-label="Naar"><?= h((string) $row['to_email']) ?></td>
+                        <td data-label="Fout"><?= h((string) ($row['error'] ?: '—')) ?></td>
+                        <td data-label="">
                             <form method="post">
                                 <?= admin_csrf_field() ?>
                                 <input type="hidden" name="action" value="retry">

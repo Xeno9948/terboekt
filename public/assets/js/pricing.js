@@ -63,9 +63,9 @@
             extraGuestThreshold: extra.threshold != null ? String(extra.threshold) : '',
             maxGuests: String(data.maxGuests != null ? data.maxGuests : 8),
             bedrooms: String(data.bedrooms != null ? data.bedrooms : 4),
-            email: data.email || 'info@hometerboekt.be',
-            address: data.address || 'Terboekt 28, 3600 Genk',
-            propertyName: data.propertyName || 'Home Terboekt',
+            email: (root.TerboektLiveConfig && root.TerboektLiveConfig.contact_email) || data.email || 'info@hometerboekt.be',
+            address: (root.TerboektLiveConfig && root.TerboektLiveConfig.property_address) || data.address || 'Terboekt 28, 3600 Genk',
+            propertyName: (root.TerboektLiveConfig && root.TerboektLiveConfig.property_name) || data.propertyName || 'Home Terboekt',
             checkinFrom: data.checkinFrom || '16:00',
             checkoutBefore: data.checkoutBefore || '10:00',
             depositPercent: String(data.depositPercentage != null ? data.depositPercentage : 30),
@@ -173,6 +173,9 @@
         });
 
         applySiteChrome(data);
+        if (typeof root.paintSiteFields === 'function') {
+            root.paintSiteFields();
+        }
         applyJsonLd(data);
     }
 
@@ -216,6 +219,9 @@
             if (!node) {
                 return;
             }
+            if (typeof node.email === 'string' && node.email) {
+                node.email = (root.TerboektLiveConfig && root.TerboektLiveConfig.contact_email) || data.email || node.email;
+            }
             if (node['@type'] === 'Offer' && node['@id'] && offerPrices[node['@id']] != null) {
                 node.price = schemaPrice(offerPrices[node['@id']]);
             }
@@ -253,7 +259,7 @@
             } catch (e) { /* try next source */ }
         }
         try {
-            return await fetchJson('assets/data/rates.json');
+            return await fetchJson('/assets/data/rates.json');
         } catch (e) { /* keep fallback */ }
         return FALLBACK;
     }
@@ -284,7 +290,12 @@
         applyRates(latestRates);
     });
     document.addEventListener('components:ready', () => {
-        applySiteChrome(latestRates);
+        if (latestRates !== FALLBACK) {
+            applySiteChrome(latestRates);
+        }
+        if (typeof root.paintSiteFields === 'function') {
+            root.paintSiteFields();
+        }
     });
 
     if (document.readyState === 'loading') {

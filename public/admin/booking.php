@@ -30,11 +30,13 @@ if (admin_is_post()) {
 $history = $app->history()->forBooking((int) $booking['id']);
 $emails = $app->emailLogs()->forBooking((int) $booking['id']);
 $status = (string) $booking['status'];
-$canAsk = BookingStatus::canTransition($status, BookingStatus::AWAITING_DEPOSIT);
+$canAsk = BookingStatus::canTransition($status, BookingStatus::AWAITING_DEPOSIT) && $status !== BookingStatus::CONFIRMED;
 $canConfirm = $status === BookingStatus::AWAITING_DEPOSIT;
 $canReject = BookingStatus::canTransition($status, BookingStatus::REJECTED);
 $canCancel = BookingStatus::canTransition($status, BookingStatus::CANCELLED);
 $canHold = in_array($status, [BookingStatus::REQUESTED, BookingStatus::AWAITING_DEPOSIT], true);
+$canRefreshDeposit = in_array($status, [BookingStatus::AWAITING_DEPOSIT, BookingStatus::CONFIRMED], true);
+$canClearDeposit = $status === BookingStatus::CONFIRMED && !empty($booking['deposit_received_at']);
 $active = BookingStatus::isActive($status);
 $maxGuests = $app->settings()->maxGuests();
 
@@ -73,10 +75,9 @@ admin_layout_start('Boeking ' . (string) $booking['reference'], 'bookings', $use
     </dl>
 </section>
 
-<?php if ($canAsk || $canConfirm || $canReject || $canCancel || $canHold): ?>
+<?php if ($canAsk || $canConfirm || $canReject || $canCancel || $canHold || $canRefreshDeposit || $canClearDeposit): ?>
 <section class="admin-card">
     <h2>Acties</h2>
-    <p class="admin-help">Een boeking wordt nooit vanzelf bevestigd. U keurt goed via de e-mailknop of hieronder.</p>
     <div class="admin-actions">
         <?php if ($status === BookingStatus::REQUESTED): ?>
             <form method="post" data-confirm="Boeking nu bevestigen? De gast krijgt meteen een bevestigingsmail.">
@@ -90,6 +91,20 @@ admin_layout_start('Boeking ' . (string) $booking['reference'], 'bookings', $use
                 <?= admin_csrf_field() ?>
                 <input type="hidden" name="action" value="ask_deposit">
                 <button class="btn btn-secondary" type="submit">Vraag voorschot</button>
+            </form>
+        <?php endif; ?>
+        <?php if ($canRefreshDeposit): ?>
+            <form method="post">
+                <?= admin_csrf_field() ?>
+                <input type="hidden" name="action" value="refresh_deposit">
+                <button class="btn btn-outline" type="submit"><?= $status === BookingStatus::CONFIRMED ? 'Stuur bevestiging opnieuw' : 'Stuur voorschotmail opnieuw' ?></button>
+            </form>
+        <?php endif; ?>
+        <?php if ($canClearDeposit): ?>
+            <form method="post" data-confirm="Betaald voorschot wissen? De boeking gaat terug naar ‘wacht op voorschot’ en de gast krijgt opnieuw de overschrijvingsmail.">
+                <?= admin_csrf_field() ?>
+                <input type="hidden" name="action" value="clear_deposit">
+                <button class="btn btn-danger" type="submit">Wis betaald voorschot</button>
             </form>
         <?php endif; ?>
         <?php if ($canHold): ?>
