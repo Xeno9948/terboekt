@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initLightbox() {
-    const galleryImages = Array.from(document.querySelectorAll('.js-lightbox, .photo-grid img, .room-img img, .attr-img img'));
+    const galleryImages = Array.from(document.querySelectorAll('.js-lightbox img, .js-lightbox, .photo-grid img, .room-img img, .attr-img img'))
+        .filter((el) => el.tagName === 'IMG' && !el.closest('[data-photo-switch]'));
     if (!galleryImages.length) return;
 
     const lightbox = document.createElement('div');
@@ -35,11 +36,13 @@ function initLightbox() {
         lightboxImg.src = srcOf(img);
         lightboxImg.alt = img.alt || '';
         lightbox.classList.add('active');
+        document.body.classList.add('lightbox-open');
         document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
         lightbox.classList.remove('active');
+        document.body.classList.remove('lightbox-open');
         document.body.style.overflow = '';
     }
 

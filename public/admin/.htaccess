@@ -1,0 +1,7 @@
+RewriteEngine On
+<FilesMatch "^_">
+    Require all denied
+</FilesMatch>
+<FilesMatch "\.(env|json|log|md)$">
+    Require all denied
+</FilesMatch>

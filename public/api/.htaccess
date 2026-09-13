@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /api/
+
+# Block secrets and internals if they are ever placed here
+<FilesMatch "\.(env|sql|md|log|key)$">
+    Require all denied
+</FilesMatch>
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

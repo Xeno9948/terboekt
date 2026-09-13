@@ -1,0 +1,59 @@
+{
+  "currency": "EUR",
+  "maxGuests": 8,
+  "bedrooms": 4,
+  "propertyName": "Home Terboekt",
+  "address": "Terboekt 28, 3600 Genk",
+  "email": "info@hometerboekt.be",
+  "checkinFrom": "16:00",
+  "checkoutBefore": "10:00",
+  "houseRulesUrl": "voorwaarden.html",
+  "timezone": "Europe/Brussels",
+  "depositPercentage": 30,
+  "depositDeadlineDays": 7,
+  "packages": [
+    {
+      "id": "weekend",
+      "nights": 2,
+      "checkinWeekday": 5,
+      "checkoutWeekday": 0,
+      "lowCents": 80000,
+      "highCents": 90000
+    },
+    {
+      "id": "extended",
+      "nights": 3,
+      "checkinWeekday": 5,
+      "checkoutWeekday": 1,
+      "lowCents": 110000,
+      "highCents": 125000
+    },
+    {
+      "id": "midweek",
+      "nights": 4,
+      "checkinWeekday": 1,
+      "checkoutWeekday": 5,
+      "lowCents": 125000,
+      "highCents": 150000
+    },
+    {
+      "id": "week",
+      "nights": 7,
+      "checkinWeekday": 5,
+      "checkoutWeekday": 5,
+      "lowCents": 210000,
+      "highCents": 240000
+    }
+  ],
+  "fees": {
+    "sundayEveningExtraCents": 15000,
+    "cleaningCents": 10000,
+    "touristTaxPerPersonPerNightCents": 150,
+    "securityDepositCents": 50000
+  },
+  "seasons": {
+    "highMonths": [4, 5, 6, 7, 8, 9],
+    "lowMonths": [11, 12, 1, 2, 3],
+    "unspecifiedMonths": [10]
+  }
+}

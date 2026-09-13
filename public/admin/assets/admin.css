@@ -1,0 +1,617 @@
+body.admin,
+body.admin-login {
+    background: var(--color-secondary);
+    color: var(--color-text);
+    min-height: 100vh;
+}
+
+body.admin h1,
+body.admin h2,
+body.admin h3,
+body.admin-login h1 {
+    font-family: var(--font-heading);
+}
+
+.admin-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-nav {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 1.5rem 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.admin-brand {
+    display: block;
+    padding: 0.25rem 0.75rem 0.75rem;
+    color: var(--color-white);
+}
+
+.admin-brand-kicker {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.admin-brand-name {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+}
+
+.admin-nav nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 44px;
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 500;
+}
+
+.admin-nav-link i {
+    width: 1.15rem;
+    text-align: center;
+    color: var(--color-accent);
+}
+
+.admin-nav-link:hover,
+.admin-nav-link.is-active {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-white);
+}
+
+.admin-nav-note {
+    margin-top: auto;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 0 0.75rem;
+}
+
+.admin-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-line);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.admin-bar h1 {
+    font-size: 1.35rem;
+    margin: 0;
+    flex: 1;
+}
+
+.admin-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.admin-logout {
+    min-height: 40px;
+    padding: 0.4rem 0.9rem;
+}
+
+.admin-menu-btn {
+    display: none;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0 0.85rem;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-white);
+    font: inherit;
+    cursor: pointer;
+}
+
+.admin-main {
+    padding: 1.25rem;
+    max-width: 1180px;
+    width: 100%;
+}
+
+.admin-flash {
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.admin-flash.is-success {
+    background: #e8f4ea;
+    color: #215c2e;
+}
+
+.admin-flash.is-error {
+    background: #fdecea;
+    color: #8a241c;
+}
+
+.admin-flash.is-info {
+    background: #f3eee4;
+    color: #5c4620;
+}
+
+.admin-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-metric {
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    padding: 1rem 1.05rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    color: inherit;
+}
+
+.admin-metric .kicker {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.35rem;
+}
+
+.admin-metric strong {
+    display: block;
+    font-size: 1.45rem;
+    color: var(--color-primary);
+    font-weight: 650;
+}
+
+.admin-metric.is-warn {
+    border-color: rgba(192, 160, 98, 0.55);
+}
+
+.admin-metric.is-alert {
+    border-color: rgba(180, 70, 50, 0.35);
+}
+
+.admin-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    padding: 1.15rem 1.2rem 1.3rem;
+    margin-bottom: 1.15rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.admin-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.85rem;
+}
+
+.admin-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.85rem;
+}
+
+.admin-card-head h2 {
+    margin: 0;
+}
+
+.admin-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+}
+
+.admin-toolbar .form-group {
+    margin: 0;
+    min-width: 160px;
+    flex: 1;
+}
+
+.admin-toolbar input,
+.admin-toolbar select {
+    min-height: 44px;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.admin-table th,
+.admin-table td {
+    text-align: left;
+    padding: 0.7rem 0.55rem;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+}
+
+.admin-table th {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.admin-table a {
+    color: var(--color-accent-dark);
+    font-weight: 600;
+}
+
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: #eeeae3;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+.admin-badge.is-pending { background: #f3eee4; color: #7a5a2e; }
+.admin-badge.is-awaiting { background: #fff4d6; color: #8a5a12; }
+.admin-badge.is-confirmed { background: #e5f3e8; color: #216338; }
+.admin-badge.is-negative { background: #fdecea; color: #8a241c; }
+.admin-badge.is-muted { background: #ececec; color: #555; }
+.admin-badge.is-airbnb { background: #fce8e6; color: #9b2219; }
+.admin-badge.is-booking { background: #e4eefc; color: #1f4e99; }
+.admin-badge.is-owner { background: #e4f4f1; color: #1b5c52; }
+.admin-badge.is-maintenance { background: #fcecd9; color: #8a4b12; }
+.admin-badge.is-manual { background: #ececec; color: #444; }
+
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+}
+
+.admin-actions .btn,
+.admin-form .btn {
+    min-height: 44px;
+}
+
+.admin .btn {
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.92rem;
+    padding: 0.55rem 1rem;
+}
+
+.admin .btn-secondary {
+    background: var(--color-secondary);
+    color: var(--color-primary);
+    border-color: var(--color-line);
+}
+
+.admin .btn-secondary:hover {
+    background: #ece7dc;
+    color: var(--color-primary);
+}
+
+.btn-danger {
+    background: #8a241c;
+    color: #fff;
+    border: 0;
+}
+
+.btn-danger:hover {
+    background: #6e1b15;
+}
+
+.admin-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.admin-form .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+}
+
+.admin-form .form-group {
+    margin-bottom: 0.85rem;
+}
+
+.admin-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
+    width: 100%;
+    min-height: 44px;
+}
+
+.admin-form textarea {
+    min-height: 96px;
+    padding: 0.7rem;
+}
+
+.admin-help {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin: 0.25rem 0 0.75rem;
+}
+
+.admin-empty {
+    color: var(--color-text-muted);
+    padding: 0.5rem 0;
+}
+
+.admin-confirm-box {
+    border: 1px solid rgba(192, 160, 98, 0.55);
+    background: #fbf7ef;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.admin-confirm-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-weight: 500;
+}
+
+.admin-confirm-box input[type="checkbox"] {
+    width: auto;
+    min-height: 0;
+    margin-top: 0.25rem;
+}
+
+.admin-dl {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0.35rem 0.75rem;
+    font-size: 0.95rem;
+}
+
+.admin-dl dt {
+    color: var(--color-text-muted);
+}
+
+.admin-list {
+    list-style: none;
+}
+
+.admin-list li {
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.cal-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.9rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.85rem;
+}
+
+.cal-dot {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 3px;
+    margin-right: 0.35rem;
+    vertical-align: -1px;
+}
+
+.cal-dot.is-confirmed { background: #216338; }
+.cal-dot.is-pending { background: #c0a062; }
+.cal-dot.is-airbnb { background: #e8614d; }
+.cal-dot.is-booking { background: #3b7ddd; }
+.cal-dot.is-manual { background: #6b6b6b; }
+.cal-dot.is-owner { background: #2a9d8f; }
+.cal-dot.is-maintenance { background: #e09a3e; }
+
+.cal-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.cal-dow,
+.cal-cell {
+    min-height: 72px;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    padding: 0.35rem;
+    font-size: 0.78rem;
+}
+
+.cal-dow {
+    min-height: 0;
+    background: transparent;
+    border: 0;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.cal-cell.is-out {
+    opacity: 0.45;
+}
+
+.cal-cell.is-today {
+    outline: 2px solid var(--color-accent);
+}
+
+.cal-daynum {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.cal-chip {
+    display: block;
+    border-radius: 4px;
+    padding: 0.12rem 0.28rem;
+    margin-bottom: 0.18rem;
+    color: #fff;
+    font-size: 0.7rem;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cal-chip.is-confirmed { background: #216338; }
+.cal-chip.is-pending { background: #c0a062; color: #1c1c1c; }
+.cal-chip.is-airbnb { background: #e8614d; }
+.cal-chip.is-booking { background: #3b7ddd; }
+.cal-chip.is-manual { background: #6b6b6b; }
+.cal-chip.is-owner { background: #2a9d8f; }
+.cal-chip.is-maintenance { background: #e09a3e; color: #1c1c1c; }
+
+.admin-login-wrap {
+    max-width: 440px;
+    margin: 12vh auto;
+    padding: 0 1rem 3rem;
+}
+
+.admin-login-wrap .form-card {
+    padding: 1.5rem;
+}
+
+.admin-nav-backdrop {
+    display: none;
+}
+
+@media (max-width: 980px) {
+    .admin-nav {
+        position: fixed;
+        z-index: 40;
+        inset: 0 auto 0 0;
+        transform: translateX(-105%);
+        transition: transform 180ms ease;
+        box-shadow: var(--shadow);
+    }
+
+    .admin-nav.is-open {
+        transform: none;
+    }
+
+    .admin-menu-btn {
+        display: inline-flex;
+    }
+
+    .admin-user span {
+        display: none;
+    }
+
+    .admin-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-dl {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-nav-backdrop:not([hidden]) {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 20, 20, 0.45);
+        z-index: 30;
+    }
+
+    .cal-cell {
+        min-height: 58px;
+        padding: 0.2rem;
+    }
+
+    .cal-chip {
+        font-size: 0.62rem;
+        white-space: normal;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-main {
+        padding: 0.9rem;
+    }
+
+    .admin-metrics {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-bar {
+        padding: 0.75rem;
+    }
+
+    .admin-bar h1 {
+        font-size: 1.1rem;
+    }
+
+    .cal-dow:nth-child(n) {
+        font-size: 0.7rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-nav {
+        transition: none;
+    }
+}

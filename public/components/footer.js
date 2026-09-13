@@ -11,7 +11,7 @@ const footerHTML = `
                 <li><a href="index.html" data-i18n="nav_home">Home</a></li>
                 <li><a href="genk.html" data-i18n="nav_genk">Bezoek Genk</a></li>
                 <li><a href="contact.html" data-i18n="nav_contact">Boeken</a></li>
-                <li><a href="https://www.beaunita.be/huur-en-boekingsvoorwaarden/" target="_blank" rel="noopener" data-i18n="footer_rules">Huisreglement</a></li>
+                <li><a href="voorwaarden.html" data-i18n="footer_rules">Huisreglement</a></li>
             </ul>
         </div>
         <div class="footer-col">

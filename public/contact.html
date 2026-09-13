@@ -8,133 +8,292 @@
     <title>Boeken & contact | Home Terboekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<body class="has-hero booking-page">
+    <a class="skip-link" href="#booking">Skip to booking</a>
     <div id="header-placeholder"></div>
 
-    <section class="page-hero" style="background-image: url('assets/img/living-open-plan-stairs.jpg');">
-        <div class="hero-content">
-            <h1 data-i18n="contact_title">Reservatie aanvragen</h1>
-            <p data-i18n="contact_subtitle">Wij helpen u graag aan een zorgeloos verblijf.</p>
+    <section class="booking-hero" style="background-image: url('assets/img/buitenkant-zwembad-tuin.jpg');">
+        <div class="container">
+            <div class="booking-hero-copy">
+                <p class="section-kicker booking-hero-kicker" data-i18n="book_kicker">Boeken · Genk</p>
+                <h1 data-i18n="contact_title">Reservatie aanvragen</h1>
+                <p data-i18n="contact_intro">Kies uw data, bekijk de prijs en verstuur een aanvraag. Dit is nog geen bevestiging.</p>
+                <ol class="booking-how">
+                    <li><span>1</span><em data-i18n="book_how_1">Kies data</em></li>
+                    <li><span>2</span><em data-i18n="book_how_2">Vul gegevens in</em></li>
+                    <li><span>3</span><em data-i18n="book_how_3">Verstuur aanvraag</em></li>
+                </ol>
+            </div>
         </div>
     </section>
 
-    <section>
-        <div class="container contact-layout">
-            <div>
-                <p class="lead" data-i18n="contact_intro">Wil je een verblijf boeken in onze luxueuze vakantiewoning? Vul het formulier in. We nemen zo snel mogelijk contact op.</p>
-                <h3 data-i18n="included_title">Inbegrepen in de prijs</h3>
-                <ul class="checklist">
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_1">Shampoo, douchegel en handzeep</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_2">Koffie- en theefaciliteiten</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_3">Wifi</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_4">Normaal verbruik van water, verwarming en elektriciteit</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_5">Keukenlinnen, toiletpapier, keukenrol, vaatdoek, afwasmiddel, vaatwastabletten, kruiden en afvalzakken</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_6">Gebruik van de wasmachine</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_7">Voldoende parkeergelegenheid</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="inc_8">Bed- en badlinnen</span></li>
-                </ul>
-                <p class="note" data-i18n="season_high">Hoogseizoen: april tot en met september en alle schoolvakanties.</p>
-                <p class="note" data-i18n="season_low">Laagseizoen: november tot en met maart.</p>
-                <ul class="checklist">
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</span></li>
-                    <li><i class="fa-solid fa-check"></i><span data-i18n="fee_deposit">Huurwaarborg: € 500</span></li>
-                    <li><i class="fa-solid fa-ban"></i><span data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</span></li>
-                </ul>
-            </div>
-
-            <div class="form-card">
+    <section class="booking-main" id="booking">
+        <div class="container booking-shell">
+            <div class="form-card booking-card">
                 <form id="booking-form" novalidate>
-                    <div class="form-group">
-                        <label for="name" data-i18n="form_name">Naam</label>
-                        <input type="text" id="name" name="name" required autocomplete="name">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email" data-i18n="form_email">E-mail</label>
-                            <input type="email" id="email" name="email" required autocomplete="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone" data-i18n="form_phone">Telefoon</label>
-                            <input type="tel" id="phone" name="phone" autocomplete="tel">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="checkin" data-i18n="form_checkin">Aankomst</label>
-                            <input type="date" id="checkin" name="checkin" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="checkout" data-i18n="form_checkout">Vertrek</label>
-                            <input type="date" id="checkout" name="checkout" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="guests" data-i18n="form_guests">Aantal personen</label>
-                        <select id="guests" name="guests" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8" selected>8</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message" data-i18n="form_message">Bericht</label>
-                        <textarea id="message" name="message"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="rules" required>
-                            <span>
-                                <span data-i18n="form_rules">Ik heb het huisreglement en de reservatievoorwaarden gelezen.</span>
-                                <a href="https://www.beaunita.be/huur-en-boekingsvoorwaarden/" target="_blank" rel="noopener" data-i18n="form_rules_link">Huur- en boekingsvoorwaarden</a>
+                    <ol class="booking-progress" aria-label="Boekingsstappen">
+                        <li>
+                            <button type="button" class="is-active" data-go-step="stay">
+                                <span class="booking-progress-index" aria-hidden="true">1</span>
+                                <span data-i18n="book_step_stay">Verblijf</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" data-go-step="details" disabled>
+                                <span class="booking-progress-index" aria-hidden="true">2</span>
+                                <span data-i18n="book_step_details">Gegevens</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" data-go-step="review" disabled>
+                                <span class="booking-progress-index" aria-hidden="true">3</span>
+                                <span data-i18n="book_step_review">Overzicht</span>
+                            </button>
+                        </li>
+                        <li>
+                            <span class="booking-progress-static">
+                                <span class="booking-progress-index" aria-hidden="true">4</span>
+                                <span data-i18n="book_step_request">Aanvraag</span>
                             </span>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary" data-i18n="form_submit">Verstuur aanvraag</button>
+                        </li>
+                    </ol>
+                    <input type="hidden" id="name" name="name" required autocomplete="name">
+                    <input type="hidden" id="checkin" name="checkin" required>
+                    <input type="hidden" id="checkout" name="checkout" required>
+                    <input type="hidden" id="booking-language" name="language" value="nl">
+
+                    <section data-step="stay">
+                        <div class="booking-step-head">
+                            <div>
+                                <h2 data-i18n="book_select_dates">Kies aankomst en vertrek</h2>
+                                <p class="booking-step-help" data-i18n="book_dates_help">Tik op aankomst, daarna op vertrek. Geblokkeerde dagen kunt u niet kiezen.</p>
+                            </div>
+                            <p id="booking-range-label" class="booking-range">Kies aankomst en vertrek</p>
+                        </div>
+                        <div id="booking-calendar" class="cal" aria-label="Beschikbaarheidskalender"></div>
+                        <div class="cal-toolbar">
+                            <div class="cal-legend">
+                                <span><i class="leg-available"></i> <span data-i18n="book_legend_available">Beschikbaar</span></span>
+                                <span><i class="leg-range"></i> <span data-i18n="book_legend_selected">Selectie</span></span>
+                                <span><i class="leg-blocked"></i> <span data-i18n="book_unavailable">Niet beschikbaar</span></span>
+                            </div>
+                            <button type="button" class="btn-link" id="booking-clear-dates" data-i18n="book_clear_dates">Wis data</button>
+                        </div>
+                        <p id="booking-availability-note" class="form-help booking-note" hidden></p>
+
+                        <div class="booking-stay-meta">
+                            <div class="form-group">
+                                <label for="guests" data-i18n="form_guests">Aantal personen</label>
+                                <select id="guests" name="guests" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8" selected>8</option>
+                                </select>
+                                <p class="caption" data-i18n="book_guests_help">Maximum 8 personen.</p>
+                            </div>
+                            <label class="booking-option">
+                                <input type="checkbox" name="sunday_evening" id="sunday_evening" value="1">
+                                <span data-i18n="book_sunday_extra">Zondagavond extra tot 19.00 uur (+ € 150)</span>
+                            </label>
+                        </div>
+                        <div id="booking-quote" class="booking-quote" aria-live="polite"></div>
+                        <div class="booking-actions">
+                            <button type="button" class="btn btn-primary" id="booking-next-stay" data-go-step="details" data-i18n="book_next" disabled>Volgende</button>
+                        </div>
+                    </section>
+
+                    <section data-step="details" hidden>
+                        <div class="booking-step-head">
+                            <div>
+                                <h2 data-i18n="book_step_details">Uw gegevens</h2>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name" data-i18n="book_first_name">Voornaam</label>
+                                <input type="text" id="first_name" name="first_name" required autocomplete="given-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name" data-i18n="book_last_name">Naam</label>
+                                <input type="text" id="last_name" name="last_name" required autocomplete="family-name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email" data-i18n="form_email">E-mail</label>
+                                <input type="email" id="email" name="email" required autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" data-i18n="form_phone">Telefoon</label>
+                                <input type="tel" id="phone" name="phone" autocomplete="tel">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" data-i18n="form_address">Adres</label>
+                            <input type="text" id="address" name="address" required autocomplete="street-address">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city" data-i18n="form_city">Gemeente</label>
+                                <input type="text" id="city" name="city" required autocomplete="address-level2">
+                            </div>
+                            <div class="form-group">
+                                <label for="postal" data-i18n="form_postal">Postcode</label>
+                                <input type="text" id="postal" name="postal" required autocomplete="postal-code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="country" data-i18n="form_country">Land</label>
+                            <select id="country" name="country" required autocomplete="country">
+                                <option value="BE" selected data-i18n="book_country_BE">België</option>
+                                <option value="NL" data-i18n="book_country_NL">Nederland</option>
+                                <option value="DE" data-i18n="book_country_DE">Duitsland</option>
+                                <option value="FR" data-i18n="book_country_FR">Frankrijk</option>
+                                <option value="LU" data-i18n="book_country_LU">Luxemburg</option>
+                                <option value="GB" data-i18n="book_country_GB">Verenigd Koninkrijk</option>
+                                <option value="OTHER" data-i18n="book_country_OTHER">Ander land</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" data-i18n="form_message">Speciale wensen</label>
+                            <textarea id="message" name="message" data-i18n-placeholder="book_message_placeholder"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" name="rules" id="rules" required>
+                                <span>
+                                    <span data-i18n="form_rules">Ik heb het huisreglement en de reservatievoorwaarden gelezen.</span>
+                                    <a href="voorwaarden.html" data-i18n="form_rules_link">Huur- en boekingsvoorwaarden</a>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="booking-actions">
+                            <button type="button" class="btn btn-outline" data-go-step="stay" data-i18n="book_back">Terug</button>
+                            <button type="button" class="btn btn-primary" data-go-step="review" data-i18n="book_next">Volgende</button>
+                        </div>
+                    </section>
+
+                    <section data-step="review" hidden>
+                        <div class="booking-step-head">
+                            <div>
+                                <h2 data-i18n="book_review_title">Controleer uw aanvraag</h2>
+                                <p class="booking-step-help" data-i18n="book_review_intro">U verstuurt een aanvraag, geen bevestigde boeking.</p>
+                            </div>
+                        </div>
+                        <div id="booking-review" class="booking-review"></div>
+                        <div class="booking-actions">
+                            <button type="button" class="btn btn-outline" data-go-step="details" data-i18n="book_back">Terug</button>
+                            <button type="submit" class="btn btn-primary" id="booking-submit" data-i18n="form_submit">Verstuur aanvraag</button>
+                        </div>
+                    </section>
+
+                    <section data-step="result" hidden>
+                        <div id="booking-status" class="booking-status" aria-live="polite"></div>
+                        <h3 data-i18n="book_bank_title">Overschrijving voorschot</h3>
+                        <div id="booking-bank" class="bank-box"></div>
+                        <p id="booking-api-gap" class="form-help booking-note" hidden></p>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" name="transfer_ack" id="transfer_ack">
+                                <span data-i18n="book_transfer_understand">Ik begrijp het en zal de overschrijving uitvoeren.</span>
+                            </label>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="booking-transfer-btn" data-i18n="book_transfer_confirm">Bevestig overschrijvingsintentie</button>
+                        <p class="form-help" data-i18n="book_not_confirmed">Dit is geen bevestigde reservatie. De beheerder bevestigt na ontvangst van het voorschot.</p>
+                    </section>
+
                     <p class="form-error" data-i18n="form_error">Controleer de verplichte velden en een geldig e-mailadres.</p>
-                    <p class="form-success" data-i18n="form_success">Uw e-mailprogramma opent met de reservatieaanvraag. Verstuur het bericht om de aanvraag te bevestigen. U kunt ook rechtstreeks mailen naar info@hometerboekt.be.</p>
-                    <p class="form-help" data-i18n="mailto_hint">Het formulier opent uw e-mail. Liever direct? Schrijf naar info@hometerboekt.be.</p>
                 </form>
             </div>
+
+            <aside class="booking-aside">
+                <article class="booking-aside-card booking-aside-stay">
+                    <img src="assets/img/living-open-plan-stairs.jpg" alt="Open leefruimte van Home Terboekt">
+                    <div>
+                        <p class="section-kicker" data-i18n="stay_card">Verblijf</p>
+                        <h2>Home Terboekt</h2>
+                        <p data-i18n="book_property_line">Hele woning · 8 personen · 4 slaapkamers</p>
+                    </div>
+                </article>
+
+                <article class="booking-aside-card">
+                    <h3 data-i18n="included_title">Inbegrepen in de prijs</h3>
+                    <ul class="booking-chips">
+                        <li data-i18n="inc_3">Wifi</li>
+                        <li data-i18n="inc_8">Bed- en badlinnen</li>
+                        <li data-i18n="inc_1">Shampoo, douchegel en handzeep</li>
+                        <li data-i18n="inc_2">Koffie- en theefaciliteiten</li>
+                        <li data-i18n="inc_6">Gebruik van de wasmachine</li>
+                        <li data-i18n="inc_7">Voldoende parkeergelegenheid</li>
+                    </ul>
+                    <p class="booking-aside-note" data-i18n="inc_4">Normaal verbruik van water, verwarming en elektriciteit</p>
+                    <p class="booking-aside-note" data-i18n="inc_5">Keukenlinnen, toiletpapier, keukenrol, vaatdoek, afwasmiddel, vaatwastabletten, kruiden en afvalzakken</p>
+                </article>
+
+                <article class="booking-aside-card">
+                    <h3 data-i18n="extras_title">Extra</h3>
+                    <dl class="booking-fees">
+                        <div>
+                            <dt data-i18n="book_quote_cleaning">Eindschoonmaak</dt>
+                            <dd>€ 100</dd>
+                        </div>
+                        <div>
+                            <dt data-i18n="book_quote_tax">Toeristenbelasting</dt>
+                            <dd>€ 1,50</dd>
+                        </div>
+                        <div>
+                            <dt data-i18n="book_quote_sunday">Zondagavond extra</dt>
+                            <dd>€ 150</dd>
+                        </div>
+                    </dl>
+                    <p class="booking-aside-note" data-i18n="fee_deposit">Huurwaarborg: € 500</p>
+                    <p class="booking-aside-note" data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</p>
+                    <p class="booking-aside-note" data-i18n="season_high">Hoogseizoen: april tot en met september en alle schoolvakanties.</p>
+                    <p class="booking-aside-note" data-i18n="season_low">Laagseizoen: november tot en met maart.</p>
+                </article>
+            </aside>
         </div>
     </section>
 
-    <section class="soft">
+    <section class="soft booking-rates">
         <div class="container">
+            <div class="booking-rates-head">
+                <p class="section-kicker" data-i18n="book_rates_title">Prijzen per verblijf</p>
+                <p data-i18n="rates_lead">Prijs voor de hele woning, tot 8 personen. Geen verborgen kamertoeslag.</p>
+            </div>
             <div class="price-grid">
                 <article class="price-card">
                     <h3 data-i18n="rate_weekend">Weekend, 2 nachten</h3>
                     <p data-i18n="rate_weekend_sub">vrijdag–zondag</p>
-                    <span class="amount">€ 800 / € 900</span>
+                    <span class="amount" data-rate="weekend" data-season="both">€ 800 / € 900</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
                 <article class="price-card">
                     <h3 data-i18n="rate_extended">Verlengd weekend</h3>
                     <p data-i18n="rate_extended_sub">vrijdag–maandag</p>
-                    <span class="amount">€ 1.100 / € 1.250</span>
+                    <span class="amount" data-rate="extended" data-season="both">€ 1.100 / € 1.250</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
                 <article class="price-card">
                     <h3 data-i18n="rate_midweek">Midweek, 4 nachten</h3>
                     <p data-i18n="rate_midweek_sub">maandag–vrijdag</p>
-                    <span class="amount">€ 1.250 / € 1.500</span>
+                    <span class="amount" data-rate="midweek" data-season="both">€ 1.250 / € 1.500</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
                 <article class="price-card">
                     <h3 data-i18n="rate_week">Week, 7 nachten</h3>
                     <p data-i18n="rate_week_sub">vrijdag–vrijdag</p>
-                    <span class="amount">€ 2.100 / € 2.400</span>
+                    <span class="amount" data-rate="week" data-season="both">€ 2.100 / € 2.400</span>
                     <p class="season"><span data-i18n="low">Laagseizoen</span> / <span data-i18n="high">Hoogseizoen</span></p>
                 </article>
             </div>
@@ -145,6 +304,11 @@
     <script src="components/header.js"></script>
     <script src="components/footer.js"></script>
     <script src="assets/js/translations.js"></script>
+    <script src="assets/js/pricing.js"></script>
+    <script src="assets/js/booking/api.js"></script>
+    <script src="assets/js/booking/calendar.js"></script>
+    <script src="assets/js/booking/quote.js"></script>
+    <script src="assets/js/booking/checkout.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 

@@ -1,0 +1,291 @@
+<?php
+declare(strict_types=1);
+
+namespace Terboekt\Services;
+
+use Terboekt\Config;
+use Terboekt\Mail\OutgoingMessage;
+use Terboekt\Mail\SmtpTransport;
+use Terboekt\Money;
+use Terboekt\Repositories\EmailLogRepository;
+use Terboekt\Repositories\PropertySettingsRepository;
+
+final class EmailService
+{
+    public const TEMPLATES = [
+        'booking_request_received',
+        'bank_transfer_instructions',
+        'booking_confirmed',
+        'booking_rejected',
+        'booking_expired',
+        'booking_cancelled',
+        'booking_changed',
+        'manager_new_booking_request',
+        'manager_payment_deadline_warning',
+        'manager_calendar_sync_warning',
+        'manager_booking_expired',
+        'test_email',
+    ];
+
+    public function __construct(
+        private readonly Config $config,
+        private readonly EmailLogRepository $logs,
+        private readonly PropertySettingsRepository $settings,
+        private readonly SmtpTransport $transport,
+    ) {
+    }
+
+    /**
+     * Persist an EmailLog row and attempt send. Never throws to the caller for SMTP failures.
+     *
+     * @param array<string, mixed> $vars
+     * @return array{id: int, sent: bool, status: string, error: ?string}
+     */
+    public function sendTemplate(string $template, string $to, array $vars = [], ?int $bookingId = null): array
+    {
+        if (!in_array($template, self::TEMPLATES, true)) {
+            throw new \InvalidArgumentException('Unknown email template: ' . $template);
+        }
+        $rendered = $this->render($template, $vars);
+        $id = $this->logs->insert([
+            'booking_id' => $bookingId,
+            'template_key' => $template,
+            'to_email' => $to,
+            'subject' => $rendered['subject'],
+            'body_html' => $rendered['html'],
+            'body_text' => $rendered['text'],
+            'status' => 'pending',
+            'error' => null,
+            'attempts' => 0,
+        ]);
+        return $this->attemptSend($id);
+    }
+
+    /** @return array{id: int, sent: bool, status: string, error: ?string} */
+    public function retry(int $emailLogId): array
+    {
+        $row = $this->logs->findById($emailLogId);
+        if ($row === null) {
+            throw new \Terboekt\Domain\NotFoundException('Email log not found');
+        }
+        return $this->attemptSend($emailLogId);
+    }
+
+    public function smtpConfigured(): bool
+    {
+        return $this->transport->configured();
+    }
+
+    /**
+     * @param array<string, mixed> $vars
+     * @return array{subject: string, html: string, text: string}
+     */
+    public function render(string $template, array $vars): array
+    {
+        $lang = (string) ($vars['language'] ?? 'nl');
+        $vars += $this->defaultVars();
+        $copy = $this->copy($template, $lang, $vars);
+        $html = $this->wrapHtml($copy['subject'], $copy['body_html']);
+        return [
+            'subject' => $copy['subject'],
+            'html' => $html,
+            'text' => $copy['body_text'],
+        ];
+    }
+
+    /** @return array{id: int, sent: bool, status: string, error: ?string} */
+    private function attemptSend(int $id): array
+    {
+        $row = $this->logs->findById($id);
+        if ($row === null) {
+            throw new \Terboekt\Domain\NotFoundException('Email log not found');
+        }
+        $attempts = (int) $row['attempts'] + 1;
+        $this->logs->update($id, [
+            'attempts' => $attempts,
+            'last_attempt_at' => $this->config->timezone ? gmdate('Y-m-d H:i:s') : gmdate('Y-m-d H:i:s'),
+        ]);
+
+        if (!$this->transport->configured()) {
+            $this->logs->update($id, [
+                'status' => 'failed',
+                'error' => 'smtp_not_configured',
+            ]);
+            return ['id' => $id, 'sent' => false, 'status' => 'failed', 'error' => 'smtp_not_configured'];
+        }
+
+        try {
+            $this->transport->send(new OutgoingMessage(
+                to: [(string) $row['to_email']],
+                subject: (string) $row['subject'],
+                text: (string) $row['body_text'],
+                html: (string) $row['body_html'],
+            ));
+            $this->logs->update($id, [
+                'status' => 'sent',
+                'error' => null,
+                'sent_at' => gmdate('Y-m-d H:i:s'),
+            ]);
+            return ['id' => $id, 'sent' => true, 'status' => 'sent', 'error' => null];
+        } catch (\Throwable $e) {
+            $this->logs->update($id, [
+                'status' => 'failed',
+                'error' => $e->getMessage(),
+            ]);
+            return ['id' => $id, 'sent' => false, 'status' => 'failed', 'error' => $e->getMessage()];
+        }
+    }
+
+    /** @return array<string, string> */
+    private function defaultVars(): array
+    {
+        $s = $this->settings;
+        return [
+            'property_name' => $s->get('property_name', 'Home Terboekt') ?? 'Home Terboekt',
+            'property_address' => $s->get('property_address', 'Terboekt 28, 3600 Genk') ?? '',
+            'contact_email' => $s->get('contact_email', 'info@hometerboekt.be') ?? 'info@hometerboekt.be',
+            'bank_account_holder' => $s->get('bank_account_holder', '') ?? '',
+            'bank_iban' => $s->get('bank_iban', '') ?? '',
+            'bank_bic' => $s->get('bank_bic', '') ?? '',
+            'bank_name' => $s->get('bank_name', '') ?? '',
+            'house_rules_url' => $s->get('house_rules_url', 'https://www.beaunita.be/huur-en-boekingsvoorwaarden/') ?? '',
+            'app_base_url' => $this->config->appBaseUrl,
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $vars
+     * @return array{subject: string, body_html: string, body_text: string}
+     */
+    private function copy(string $template, string $lang, array $vars): array
+    {
+        $ref = (string) ($vars['reference'] ?? '');
+        $name = (string) ($vars['guest_name'] ?? '');
+        $checkIn = (string) ($vars['check_in'] ?? '');
+        $checkOut = (string) ($vars['check_out'] ?? '');
+        $deposit = isset($vars['deposit_cents']) ? Money::formatEuro((int) $vars['deposit_cents']) : '';
+        $total = isset($vars['total_cents']) ? Money::formatEuro((int) $vars['total_cents']) : '';
+        $remaining = isset($vars['remaining_cents']) ? Money::formatEuro((int) $vars['remaining_cents']) : '';
+        $due = (string) ($vars['deposit_due_at'] ?? '');
+        $reason = (string) ($vars['reason'] ?? '');
+        $property = (string) $vars['property_name'];
+        $guestEmail = (string) ($vars['guest_email'] ?? '');
+        $guestCount = (string) ($vars['guests'] ?? '');
+        $syncError = (string) ($vars['error'] ?? '');
+        $bankBlock = $this->bankBlock($vars, $lang);
+
+        $map = [
+            'booking_request_received' => [
+                'nl' => ["Aanvraag ontvangen {$ref}", "Beste {$name},\n\nWe hebben uw reservatieaanvraag {$ref} voor {$checkIn} tot {$checkOut} ontvangen. Dit is nog geen bevestiging. We nemen zo snel mogelijk contact op.\n\n{$property}"],
+                'en' => ["Request received {$ref}", "Dear {$name},\n\nWe received your booking request {$ref} for {$checkIn} to {$checkOut}. This is not a confirmation yet. We will contact you shortly.\n\n{$property}"],
+                'fr' => ["Demande reçue {$ref}", "Bonjour {$name},\n\nNous avons reçu votre demande {$ref} du {$checkIn} au {$checkOut}. Ceci n'est pas encore une confirmation.\n\n{$property}"],
+                'de' => ["Anfrage erhalten {$ref}", "Hallo {$name},\n\nWir haben Ihre Anfrage {$ref} für {$checkIn} bis {$checkOut} erhalten. Dies ist noch keine Bestätigung.\n\n{$property}"],
+            ],
+            'bank_transfer_instructions' => [
+                'nl' => ["Voorschot voor {$ref}", "Beste {$name},\n\nOm reservatie {$ref} te bevestigen vragen we een voorschot van {$deposit} (30%) vóór {$due}.\nHet restbedrag {$remaining} volgt later. Totaal huur: {$total}.\n\n{$bankBlock}\n\nNa ontvangst bevestigen wij de boeking. Zonder managerbevestiging is de reservatie niet definitief."],
+                'en' => ["Deposit for {$ref}", "Dear {$name},\n\nTo proceed with {$ref} please transfer a 30% deposit of {$deposit} before {$due}.\nRemaining balance {$remaining}. Stay total: {$total}.\n\n{$bankBlock}\n\nThe stay is only confirmed after the manager approves."],
+                'fr' => ["Acompte {$ref}", "Bonjour {$name},\n\nPour {$ref}, veuillez verser un acompte de 30% ({$deposit}) avant le {$due}.\nSolde {$remaining}. Total {$total}.\n\n{$bankBlock}"],
+                'de' => ["Anzahlung {$ref}", "Hallo {$name},\n\nFür {$ref} überweisen Sie bitte 30% Anzahlung ({$deposit}) vor {$due}.\nRestbetrag {$remaining}. Gesamt {$total}.\n\n{$bankBlock}"],
+            ],
+            'booking_confirmed' => [
+                'nl' => ["Bevestigd: {$ref}", "Beste {$name},\n\nUw verblijf {$ref} van {$checkIn} tot {$checkOut} is bevestigd. Welkom in {$property}."],
+                'en' => ["Confirmed: {$ref}", "Dear {$name},\n\nYour stay {$ref} from {$checkIn} to {$checkOut} is confirmed. Welcome to {$property}."],
+                'fr' => ["Confirmé : {$ref}", "Bonjour {$name},\n\nVotre séjour {$ref} du {$checkIn} au {$checkOut} est confirmé."],
+                'de' => ["Bestätigt: {$ref}", "Hallo {$name},\n\nIhr Aufenthalt {$ref} vom {$checkIn} bis {$checkOut} ist bestätigt."],
+            ],
+            'booking_rejected' => [
+                'nl' => ["Aanvraag {$ref} niet weerhouden", "Beste {$name},\n\nUw aanvraag {$ref} konden we niet weerhouden." . ($reason !== '' ? "\n\n{$reason}" : '')],
+                'en' => ["Request {$ref} not accepted", "Dear {$name},\n\nWe could not accept request {$ref}." . ($reason !== '' ? "\n\n{$reason}" : '')],
+                'fr' => ["Demande {$ref} refusée", "Bonjour {$name},\n\nNous ne pouvons pas retenir la demande {$ref}."],
+                'de' => ["Anfrage {$ref} abgelehnt", "Hallo {$name},\n\nIhre Anfrage {$ref} konnten wir nicht annehmen."],
+            ],
+            'booking_expired' => [
+                'nl' => ["Aanvraag {$ref} verlopen", "Beste {$name},\n\nReservatie {$ref} is verlopen omdat de termijn verstreken is."],
+                'en' => ["Request {$ref} expired", "Dear {$name},\n\nBooking {$ref} expired because the deadline passed."],
+                'fr' => ["Demande {$ref} expirée", "Bonjour {$name},\n\nLa réservation {$ref} a expiré."],
+                'de' => ["Anfrage {$ref} abgelaufen", "Hallo {$name},\n\nReservierung {$ref} ist abgelaufen."],
+            ],
+            'booking_cancelled' => [
+                'nl' => ["Annulatie {$ref}", "Beste {$name},\n\nReservatie {$ref} is geannuleerd." . ($reason !== '' ? "\n\n{$reason}" : '')],
+                'en' => ["Cancellation {$ref}", "Dear {$name},\n\nBooking {$ref} has been cancelled." . ($reason !== '' ? "\n\n{$reason}" : '')],
+                'fr' => ["Annulation {$ref}", "Bonjour {$name},\n\nLa réservation {$ref} a été annulée."],
+                'de' => ["Stornierung {$ref}", "Hallo {$name},\n\nReservierung {$ref} wurde storniert."],
+            ],
+            'booking_changed' => [
+                'nl' => ["Wijziging {$ref}", "Beste {$name},\n\nReservatie {$ref} is gewijzigd. Nieuwe data: {$checkIn} tot {$checkOut}."],
+                'en' => ["Change {$ref}", "Dear {$name},\n\nBooking {$ref} was updated. New dates: {$checkIn} to {$checkOut}."],
+                'fr' => ["Modification {$ref}", "Bonjour {$name},\n\nLa réservation {$ref} a été modifiée : {$checkIn} – {$checkOut}."],
+                'de' => ["Änderung {$ref}", "Hallo {$name},\n\nReservierung {$ref} wurde geändert: {$checkIn} bis {$checkOut}."],
+            ],
+            'manager_new_booking_request' => [
+                'nl' => ["Nieuwe aanvraag {$ref}", "Nieuwe reservatieaanvraag {$ref} van {$name} ({$guestEmail}).\n{$checkIn} → {$checkOut}, {$guestCount} personen.\nTotaal {$total}, voorschot {$deposit}.\nStatus: REQUESTED — bevestig nooit automatisch."],
+                'en' => ["New request {$ref}", "New booking request {$ref} from {$name}.\n{$checkIn} → {$checkOut}. Total {$total}. Status REQUESTED — never auto-confirm."],
+                'fr' => ["Nouvelle demande {$ref}", "Nouvelle demande {$ref} de {$name}. {$checkIn} → {$checkOut}."],
+                'de' => ["Neue Anfrage {$ref}", "Neue Anfrage {$ref} von {$name}. {$checkIn} → {$checkOut}."],
+            ],
+            'manager_payment_deadline_warning' => [
+                'nl' => ["Voorschottermijn {$ref}", "Het voorschot voor {$ref} is nog niet gemarkeerd als ontvangen. Deadline: {$due}."],
+                'en' => ["Deposit deadline {$ref}", "Deposit for {$ref} is not marked received. Deadline: {$due}."],
+                'fr' => ["Échéance acompte {$ref}", "Acompte {$ref} non reçu. Échéance : {$due}."],
+                'de' => ["Anzahlung Frist {$ref}", "Anzahlung für {$ref} fehlt. Frist: {$due}."],
+            ],
+            'manager_calendar_sync_warning' => [
+                'nl' => ['iCal-sync waarschuwing', "De externe kalender kon niet worden vernieuwd. Bestaande geblokkeerde data blijven staan (geen stille vrijgave).\n" . $syncError],
+                'en' => ['iCal sync warning', "External calendar refresh failed. Existing blocked dates were kept.\n" . $syncError],
+                'fr' => ['Alerte sync iCal', "Échec de la synchro. Les dates bloquées existantes sont conservées.\n" . $syncError],
+                'de' => ['iCal-Sync Warnung', "Kalender-Sync fehlgeschlagen. Bestehende Sperren bleiben.\n" . $syncError],
+            ],
+            'manager_booking_expired' => [
+                'nl' => ["Verlopen {$ref}", "Reservatie {$ref} van {$name} is verlopen (termijn voorschot verstreken). Data zijn vrijgegeven.\n{$checkIn} → {$checkOut}."],
+                'en' => ["Expired {$ref}", "Booking {$ref} for {$name} expired (deposit deadline passed). Dates were released.\n{$checkIn} → {$checkOut}."],
+                'fr' => ["Expiré {$ref}", "La réservation {$ref} de {$name} a expiré. Les dates sont libérées."],
+                'de' => ["Abgelaufen {$ref}", "Reservierung {$ref} von {$name} ist abgelaufen. Daten wurden freigegeben."],
+            ],
+            'test_email' => [
+                'nl' => ['Testbericht Home Terboekt', "Dit is een testbericht van de Home Terboekt mailer. SMTP werkt."],
+                'en' => ['Home Terboekt test email', "This is a test message from the Home Terboekt mailer."],
+                'fr' => ['E-mail test Home Terboekt', "Ceci est un message test."],
+                'de' => ['Test-E-Mail Home Terboekt', "Dies ist eine Testnachricht."],
+            ],
+        ];
+
+        $langKey = in_array($lang, ['nl', 'en', 'fr', 'de'], true) ? $lang : 'nl';
+        [$subject, $text] = $map[$template][$langKey];
+        $htmlBody = nl2br(htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8'), false);
+        return ['subject' => $subject, 'body_html' => $htmlBody, 'body_text' => $text];
+    }
+
+    /** @param array<string, mixed> $vars */
+    private function bankBlock(array $vars, string $lang): string
+    {
+        $iban = trim((string) $vars['bank_iban']);
+        $holder = trim((string) $vars['bank_account_holder']);
+        if ($iban === '' && $holder === '') {
+            return match ($lang) {
+                'en' => 'Bank details will be sent by the manager. They are not stored in this message because they are not configured yet.',
+                'fr' => 'Les coordonnées bancaires seront communiquées par le gestionnaire (pas encore configurées).',
+                'de' => 'Bankverbindung folgt durch den Verwalter (noch nicht hinterlegt).',
+                default => 'De overschrijvingsgegevens volgen via de beheerder. Ze zijn nog niet ingesteld, dus staan ze niet in dit bericht.',
+            };
+        }
+        $parts = array_filter([
+            $holder !== '' ? 'Naam: ' . $holder : null,
+            $iban !== '' ? 'IBAN: ' . $iban : null,
+            trim((string) $vars['bank_bic']) !== '' ? 'BIC: ' . $vars['bank_bic'] : null,
+            trim((string) $vars['bank_name']) !== '' ? 'Bank: ' . $vars['bank_name'] : null,
+        ]);
+        return implode("\n", $parts);
+    }
+
+    private function wrapHtml(string $subject, string $inner): string
+    {
+        $safeSubject = htmlspecialchars($subject, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><title>'
+            . $safeSubject . '</title></head><body style="font-family:Inter,Arial,sans-serif;color:#1c1c1c;background:#f6f4f0;padding:24px;">'
+            . '<div style="max-width:640px;margin:0 auto;background:#fff;padding:24px;border-radius:14px;">'
+            . '<p style="color:#9a7340;letter-spacing:.12em;text-transform:uppercase;font-size:12px;">Home Terboekt</p>'
+            . '<h1 style="font-family:Georgia,serif;font-size:22px;">' . $safeSubject . '</h1>'
+            . '<div>' . $inner . '</div>'
+            . '</div></body></html>';
+    }
+}

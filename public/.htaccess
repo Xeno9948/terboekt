@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^calendar/unavailable\.ics$ api/ical.php [L,QSA]
+RewriteRule ^admin/?$ admin/index.php [L,QSA]

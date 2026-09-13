@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^unavailable\.ics$ ../api/ical.php [L,QSA]

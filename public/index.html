@@ -16,12 +16,12 @@
     <title>Home Terboekt | Luxe vakantiehuis met zwembad in Genk</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<body class="has-hero">
     <a class="skip-link" href="#about">Skip to content</a>
     <div id="header-placeholder"></div>
 
@@ -40,22 +40,23 @@
     </section>
 
     <section class="intro-section" id="about">
-        <div class="container split">
-            <div>
-                <span class="section-badge" data-i18n="intro_badge">Welkom bij Home Terboekt</span>
+        <div class="container intro-layout">
+            <div class="intro-copy">
+                <span class="section-label" data-i18n="intro_badge">Welkom bij Home Terboekt</span>
                 <h2 data-i18n="intro_title">Luxe en natuur in één gezinswoning</h2>
                 <p class="lead" data-i18n="intro_lead">Stap binnen in een oase van rust, design en privacy. Onze hoogwaardig afgewerkte vakantiewoning biedt met 4 stijlvolle slaapkamers de perfecte thuisbasis voor een onvergetelijke vakantie met uw gezin.</p>
-                <p data-i18n="intro_text">Geniet van een rustig moment voor uzelf in de luxueuze badkamer met ligbad en douche, of beleef tijdens het seizoen samen de mooiste momenten rond het verwarmde buitenzwembad. Home Terboekt combineert het comfort van een vijfsterrenhotel met de geborgenheid van een eigen gezinswoning.</p>
-                <div class="facts">
-                    <div class="fact"><i class="fa-solid fa-bed"></i><span data-i18n="feat_beds">4 slaapkamers, 8 personen</span></div>
-                    <div class="fact"><i class="fa-solid fa-person-swimming"></i><span data-i18n="feat_pool">Privé verwarmd zwembad</span></div>
-                    <div class="fact"><i class="fa-solid fa-wifi"></i><span data-i18n="feat_wifi">Supersnelle wifi</span></div>
-                    <div class="fact"><i class="fa-solid fa-car"></i><span data-i18n="feat_park">Parking tot 4 auto’s</span></div>
-                </div>
             </div>
-            <div>
+            <figure class="intro-photo">
                 <img src="assets/img/living-open-plan-stairs.jpg" alt="Open leefruimte met zetel, trap en eethoek">
-            </div>
+            </figure>
+        </div>
+        <div class="container">
+            <dl class="stat-bar">
+                <div><dt>8</dt><dd data-i18n="stat_guests">personen</dd></div>
+                <div><dt>4</dt><dd data-i18n="stat_rooms">slaapkamers</dd></div>
+                <div><dt>1</dt><dd data-i18n="stat_pool">privézwembad</dd></div>
+                <div><dt>4</dt><dd data-i18n="stat_cars">auto’s op eigen terrein</dd></div>
+            </dl>
         </div>
     </section>
 
@@ -177,8 +178,8 @@
         </div>
     </section>
 
-    <section class="soft">
-        <div class="container split">
+    <section class="soft tight">
+        <div class="container split bath-split">
             <div>
                 <span class="section-label" data-i18n="bath_label">Badkamer</span>
                 <h2 data-i18n="bath_title">Pure ontspanning na een dag in het bos</h2>
@@ -189,10 +190,18 @@
                     <li><i class="fa-solid fa-check"></i><span data-i18n="bath_3">Apart toilet en gastentoilet</span></li>
                 </ul>
             </div>
-            <div class="location-images stack">
-                <div class="img-main"><img src="assets/img/bathroom-bathtub-green.jpg" alt="Vrijstaand ligbad met groene visgraattegels"></div>
-                <div class="img-small"><img src="assets/img/bathroom-double-sink.jpg" alt="Dubbele wastafel met rond verlicht spiegel"></div>
-            </div>
+            <figure class="photo-switch" data-photo-switch>
+                <div class="photo-switch-stage">
+                    <img class="is-current" src="assets/img/bathroom-bathtub-green.jpg" alt="Vrijstaand ligbad met groene visgraattegels">
+                    <img src="assets/img/bathroom-double-sink.jpg" alt="Dubbele wastafel met ronde verlicht spiegel">
+                </div>
+                <button class="photo-switch-btn prev" type="button" aria-label="Vorige foto"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="photo-switch-btn next" type="button" aria-label="Volgende foto"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="photo-switch-dots" role="tablist" aria-label="Badkamerfoto’s">
+                    <button type="button" class="is-active" aria-label="Foto 1"></button>
+                    <button type="button" aria-label="Foto 2"></button>
+                </div>
+            </figure>
         </div>
     </section>
 
@@ -217,32 +226,33 @@
     </section>
 
     <section class="soft">
-        <div class="container split">
-            <div>
+        <div class="container">
+            <div class="section-intro">
                 <span class="section-label" data-i18n="practical_label">Praktisch</span>
                 <h2 data-i18n="practical_title">Alles voor een vlekkeloos verblijf</h2>
-                <ul class="checklist">
-                    <li><i class="fa-solid fa-clock"></i><span data-i18n="prac_checkin">Aankomst vanaf 16.00 uur</span></li>
-                    <li><i class="fa-solid fa-clock"></i><span data-i18n="prac_checkout">Vertrek voor 10.00 uur</span></li>
-                    <li><i class="fa-solid fa-bed"></i><span data-i18n="prac_linen">Bed- en badlinnen inbegrepen</span></li>
-                    <li><i class="fa-solid fa-ban"></i><span data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</span></li>
-                    <li><i class="fa-solid fa-ban"></i><span data-i18n="prac_parties">Drinkpartijen en feesten zijn niet toegelaten</span></li>
-                </ul>
-                <a class="btn-link" href="https://www.beaunita.be/huur-en-boekingsvoorwaarden/" target="_blank" rel="noopener">
-                    <span data-i18n="prac_rules">Huisreglement en reservatievoorwaarden</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
             </div>
-            <div>
-                <h3 data-i18n="parking_title">Parkeren & bereikbaarheid</h3>
-                <p data-i18n="parking_private">Privéparking op het eigen terrein, tot 4 auto’s.</p>
-                <p data-i18n="parking_access">Eenvoudig bereikbaar via de hoofdwegen rond het Nationaal Park.</p>
-                <h3 style="margin-top:1.2rem;" data-i18n="extra_title">Extra faciliteiten</h3>
-                <ul class="checklist">
-                    <li><i class="fa-solid fa-wheelchair"></i><span data-i18n="extra_1">Rolstoeltoegankelijk</span></li>
-                    <li><i class="fa-solid fa-key"></i><span data-i18n="extra_2">Toegang via sleutelkastje</span></li>
-                    <li><i class="fa-solid fa-car"></i><span data-i18n="extra_3">Parking tot 4 auto’s</span></li>
-                </ul>
+            <div class="info-cards">
+                <article class="info-card">
+                    <h3 data-i18n="stay_card">Verblijf</h3>
+                    <p data-i18n="prac_checkin">Aankomst vanaf 16.00 uur</p>
+                    <p data-i18n="prac_checkout">Vertrek voor 10.00 uur</p>
+                    <p data-i18n="prac_linen">Bed- en badlinnen inbegrepen</p>
+                </article>
+                <article class="info-card">
+                    <h3 data-i18n="rules_card">Huisregels</h3>
+                    <p data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</p>
+                    <p data-i18n="prac_parties">Drinkpartijen en feesten zijn niet toegelaten</p>
+                    <a class="btn-link" href="voorwaarden.html">
+                        <span data-i18n="prac_rules">Huisreglement en reservatievoorwaarden</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </article>
+                <article class="info-card">
+                    <h3 data-i18n="access_card">Toegang</h3>
+                    <p data-i18n="parking_private">Privéparking op het eigen terrein, tot 4 auto’s.</p>
+                    <p data-i18n="extra_2">Toegang via sleutelkastje</p>
+                    <p data-i18n="extra_1">Rolstoeltoegankelijk</p>
+                </article>
             </div>
         </div>
     </section>
@@ -282,93 +292,152 @@
         </div>
     </section>
 
+    <section class="reviews-section">
+        <div class="container">
+            <div class="reviews-head">
+                <div>
+                    <span class="section-label" data-i18n="reviews_label">Gasten</span>
+                    <h2 data-i18n="reviews_title">Wat gasten zeggen</h2>
+                </div>
+                <div class="review-score">
+                    <strong>9,2</strong>
+                    <span data-i18n="reviews_score">Fantastisch · 9 beoordelingen op Booking.com</span>
+                </div>
+            </div>
+            <div class="review-cats">
+                <span data-i18n="rev_hygiene">Hygiëne 10</span>
+                <span data-i18n="rev_wifi">Wifi 10</span>
+                <span data-i18n="rev_facilities">Faciliteiten 9,8</span>
+                <span data-i18n="rev_staff">Personeel 9,3</span>
+                <span data-i18n="rev_comfort">Comfort 9,2</span>
+                <span data-i18n="rev_value">Prijs-kwaliteit 9,2</span>
+            </div>
+            <div class="review-grid">
+                <blockquote class="review-card">
+                    <p data-i18n="review_1_text">“Mooie ruime woning, heel mooi en praktisch ingericht. Mooie wandelroutes gedaan in Kattevennen dat er recht tegenover ligt. Heerlijk terras bij het zwembad. Wij hebben erg genoten. Voor herhaling vatbaar!”</p>
+                    <cite data-i18n="review_1_meta">Gast via Booking.com</cite>
+                </blockquote>
+            </div>
+            <a class="btn-link" href="https://www.booking.com/hotel/be/home-terboekt.nl.html" target="_blank" rel="noopener">
+                <span data-i18n="reviews_more">Alle beoordelingen op Booking.com</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
     <section class="map-section">
-        <div class="container map-wrap">
-            <div class="text-center mb-3">
+        <div class="container">
+            <div class="map-card">
                 <span class="section-label" data-i18n="map_label">Locatie</span>
                 <h2 data-i18n="map_title">Terboekt 28, 3600 Genk</h2>
-            </div>
-            <div class="map-container">
-                <iframe title="Home Terboekt op Google Maps"
-                    src="https://maps.google.com/maps?q=Terboekt%2028%2C%203600%20Genk%2C%20Belgium&z=15&output=embed"
-                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <p data-i18n="map_hint">Aan de poort van Nationaal Park Hoge Kempen.</p>
+                <div class="map-actions">
+                    <button type="button" class="btn btn-outline" id="show-map" data-i18n="map_show">Toon kaart</button>
+                    <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=Terboekt%2028%2C%203600%20Genk" target="_blank" rel="noopener" data-i18n="map_open">Open in Google Maps</a>
+                </div>
+                <div class="map-frame" id="map-frame" hidden></div>
             </div>
         </div>
     </section>
 
-    <section class="gallery-full dark">
-        <div class="container">
-            <div class="text-center mb-4">
-                <h2 data-i18n="gallery_heading">Sfeerimpressie</h2>
-            </div>
-            <div class="photo-grid">
-                <img class="span-2" src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Zwembad en terras">
-                <img src="assets/img/living-tv-fireplace.jpg" alt="Tv-wand met haard">
-                <img src="assets/img/living-sofa-window.jpg" alt="Zithoek met groot raam">
+    <section class="lookbook">
+        <div class="container lookbook-head">
+            <span class="section-label" data-i18n="gallery_heading">Sfeerimpressie</span>
+            <h2 data-i18n="lookbook_title">Een kijkje in huis</h2>
+            <p data-i18n="lookbook_hint">Sleep of klik. Elke foto opent groter.</p>
+        </div>
+        <div class="lookbook-track">
+            <figure class="lookbook-slide js-lightbox">
+                <img src="assets/img/buitenkant-zwembad-tuin.jpg" alt="Zwembad en terras">
+                <figcaption data-i18n="cap_pool">Zwembad</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
+                <img src="assets/img/living-tv-fireplace.jpg" alt="Zithoek met tv en haard">
+                <figcaption data-i18n="cap_living">Wonen</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
+                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel voor acht">
+                <figcaption data-i18n="cap_dining">Eten</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
                 <img src="assets/img/kitchen-island-induction.jpg" alt="Keuken-eiland">
-                <img src="assets/img/dining-table-eight.jpg" alt="Eettafel">
-                <img src="assets/img/bathroom-rainshower.jpg" alt="Regendouche">
+                <figcaption data-i18n="cap_kitchen">Koken</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
                 <img src="assets/img/bathroom-bathtub-green.jpg" alt="Ligbad">
-                <img class="span-2" src="assets/img/tuin-terras-eettafel.jpg" alt="Tuinterras">
+                <figcaption data-i18n="bath_label">Badkamer</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
                 <img src="assets/img/bedroom-boxspring.jpg" alt="Boxspring slaapkamer">
-                <img src="assets/img/bedroom-bunk-closet.jpg" alt="Kinderkamer met stapelbed">
-                <img src="assets/img/inkomhal-gang.jpg" alt="Inkomhal">
-                <img src="assets/img/dining-lights-detail.jpg" alt="Hanglampen boven de eettafel">
-                <img src="assets/img/voorgevel-huis-dag.jpg" alt="Oprit en gevel">
-                <img src="assets/img/guest-toilet.jpg" alt="Gastentoilet">
-            </div>
+                <figcaption data-i18n="rooms_label">Slapen</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
+                <img src="assets/img/tuin-terras-eettafel.jpg" alt="Tuinterras">
+                <figcaption data-i18n="garden_label">Tuin</figcaption>
+            </figure>
+            <figure class="lookbook-slide js-lightbox">
+                <img src="assets/img/voorgevel-huis-dag.jpg" alt="Gevel en oprit">
+                <figcaption data-i18n="cap_arrival">Aankomst</figcaption>
+            </figure>
         </div>
     </section>
 
-    <section>
+    <section class="rates-section">
         <div class="container">
-            <div class="text-center mb-4">
+            <div class="section-intro">
                 <span class="section-label" data-i18n="rates_label">Prijzen</span>
                 <h2 data-i18n="rates_title">Transparante tarieven</h2>
+                <p data-i18n="rates_lead">Prijs voor de hele woning, tot 8 personen. Geen verborgen kamertoeslag.</p>
             </div>
-            <div class="price-grid">
-                <article class="price-card">
-                    <h3 data-i18n="rate_weekend">Weekend, 2 nachten</h3>
-                    <p data-i18n="rate_weekend_sub">vrijdag–zondag</p>
-                    <span class="amount">€ 800</span>
-                    <p class="season" data-i18n="low">Laagseizoen</p>
-                    <span class="amount">€ 900</span>
-                    <p class="season" data-i18n="high">Hoogseizoen</p>
+            <div class="rate-table-wrap">
+                <table class="rate-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="col_stay">Verblijf</th>
+                            <th><span data-i18n="low">Laagseizoen</span><small data-i18n="season_low_short">nov–mrt</small></th>
+                            <th><span data-i18n="high">Hoogseizoen</span><small data-i18n="season_high_short">apr–sep + schoolvakanties</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><span data-i18n="rate_weekend">Weekend, 2 nachten</span><small data-i18n="rate_weekend_sub">vrijdag–zondag</small></th>
+                            <td data-rate="weekend" data-season="low">€ 800</td>
+                            <td data-rate="weekend" data-season="high">€ 900</td>
+                        </tr>
+                        <tr>
+                            <th><span data-i18n="rate_extended">Verlengd weekend</span><small data-i18n="rate_extended_sub">vrijdag–maandag</small></th>
+                            <td data-rate="extended" data-season="low">€ 1.100</td>
+                            <td data-rate="extended" data-season="high">€ 1.250</td>
+                        </tr>
+                        <tr>
+                            <th><span data-i18n="rate_midweek">Midweek, 4 nachten</span><small data-i18n="rate_midweek_sub">maandag–vrijdag</small></th>
+                            <td data-rate="midweek" data-season="low">€ 1.250</td>
+                            <td data-rate="midweek" data-season="high">€ 1.500</td>
+                        </tr>
+                        <tr>
+                            <th><span data-i18n="rate_week">Week, 7 nachten</span><small data-i18n="rate_week_sub">vrijdag–vrijdag</small></th>
+                            <td data-rate="week" data-season="low">€ 2.100</td>
+                            <td data-rate="week" data-season="high">€ 2.400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="rate-notes">
+                <article>
+                    <h3 data-i18n="included_title">Inbegrepen</h3>
+                    <p data-i18n="prac_linen">Bed- en badlinnen inbegrepen</p>
+                    <p data-i18n="feat_wifi">Supersnelle wifi</p>
+                    <p data-i18n="feat_park">Parking tot 4 auto’s</p>
                 </article>
-                <article class="price-card">
-                    <h3 data-i18n="rate_extended">Verlengd weekend</h3>
-                    <p data-i18n="rate_extended_sub">vrijdag–maandag</p>
-                    <span class="amount">€ 1.100</span>
-                    <p class="season" data-i18n="low">Laagseizoen</p>
-                    <span class="amount">€ 1.250</span>
-                    <p class="season" data-i18n="high">Hoogseizoen</p>
-                </article>
-                <article class="price-card">
-                    <h3 data-i18n="rate_midweek">Midweek, 4 nachten</h3>
-                    <p data-i18n="rate_midweek_sub">maandag–vrijdag</p>
-                    <span class="amount">€ 1.250</span>
-                    <p class="season" data-i18n="low">Laagseizoen</p>
-                    <span class="amount">€ 1.500</span>
-                    <p class="season" data-i18n="high">Hoogseizoen</p>
-                </article>
-                <article class="price-card">
-                    <h3 data-i18n="rate_week">Week, 7 nachten</h3>
-                    <p data-i18n="rate_week_sub">vrijdag–vrijdag</p>
-                    <span class="amount">€ 2.100</span>
-                    <p class="season" data-i18n="low">Laagseizoen</p>
-                    <span class="amount">€ 2.400</span>
-                    <p class="season" data-i18n="high">Hoogseizoen</p>
+                <article>
+                    <h3 data-i18n="extras_title">Extra</h3>
+                    <p data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</p>
+                    <p data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</p>
+                    <p data-i18n="fee_deposit">Huurwaarborg: € 500</p>
+                    <p data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</p>
                 </article>
             </div>
-            <p class="note" data-i18n="season_high">Hoogseizoen: april tot en met september en alle schoolvakanties.</p>
-            <p class="note" data-i18n="season_low">Laagseizoen: november tot en met maart.</p>
-            <ul class="checklist" style="margin-top:1rem;">
-                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</span></li>
-                <li><i class="fa-solid fa-check"></i><span data-i18n="fee_deposit">Huurwaarborg: € 500</span></li>
-            </ul>
-            <div class="cta-band" style="margin-top:1.75rem;">
+            <div class="cta-band">
                 <div>
                     <h3 data-i18n="cta_band_title">Zien we jou binnenkort?</h3>
                     <p data-i18n="cta_band_text">Vraag een reservatie aan voor onze luxueuze vakantiewoning.</p>
@@ -382,6 +451,7 @@
     <script src="components/header.js"></script>
     <script src="components/footer.js"></script>
     <script src="assets/js/translations.js"></script>
+    <script src="assets/js/pricing.js"></script>
     <script src="assets/js/gallery.js"></script>
     <script src="assets/js/script.js"></script>
 </body>

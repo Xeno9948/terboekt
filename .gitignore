@@ -2,3 +2,16 @@
 .vscode/sftp.json
 Private/
 _pgbackup/
+
+# Secrets and local env — never commit
+.env
+.env.local
+.env.*.local
+backend/config/local.php
+backend/storage/*.sqlite
+backend/storage/*.sqlite-*
+backend/storage/sessions/
+backend/storage/logs/
+backend/storage/*.log
+backend/storage/app.key
+public/api/.env
