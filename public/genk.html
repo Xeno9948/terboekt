@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Ontdek Genk en omgeving vanuit Home Terboekt. Bezoek C-mine, Bokrijk, Nationaal Park Hoge Kempen en meer. De perfecte uitvalsbasis voor uw vakantie in Limburg.">
+    <title>Bezoek Genk & Omgeving | Home Terboekt</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- Header Component -->
+    <div id="header-placeholder"></div>
+
+    <!-- Hero Section with Genk Image -->
+    <section class="page-hero"
+        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('assets/img/genk-city-view.jpg');">
+        <div class="hero-content">
+            <h1 data-i18n="genk_title">Bezoek Genk & Limburg</h1>
+            <p data-i18n="genk_subtitle">Cultuur, natuur en gastronomie binnen handbereik.</p>
+        </div>
+    </section>
+
+    <!-- Attractions List -->
+    <section class="attractions-section">
+        <div class="container">
+
+            <!-- Hoge Kempen -->
+            <div class="attraction-card">
+                <div class="attr-img">
+                    <img src="assets/img/hoge-kempen-nature.jpg" alt="Nationaal Park Hoge Kempen">
+                </div>
+                <div class="attr-content">
+                    <h2 data-i18n="attr_hk_title">Nationaal Park Hoge Kempen</h2>
+                    <div class="attr-meta">
+                        <span><i class="fa-solid fa-location-arrow"></i> 5 min rijden</span>
+                        <span><i class="fa-solid fa-person-hiking"></i> Wandelen & Fietsen</span>
+                    </div>
+                    <p data-i18n="attr_hk_desc">Het enige Nationale Park van België ligt letterlijk in uw achtertuin.
+                        Met meer dan 12.000 hectare aan beschermde natuur, dennenbossen, paarse heide en grote
+                        waterplassen is dit een paradijs voor elke natuurliefhebber. Start uw tocht aan de toegangspoort
+                        'Kattevennen'.</p>
+                    <a href="https://www.nationaalparkhogekempen.be" target="_blank" class="btn-link">Bezoek Website <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- C-mine -->
+            <div class="attraction-card reverse">
+                <div class="attr-img">
+                    <img src="assets/img/c-mine-terril.webp" alt="C-mine Genk Cultureel Erfgoed">
+                </div>
+                <div class="attr-content">
+                    <h2 data-i18n="attr_cmine_title">C-mine Genk</h2>
+                    <div class="attr-meta">
+                        <span><i class="fa-solid fa-location-arrow"></i> 10 min rijden</span>
+                        <span><i class="fa-solid fa-landmark"></i> Cultuur & Erfgoed</span>
+                    </div>
+                    <p data-i18n="attr_cmine_desc">Deze prachtig gerenoveerde mijnsite is hét culturele hart van Genk.
+                        Daal af in de ondergrondse gangen tijdens de C-mine expeditie, bekijk een film in de Euroscoop,
+                        of geniet van een diner in een van de industriële restaurants.</p>
+                    <a href="https://www.c-mine.be" target="_blank" class="btn-link">Bezoek Website <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Bokrijk -->
+            <div class="attraction-card">
+                <div class="attr-img">
+                    <!-- Using a placeholder or reusing nature shot if specific Bokrijk image is missing, 
+                     but referencing Open Air Museum context in text -->
+                    <img src="assets/img/exterior-front-day.jpg" style="object-fit: cover; opacity: 0.8;"
+                        alt="Openluchtmuseum Bokrijk">
+                </div>
+                <div class="attr-content">
+                    <h2 data-i18n="attr_bokrijk_title">Bokrijk Openluchtmuseum</h2>
+                    <div class="attr-meta">
+                        <span><i class="fa-solid fa-location-arrow"></i> 15 min rijden</span>
+                        <span><i class="fa-solid fa-child-reaching"></i> Familie & Geschiedenis</span>
+                    </div>
+                    <p data-i18n="attr_bokrijk_desc">Reis terug in de tijd en ontdek hoe mensen in Vlaanderen 100 jaar
+                        geleden leefden. Het openluchtmuseum ligt in een prachtig park met een grote gratis speeltuin en
+                        het beroemde fietspad 'Fietsen door het Water'.</p>
+                    <a href="https://www.bokrijk.be" target="_blank" class="btn-link">Bezoek Website <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer Component -->
+    <div id="footer-placeholder"></div>
+
+    <script src="components/header.js"></script>
+    <script src="components/footer.js"></script>
+    <script src="assets/js/translations.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
