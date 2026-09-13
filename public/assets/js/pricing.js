@@ -6,9 +6,13 @@
         propertyName: 'Home Terboekt',
         address: 'Terboekt 28, 3600 Genk',
         email: 'info@hometerboekt.be',
+        vatNumber: 'BE1030279857',
         checkinFrom: '16:00',
         checkoutBefore: '10:00',
+        houseRulesUrl: '/voorwaarden',
+        cancellationUrl: '/annulatie',
         depositPercentage: 30,
+        depositDeadlineDays: 7,
         packages: [
             { id: 'weekend', nights: 2, lowCents: 80000, highCents: 90000, enabled: true },
             { id: 'extended', nights: 3, lowCents: 110000, highCents: 125000, enabled: true },
@@ -64,11 +68,15 @@
             maxGuests: String(data.maxGuests != null ? data.maxGuests : 8),
             bedrooms: String(data.bedrooms != null ? data.bedrooms : 4),
             email: (root.TerboektLiveConfig && root.TerboektLiveConfig.contact_email) || data.email || 'info@hometerboekt.be',
+            vat: (root.TerboektLiveConfig && root.TerboektLiveConfig.vat_number) || data.vatNumber || 'BE1030279857',
             address: (root.TerboektLiveConfig && root.TerboektLiveConfig.property_address) || data.address || 'Terboekt 28, 3600 Genk',
             propertyName: (root.TerboektLiveConfig && root.TerboektLiveConfig.property_name) || data.propertyName || 'Home Terboekt',
             checkinFrom: data.checkinFrom || '16:00',
             checkoutBefore: data.checkoutBefore || '10:00',
             depositPercent: String(data.depositPercentage != null ? data.depositPercentage : 30),
+            depositDays: String(data.depositDeadlineDays != null ? data.depositDeadlineDays : 7),
+            houseRulesUrl: data.houseRulesUrl || '/voorwaarden',
+            cancellationUrl: data.cancellationUrl || '/annulatie',
             weekendLow: formatEuro(Number(weekend.lowCents) || 0),
             weekendHigh: formatEuro(Number(weekend.highCents) || 0),
             extendedLow: formatEuro(Number(extended.lowCents) || 0),
@@ -98,6 +106,9 @@
                 el.setAttribute('href', 'mailto:' + vars.email);
             }
         });
+        document.querySelectorAll('[data-site="vat"]').forEach((el) => {
+            el.textContent = vars.vat;
+        });
         document.querySelectorAll('[data-site="maxGuests"]').forEach((el) => {
             el.textContent = vars.maxGuests;
         });
@@ -107,6 +118,11 @@
         document.querySelectorAll('[data-site="houseRulesUrl"]').forEach((el) => {
             if (el.tagName === 'A' && data.houseRulesUrl) {
                 el.setAttribute('href', data.houseRulesUrl);
+            }
+        });
+        document.querySelectorAll('[data-site="cancellationUrl"]').forEach((el) => {
+            if (el.tagName === 'A' && data.cancellationUrl) {
+                el.setAttribute('href', data.cancellationUrl);
             }
         });
 
@@ -221,6 +237,9 @@
             }
             if (typeof node.email === 'string' && node.email) {
                 node.email = (root.TerboektLiveConfig && root.TerboektLiveConfig.contact_email) || data.email || node.email;
+            }
+            if (data.vatNumber && (node['@type'] === 'LodgingBusiness' || node['@type'] === 'Organization')) {
+                node.vatID = data.vatNumber;
             }
             if (node['@type'] === 'Offer' && node['@id'] && offerPrices[node['@id']] != null) {
                 node.price = schemaPrice(offerPrices[node['@id']]);

@@ -380,8 +380,26 @@
             if (widgetId != null) box.dataset.widgetId = String(widgetId);
         }
 
+        function escapeHtml(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
         function dlRow(label, value) {
-            return '<div class="review-row"><span>' + label + '</span><strong>' + value + '</strong></div>';
+            return '<div class="review-row"><span>' + label + '</span><strong>' + escapeHtml(value) + '</strong></div>';
+        }
+
+        function transferReference(booking) {
+            var name = String(
+                (booking && (booking.guest_name || booking.name))
+                || (form.name && form.name.value)
+                || ''
+            ).trim();
+            var ref = String((booking && booking.reference) || '').trim();
+            return [name, ref].filter(Boolean).join(' ');
         }
 
         function renderReview() {
@@ -420,20 +438,29 @@
             };
         }
 
-        function renderBank(bank, configured) {
+        function renderBank(bank, configured, booking) {
             if (!bankBox) return;
+            var html = '';
             if (!configured || !bank) {
-                bankBox.innerHTML = '<p class="form-help show">' + t('book_bank_missing') + '</p>';
-                return;
+                html = '<p class="form-help show">' + t('book_bank_missing') + '</p>';
+            } else {
+                html = '<dl class="bank-dl">';
+                if (bank.bank_account_holder) html += dlRow(t('book_bank_holder'), bank.bank_account_holder);
+                if (bank.bank_iban) html += dlRow(t('book_bank_iban'), bank.bank_iban);
+                if (bank.bank_bic) html += dlRow(t('book_bank_bic'), bank.bank_bic);
+                if (bank.bank_name) html += dlRow(t('book_bank_name'), bank.bank_name);
+                html += '</dl>';
+                if (!bank.bank_iban) {
+                    html += '<p class="form-help show">' + t('book_bank_missing') + '</p>';
+                }
             }
-            var html = '<dl class="bank-dl">';
-            if (bank.bank_account_holder) html += dlRow(t('book_bank_holder'), bank.bank_account_holder);
-            if (bank.bank_iban) html += dlRow(t('book_bank_iban'), bank.bank_iban);
-            if (bank.bank_bic) html += dlRow(t('book_bank_bic'), bank.bank_bic);
-            if (bank.bank_name) html += dlRow(t('book_bank_name'), bank.bank_name);
-            html += '</dl>';
-            if (!bank.bank_iban) {
-                html += '<p class="form-help show">' + t('book_bank_missing') + '</p>';
+            var comm = transferReference(booking || {});
+            if (comm) {
+                html += '<div class="bank-ref">'
+                    + '<p class="section-kicker">' + t('book_bank_comm_label') + '</p>'
+                    + '<p class="bank-ref-value">' + escapeHtml(comm) + '</p>'
+                    + '<p class="form-help show">' + t('book_bank_comm_help') + '</p>'
+                    + '</div>';
             }
             bankBox.innerHTML = html;
         }
@@ -460,7 +487,7 @@
                     + dlRow(t('book_deposit_amount'), root.TerboektQuote.euro(deposit))
                     + dlRow(t('book_deadline'), dueLabel + ' (' + deadlineDays + ' ' + t('book_deadline_days') + ')');
             }
-            renderBank(state.bank, state.bankConfigured);
+            renderBank(state.bank, state.bankConfigured, booking);
             if (gapNote) {
                 gapNote.hidden = !state.transferNote;
                 gapNote.textContent = state.transferNote || '';

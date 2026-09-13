@@ -169,6 +169,7 @@ $tests['admin pricing and settings appear in public rates payload'] = function (
     $app->settings()->upsert('contact_email', 'nieuw@hometerboekt.be');
     $app->settings()->upsert('property_name', 'Villa Test');
     $app->settings()->upsert('house_rules_url', 'voorwaarden.html');
+    $app->settings()->upsert('cancellation_url', 'annulatie.html');
     assert_same('nieuw@hometerboekt.be', (string) $app->settings()->get('contact_email'), 'settings store contact email');
     $payload = $app->publishedRates()->publicPayload();
     $weekend = null;
@@ -184,6 +185,11 @@ $tests['admin pricing and settings appear in public rates payload'] = function (
     assert_same('nieuw@hometerboekt.be', (string) $payload['email'], 'live contact email');
     assert_same('Villa Test', (string) $payload['propertyName'], 'live property name');
     assert_same('/voorwaarden', (string) $payload['houseRulesUrl'], 'house rules url is clean');
+    assert_same('/annulatie', (string) $payload['cancellationUrl'], 'cancellation url is clean');
+    assert_same('BE1030279857', (string) $payload['vatNumber'], 'default vat number');
+    $app->settings()->upsert('vat_number', 'BE0123456789');
+    $payload = $app->publishedRates()->publicPayload();
+    assert_same('BE0123456789', (string) $payload['vatNumber'], 'live vat number');
     $tmp = sys_get_temp_dir() . '/terboekt-public-rates-test.json';
     $app->publishedRates()->persistPublicFile($tmp);
     $written = json_decode((string) file_get_contents($tmp), true);

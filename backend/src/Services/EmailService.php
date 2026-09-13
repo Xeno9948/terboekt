@@ -203,7 +203,8 @@ final class EmailService
             'bank_iban' => $s->get('bank_iban', '') ?? '',
             'bank_bic' => $s->get('bank_bic', '') ?? '',
             'bank_name' => $s->get('bank_name', '') ?? '',
-            'house_rules_url' => $s->get('house_rules_url', 'https://www.beaunita.be/huur-en-boekingsvoorwaarden/') ?? '',
+            'house_rules_url' => $s->get('house_rules_url', '/voorwaarden') ?? '/voorwaarden',
+            'cancellation_url' => $s->get('cancellation_url', '/annulatie') ?? '/annulatie',
             'app_base_url' => $this->config->appBaseUrl,
             'deposit_percentage' => (string) $s->depositPercentage(),
         ];
@@ -375,19 +376,30 @@ final class EmailService
     {
         $iban = trim((string) $vars['bank_iban']);
         $holder = trim((string) $vars['bank_account_holder']);
+        $name = trim((string) ($vars['guest_name'] ?? ''));
+        $ref = trim((string) ($vars['reference'] ?? ''));
+        $comm = trim($name . ' ' . $ref);
+        $commBlock = $comm === '' ? '' : match ($lang) {
+            'en' => "Payment reference (required): {$comm}\nUse exactly this text as the transfer communication so we can match your payment.",
+            'fr' => "Communication (obligatoire) : {$comm}\nUtilisez exactement ce texte comme communication du virement.",
+            'de' => "Verwendungszweck (Pflicht): {$comm}\nVerwenden Sie genau diesen Text als Verwendungszweck der Überweisung.",
+            default => "Mededeling (verplicht): {$comm}\nZet exact deze tekst bij de overschrijving, zodat we uw betaling herkennen.",
+        };
         if ($iban === '' && $holder === '') {
-            return match ($lang) {
+            $missing = match ($lang) {
                 'en' => 'Bank details will be sent by the manager. They are not stored in this message because they are not configured yet.',
                 'fr' => 'Les coordonnées bancaires seront communiquées par le gestionnaire (pas encore configurées).',
                 'de' => 'Bankverbindung folgt durch den Verwalter (noch nicht hinterlegt).',
                 default => 'De overschrijvingsgegevens volgen via de beheerder. Ze zijn nog niet ingesteld, dus staan ze niet in dit bericht.',
             };
+            return $commBlock !== '' ? $missing . "\n\n" . $commBlock : $missing;
         }
         $parts = array_filter([
             $holder !== '' ? 'Naam: ' . $holder : null,
             $iban !== '' ? 'IBAN: ' . $iban : null,
             trim((string) $vars['bank_bic']) !== '' ? 'BIC: ' . $vars['bank_bic'] : null,
             trim((string) $vars['bank_name']) !== '' ? 'Bank: ' . $vars['bank_name'] : null,
+            $commBlock !== '' ? $commBlock : null,
         ]);
         return implode("\n", $parts);
     }

@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Huisreglement en reservatievoorwaarden van Home Terboekt in Genk.">
+    <meta name="description" content="Huur- en boekingsvoorwaarden van Home Terboekt in Genk: reservatie, voorschot, huurwaarborg, huisregels en aansprakelijkheid.">
     <link rel="canonical" href="https://hometerboekt.be/voorwaarden">
+    <meta property="og:title" content="Huur- en boekingsvoorwaarden | Home Terboekt">
+    <meta property="og:description" content="Voorwaarden voor elke reservatie van Home Terboekt, Terboekt 28, 3600 Genk.">
+    <meta property="og:image" content="https://hometerboekt.be/assets/img/voorgevel-huis-dag.jpg">
     <meta property="og:url" content="https://hometerboekt.be/voorwaarden">
-    <title>Huisreglement | Home Terboekt</title>
+    <title>Huur- en boekingsvoorwaarden | Home Terboekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -15,7 +18,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="assets/css/style.css?v=snap5">
 </head>
 
 <body class="has-hero">
@@ -24,51 +30,88 @@
 
     <section class="page-hero" style="background-image: url('assets/img/voorgevel-huis-dag.webp');">
         <div class="hero-content">
-            <h1 data-i18n="rules_page_title">Huisreglement</h1>
-            <p data-i18n="rules_page_sub">Voorwaarden voor een verblijf in Home Terboekt.</p>
+            <h1 data-i18n="rules_page_title">Huur- en boekingsvoorwaarden</h1>
+            <p data-i18n="rules_page_sub">Deze voorwaarden gelden voor elke reservatie van Home Terboekt.</p>
         </div>
     </section>
 
     <section>
         <div class="container legal">
-            <p class="lead" data-i18n="rules_stay_intro">Deze voorwaarden gelden voor elke reservatie van Home Terboekt, Terboekt 28, 3600 Genk.</p>
+            <p class="lead" data-i18n="rules_stay_intro">Deze voorwaarden gelden voor elke reservatie van {propertyName}, {address}.</p>
+            <p data-i18n="rules_apply">Door een reservatieaanvraag te sturen, verklaart u zich akkoord met deze voorwaarden en met het huisreglement. Afwijken kan alleen als de eigenaar dat vooraf schriftelijk bevestigt.</p>
 
-            <h2 data-i18n="stay_card">Verblijf</h2>
-            <ul>
-                <li data-i18n="prac_checkin">Aankomst vanaf 16.00 uur</li>
-                <li data-i18n="prac_checkout">Vertrek voor 10.00 uur</li>
-                <li data-i18n="prac_linen">Bed- en badlinnen inbegrepen</li>
-                <li data-i18n="extra_2">Toegang via sleutelkastje</li>
-            </ul>
+            <h2 data-i18n="rules_book_h">Boeken</h2>
+            <p data-i18n="rules_book_p1">U reserveert via de website. Een aanvraag is nog geen bevestigde boeking. De beheerder beoordeelt de aanvraag. Pas na goedkeuring én ontvangst van het voorschot is de reservatie definitief.</p>
+            <p data-i18n="rules_book_p2">Er zijn geen boekingskosten. Elke stap bevestigen wij per e-mail.</p>
 
-            <h2 data-i18n="rules_card">Huisregels</h2>
+            <h2 data-i18n="rules_pay_h">Betaling</h2>
+            <p data-i18n="rules_pay_p1">Na goedkeuring vraagt de beheerder een voorschot van {depositPercent}% van de huurprijs, te betalen binnen {depositDays} dagen. Het restbedrag volgt vóór aankomst, zoals vermeld in de bevestiging.</p>
+            <p data-i18n="rules_pay_p2">Komt de boeking tot stand kort voor aankomst, dan kan de volledige huur plus waarborg meteen gevraagd worden. Zonder tijdige betaling mag de eigenaar de periode opnieuw verhuren. De annulatievoorwaarden gelden dan.</p>
+            <p data-i18n="rules_pay_p3">Toegang tot de woning volgt pas wanneer de gevraagde betalingen aantoonbaar ontvangen zijn.</p>
+
+            <h2 data-i18n="rules_bond_h">Huurwaarborg</h2>
+            <p data-i18n="rules_bond_p">De huurwaarborg van {deposit} is een apart, terugbetaalbaar bedrag, geen deel van het voorschot. Zonder schade en als aan de voorwaarden is voldaan, stort de eigenaar de waarborg binnen twee weken na vertrek terug. Schade boven de waarborg blijft voor de huurder.</p>
+
+            <h2 data-i18n="rules_cancel_h">Annuleren</h2>
+            <p data-i18n="rules_cancel_p">Annulatie, termijnen en terugbetaling staan op de pagina annulatievoorwaarden. Annuleren kan per e-mail naar {email}.</p>
+            <a class="btn-link" href="/annulatie" data-site="cancellationUrl"><span data-i18n="footer_cancel">Annulatievoorwaarden</span> <i class="fa-solid fa-arrow-right"></i></a>
+
+            <h2 data-i18n="rules_sublet_h">Onderverhuring</h2>
+            <p data-i18n="rules_sublet_p">Onderverhuren of de reservatie doorgeven aan derden is niet toegelaten.</p>
+
+            <h2 data-i18n="rules_use_h">Bestemming en gebruik</h2>
+            <p data-i18n="rules_use_p">In de woning mogen maximaal {maxGuests} personen verblijven. Extra gasten zonder akkoord van de verhuurder zijn niet toegelaten. De woning is een gezinsverblijf, geen feestlocatie.</p>
             <ul>
                 <li data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</li>
                 <li data-i18n="prac_parties">Drinkpartijen en feesten zijn niet toegelaten</li>
+                <li data-i18n="rules_use_smoke">Roken in de woning is verboden. Kosten van een valse brandalarm-interventie zijn voor de huurder.</li>
+                <li data-i18n="rules_use_garden">Kamperen, tenten, caravans of motorhomes op het terrein zijn niet toegelaten. Geen open vuur in de tuin.</li>
             </ul>
 
-            <h2 data-i18n="extras_title">Extra</h2>
+            <h2 data-i18n="rules_liab_h">Aansprakelijkheid</h2>
+            <p data-i18n="rules_liab_p1">De hoofdhuurder is aansprakelijk voor schade door hem, medehuurders of bezoekers, ook als die na vertrek vastgesteld wordt. De woning wordt bewoond als een goede huisvader, zonder overlast voor de buurt.</p>
+            <p data-i18n="rules_liab_p2">De verhuurder aanvaardt geen aansprakelijkheid voor verlies, diefstal, schade of letsel, noch voor overlast door werken in de buurt, natuurgeweld of overmacht. De huurder zorgt zelf voor een familiale verzekering.</p>
+
+            <h2 data-i18n="stay_card">Aankomst en vertrek</h2>
             <ul>
-                <li data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</li>
-                <li data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</li>
-                <li data-i18n="fee_deposit">Huurwaarborg: € 500</li>
-                <li data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</li>
-                <li data-i18n="fee_extra_guest" data-extra-guest hidden>Extra gast vanaf de 5e persoon: € 0 per nacht</li>
+                <li data-i18n="prac_checkin">Aankomst vanaf {checkinFrom}</li>
+                <li data-i18n="prac_checkout">Vertrek voor {checkoutBefore}</li>
+                <li data-i18n="extra_2">Toegang via sleutelkastje</li>
+                <li data-i18n="prac_linen">Bed- en badlinnen inbegrepen</li>
             </ul>
+            <p data-i18n="rules_inout_p">Vroege check-in of late check-out alleen na overleg en als de planning het toelaat. Bestaande schade meldt u binnen zes uur na aankomst.</p>
 
-            <p data-i18n="rules_contact">Vragen? Mail naar info@hometerboekt.be.</p>
+            <h2 data-i18n="rules_end_h">Einde van het verblijf</h2>
+            <p data-i18n="rules_end_p">Laat woning en tuin netjes achter: vaatwasser ledigen, huisraad opbergen, afval sorteren, bezemschoon achterlaten, lichten en toestellen uit, ramen en deuren dicht. De verplichte eindschoonmaak van {cleaning} dekt de normale schoonmaak, geen wanorde of extra schade.</p>
+
+            <h2 data-i18n="rules_damage_h">Schade</h2>
+            <p data-i18n="rules_damage_p">Meld schade spontaan. Bij ernstige schade of overlast mag de verhuurder de huur onmiddellijk beëindigen zonder terugbetaling van de resterende huur.</p>
+
+            <h2 data-i18n="extras_title">Extra kosten</h2>
+            <ul>
+                <li data-i18n="fee_cleaning">Verplichte eindschoonmaak: {cleaning}</li>
+                <li data-i18n="fee_tax">Toeristenbelasting: {tax} per persoon per nacht</li>
+                <li data-i18n="fee_deposit">Huurwaarborg: {deposit}</li>
+                <li data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: {sunday}</li>
+            </ul>
+            <p data-i18n="rules_usage_p">Normaal verbruik van water, verwarming en elektriciteit is inbegrepen. Overmatig verbruik of het laden van elektrische auto’s kan verrekend worden met de waarborg. Wifi is voor eigen verantwoordelijkheid van de huurder; illegaal downloaden is verboden.</p>
+
+            <h2 data-i18n="rules_law_h">Toepasselijk recht</h2>
+            <p data-i18n="rules_law_p">Op de boeking is Belgisch recht van toepassing. Geschillen die niet in der minne oplossen, gaan naar de rechtbanken van het arrondissement van de verhuurder.</p>
+
+            <p data-i18n="rules_contact">Vragen? Mail naar {email}. BTW: {vat}.</p>
             <div class="related-links">
                 <a class="btn btn-primary" href="/contact" data-i18n="cta_book">Reserveer nu</a>
+                <a href="/annulatie" class="btn-link" data-site="cancellationUrl"><span data-i18n="footer_cancel">Annulatievoorwaarden</span> <i class="fa-solid fa-arrow-right"></i></a>
                 <a href="/prijzen" class="btn-link"><span data-i18n="nav_prices">Prijzen</span> <i class="fa-solid fa-arrow-right"></i></a>
-                <a href="/vakantiehuis-genk" class="btn-link"><span data-i18n="nav_vakantiehuis_genk">Vakantiehuis Genk</span> <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <div id="footer-placeholder"></div>
-    <script defer src="components/footer.js?v=snap1"></script>
-    <script defer src="assets/js/translations.js?v=snap1"></script>
-    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="components/footer.js?v=snap5"></script>
+    <script defer src="assets/js/translations.js?v=snap5"></script>
+    <script defer src="assets/js/pricing.js?v=snap5"></script>
     <script defer src="assets/js/script.js"></script>
 </body>
 

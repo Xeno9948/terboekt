@@ -5,3 +5,4 @@ Disallow: /editor
 Disallow: /api
 
 Sitemap: https://hometerboekt.be/sitemap.xml
+# Site facts for people and language models: https://hometerboekt.be/llm.txt

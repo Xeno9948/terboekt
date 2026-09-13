@@ -15,7 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-    <link rel="stylesheet" href="assets/css/style.css?v=snap1">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="assets/css/style.css?v=snap5">
 </head>
 
 <body class="has-hero booking-page">
@@ -178,8 +181,9 @@
                             <label class="checkbox">
                                 <input type="checkbox" name="rules" id="rules" required>
                                 <span>
-                                    <span data-i18n="form_rules">Ik heb het huisreglement en de reservatievoorwaarden gelezen.</span>
-                                    <a href="/voorwaarden" data-i18n="form_rules_link">Huur- en boekingsvoorwaarden</a>
+                                    <span data-i18n="form_rules">Ik heb de huur- en boekingsvoorwaarden en de annulatievoorwaarden gelezen.</span>
+                                    <a href="/voorwaarden" data-site="houseRulesUrl" data-i18n="form_rules_link">Huur- en boekingsvoorwaarden</a>
+                                    <a href="/annulatie" data-site="cancellationUrl" data-i18n="form_cancel_link">Annulatievoorwaarden</a>
                                 </span>
                             </label>
                         </div>
@@ -230,6 +234,7 @@
                         <p class="section-kicker" data-i18n="stay_card">Verblijf</p>
                         <h2>Home Terboekt</h2>
                         <p data-i18n="book_property_line">Hele woning · 8 personen · 4 slaapkamers</p>
+                        <p class="booking-aside-note"><span data-i18n="footer_vat">BTW</span> <span data-site="vat">BE1030279857</span></p>
                     </div>
                 </article>
 
@@ -314,14 +319,14 @@
     </section>
 
     <div id="footer-placeholder"></div>
-    <script defer src="components/footer.js?v=snap1"></script>
-    <script defer src="assets/js/translations.js?v=snap1"></script>
-    <script defer src="assets/js/pricing.js?v=snap1"></script>
+    <script defer src="components/footer.js?v=snap5"></script>
+    <script defer src="assets/js/translations.js?v=snap5"></script>
+    <script defer src="assets/js/pricing.js?v=snap5"></script>
     <script defer src="assets/js/booking/api.js"></script>
     <script defer src="assets/js/booking/calendar.js"></script>
     <script defer src="assets/js/booking/quote.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-    <script defer src="assets/js/booking/checkout.js"></script>
+    <script defer src="assets/js/booking/checkout.js?v=snap5"></script>
     <script defer src="assets/js/script.js"></script>
 </body>
 

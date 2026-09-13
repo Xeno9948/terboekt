@@ -161,16 +161,18 @@ final class PublishedRates
         $data['propertyName'] = $settings->get('property_name', (string) ($data['propertyName'] ?? 'Home Terboekt')) ?? (string) ($data['propertyName'] ?? 'Home Terboekt');
         $data['address'] = $settings->get('property_address', (string) ($data['address'] ?? '')) ?? (string) ($data['address'] ?? '');
         $data['email'] = $settings->get('contact_email', (string) ($data['email'] ?? '')) ?? (string) ($data['email'] ?? '');
+        $vat = trim((string) ($settings->get('vat_number', (string) ($data['vatNumber'] ?? 'BE1030279857')) ?? ''));
+        $data['vatNumber'] = $vat !== '' ? $vat : 'BE1030279857';
         $data['checkinFrom'] = $settings->get('checkin_from', (string) ($data['checkinFrom'] ?? '16:00')) ?? '16:00';
         $data['checkoutBefore'] = $settings->get('checkout_before', (string) ($data['checkoutBefore'] ?? '10:00')) ?? '10:00';
-        $houseRules = $settings->get('house_rules_url', (string) ($data['houseRulesUrl'] ?? '/voorwaarden')) ?? '/voorwaarden';
-        if ($houseRules !== '' && !preg_match('#^https?://#i', $houseRules) && str_ends_with($houseRules, '.html')) {
-            $base = basename($houseRules, '.html');
-            $houseRules = $base === 'index' ? '/' : '/' . $base;
-        } elseif ($houseRules !== '' && !preg_match('#^https?://#i', $houseRules)) {
-            $houseRules = '/' . ltrim($houseRules, '/');
-        }
-        $data['houseRulesUrl'] = $houseRules !== '' ? $houseRules : '/voorwaarden';
+        $data['houseRulesUrl'] = $this->cleanPublicUrl(
+            $settings->get('house_rules_url', (string) ($data['houseRulesUrl'] ?? '/voorwaarden')),
+            '/voorwaarden'
+        );
+        $data['cancellationUrl'] = $this->cleanPublicUrl(
+            $settings->get('cancellation_url', (string) ($data['cancellationUrl'] ?? '/annulatie')),
+            '/annulatie'
+        );
         $data['timezone'] = $settings->get('timezone', (string) ($data['timezone'] ?? 'Europe/Brussels')) ?? 'Europe/Brussels';
         $data['depositPercentage'] = $settings->depositPercentage();
         $data['depositDeadlineDays'] = $settings->depositDeadlineDays();
@@ -260,5 +262,21 @@ final class PublishedRates
         $data['extraGuest'] = $extraGuest;
 
         return $data;
+    }
+
+    private function cleanPublicUrl(?string $raw, string $fallback): string
+    {
+        $value = trim((string) $raw);
+        if ($value === '') {
+            return $fallback;
+        }
+        if (preg_match('#^https?://#i', $value) === 1) {
+            return $value;
+        }
+        if (str_ends_with($value, '.html')) {
+            $base = basename($value, '.html');
+            return $base === 'index' ? '/' : '/' . $base;
+        }
+        return '/' . ltrim($value, '/');
     }
 }

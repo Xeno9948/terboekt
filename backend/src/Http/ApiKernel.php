@@ -49,7 +49,9 @@ final class ApiKernel
                     'property_name' => (string) $settings->get('property_name', ''),
                     'property_address' => (string) $settings->get('property_address', ''),
                     'contact_email' => (string) $settings->get('contact_email', ''),
-                    'house_rules_url' => (string) $settings->get('house_rules_url', ''),
+                    'vat_number' => (string) ($settings->get('vat_number', 'BE1030279857') ?: 'BE1030279857'),
+                    'house_rules_url' => (string) $settings->get('house_rules_url', '/voorwaarden'),
+                    'cancellation_url' => (string) $settings->get('cancellation_url', '/annulatie'),
                 ]);
             }
             if ($method === 'GET' && $path === '/availability') {
@@ -165,6 +167,7 @@ final class ApiKernel
             'ok' => true,
             'id' => (int) $booking['id'],
             'reference' => $booking['reference'],
+            'guest_name' => $booking['guest_name'] ?? null,
             'status' => $booking['status'],
             'check_in' => $booking['check_in'],
             'check_out' => $booking['check_out'],

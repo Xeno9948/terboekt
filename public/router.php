@@ -14,6 +14,15 @@ if ($uri === '/sitemap.xml') {
     require __DIR__ . '/sitemap.php';
     return true;
 }
+if ($uri === '/llm.txt' || $uri === '/llms.txt') {
+    $txt = __DIR__ . '/llm.txt';
+    if (is_file($txt)) {
+        header('Content-Type: text/plain; charset=UTF-8');
+        header('Cache-Control: public, max-age=3600');
+        readfile($txt);
+        return true;
+    }
+}
 if ($uri === '/calendar/unavailable.ics' || str_starts_with($uri, '/api')) {
     require __DIR__ . '/api/index.php';
     return true;

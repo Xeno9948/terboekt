@@ -751,6 +751,37 @@ section.tight { padding: 3rem 0; }
     width: 1rem;
 }
 
+.kitchen-feature-copy {
+    max-width: 40rem;
+    margin-bottom: 1.6rem;
+}
+.kitchen-feature-copy p {
+    margin: 0.7rem 0 0;
+    color: var(--color-text-muted);
+    max-width: 46ch;
+}
+.kitchen-feature-photo {
+    margin: 0 0 1.75rem;
+}
+.kitchen-feature-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    cursor: zoom-in;
+}
+.kitchen-feature-photo figcaption {
+    margin-top: 0.7rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+.kitchen-feature-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem 2.25rem;
+    margin-top: 0;
+}
+
 .soft { background: var(--color-secondary); }
 .dark {
     background: var(--color-primary);
@@ -809,25 +840,25 @@ section.tight { padding: 3rem 0; }
 }
 .photo-switch-stage {
     position: relative;
-    height: 460px;
+    height: min(72vh, 640px);
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
     cursor: pointer;
+    background: #efeae3;
 }
 .photo-switch-stage img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     opacity: 0;
-    transform: scale(1.06);
-    transition: opacity 0.55s ease, transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.45s ease;
 }
 .photo-switch-stage img.is-current {
     opacity: 1;
-    transform: scale(1);
 }
 .photo-switch-btn {
     position: absolute;
@@ -867,6 +898,15 @@ section.tight { padding: 3rem 0; }
     width: 22px;
     border-radius: 999px;
     background: #fff;
+}
+.photo-switch--cover .photo-switch-stage {
+    height: min(64vh, 520px);
+}
+.photo-switch--cover .photo-switch-stage img {
+    object-fit: cover;
+}
+.photo-switch--cover .photo-switch-stage img:first-child {
+    object-position: 50% 70%;
 }
 
 .map-section { padding: 2.5rem 0 3.25rem; }
@@ -1163,11 +1203,12 @@ footer {
 }
 
 .legal {
-    max-width: 720px;
+    max-width: 760px;
     padding-top: 2rem;
     padding-bottom: 3rem;
 }
 .legal h2 { margin-top: 1.75rem; }
+.legal h3 { margin-top: 1.15rem; font-size: 1.15rem; }
 .legal p, .legal li { margin-bottom: 0.7rem; }
 .legal ul { padding-left: 1.15rem; margin-bottom: 1rem; }
 
@@ -1225,8 +1266,9 @@ footer {
     .intro-photo img { height: 220px; }
 
     .split > div > img { height: 280px; }
+    .kitchen-feature-list { grid-template-columns: 1fr; }
     .bath-split { grid-template-columns: 1fr; }
-    .photo-switch-stage { height: 340px; }
+    .photo-switch-stage { height: min(70vh, 520px); }
     .photo-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
     .photo-grid .span-2 { grid-column: span 2; grid-row: span 1; }
     .location-images { grid-template-columns: 1fr; }
@@ -1724,6 +1766,19 @@ footer {
 }
 
 .quote-note { margin-top: 0.85rem; }
+
+.bank-ref {
+    margin-top: 1rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid var(--color-line);
+}
+.bank-ref .section-kicker { margin-bottom: 0.2rem; }
+.bank-ref-value {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    margin: 0.25rem 0 0.45rem;
+}
 
 .quote-row,
 .review-row {

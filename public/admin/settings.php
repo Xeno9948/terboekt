@@ -40,6 +40,7 @@ if (admin_is_post()) {
             'property_name',
             'property_address',
             'contact_email',
+            'vat_number',
             'max_guests',
             'bedrooms',
             'checkin_from',
@@ -78,7 +79,13 @@ if (admin_is_post()) {
             if ($key === 'house_rules_url') {
                 $value = terboekt_clean_public_path($value, '/voorwaarden');
             }
-            $app->settings()->upsert($key, $value === '' ? ($key === 'bank_iban' || $key === 'bank_bic' || $key === 'bank_name' || $key === 'bank_account_holder' || $key === 'privacy_url' || $key === 'cancellation_url' || $key === 'terms_version' ? '' : $value) : $value);
+            if ($key === 'cancellation_url') {
+                $value = terboekt_clean_public_path($value, '/annulatie');
+            }
+            if ($key === 'vat_number' && $value === '') {
+                $value = 'BE1030279857';
+            }
+            $app->settings()->upsert($key, $value === '' ? ($key === 'bank_iban' || $key === 'bank_bic' || $key === 'bank_name' || $key === 'bank_account_holder' || $key === 'privacy_url' || $key === 'terms_version' ? '' : $value) : $value);
         }
         admin_publish_public_rates($app);
         admin_set_flash('success', 'Instellingen opgeslagen. Bankvelden blijven leeg tot u ze invult.');
@@ -113,6 +120,10 @@ admin_layout_start('Instellingen', 'settings', $user);
             <div class="form-group">
                 <label for="contact_email">Contact e-mail</label>
                 <input type="email" id="contact_email" name="contact_email" value="<?= h($val($s, 'contact_email', 'info@hometerboekt.be')) ?>">
+            </div>
+            <div class="form-group">
+                <label for="vat_number">BTW-nummer</label>
+                <input type="text" id="vat_number" name="vat_number" value="<?= h($val($s, 'vat_number', 'BE1030279857')) ?>" autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="max_guests">Maximum gasten</label>
@@ -198,7 +209,7 @@ admin_layout_start('Instellingen', 'settings', $user);
         </div>
         <div class="form-group">
             <label for="cancellation_url">Annulatievoorwaarden (URL)</label>
-            <input type="url" id="cancellation_url" name="cancellation_url" value="<?= h($val($s, 'cancellation_url')) ?>" placeholder="https://">
+            <input type="text" id="cancellation_url" name="cancellation_url" value="<?= h(terboekt_clean_public_path($val($s, 'cancellation_url'), '/annulatie')) ?>" placeholder="/annulatie">
         </div>
         <div class="form-group">
             <label for="terms_version">Versie voorwaarden</label>
