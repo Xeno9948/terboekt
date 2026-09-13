@@ -11,7 +11,10 @@ use Terboekt\Domain\ConfirmationRequiresManagerException;
 use Terboekt\Domain\ValidationException;
 use Terboekt\Http\HttpClient;
 use Terboekt\Http\HttpResponse;
+use Terboekt\Mail\ResendTransport;
+use Terboekt\Mail\SmtpTransport;
 use Terboekt\Services\CalendarSyncService;
+use Terboekt\Services\EmailService;
 use Terboekt\Services\IcalParser;
 use Terboekt\Services\BookingRequestService;
 
@@ -23,6 +26,7 @@ putenv('AIRBNB_ICAL_URL=https://example.test/airbnb.ics');
 putenv('SMTP_HOST=');
 putenv('SMTP_USERNAME=');
 putenv('SMTP_PASSWORD=');
+putenv('RESEND_API_KEY=');
 putenv('TURNSTILE_SITE_KEY=');
 putenv('TURNSTILE_SECRET_KEY=');
 $_ENV['DATABASE_URL'] = 'sqlite::memory:';
@@ -33,6 +37,7 @@ $_ENV['AIRBNB_ICAL_URL'] = 'https://example.test/airbnb.ics';
 $_ENV['SMTP_HOST'] = '';
 $_ENV['SMTP_USERNAME'] = '';
 $_ENV['SMTP_PASSWORD'] = '';
+$_ENV['RESEND_API_KEY'] = '';
 $_ENV['TURNSTILE_SITE_KEY'] = '';
 $_ENV['TURNSTILE_SECRET_KEY'] = '';
 
@@ -229,6 +234,10 @@ $tests['ical parser and conservative failed sync'] = function (): void {
         {
             throw new TestFailure('calendar sync must not POST');
         }
+        public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('calendar sync must not POST JSON');
+        }
     };
     $sync = new CalendarSyncService($app->db, $app->calendars(), $app->blocks(), new IcalParser(), $fakeOk, $app->config);
     $airbnb = $app->calendars()->findByProvider('airbnb');
@@ -245,6 +254,10 @@ $tests['ical parser and conservative failed sync'] = function (): void {
         public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
         {
             throw new TestFailure('calendar sync must not POST');
+        }
+        public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('calendar sync must not POST JSON');
         }
     };
     $syncFail = new CalendarSyncService($app->db, $app->calendars(), $app->blocks(), new IcalParser(), $fakeFail, $app->config);
@@ -325,6 +338,142 @@ $tests['email logs without sending when SMTP missing'] = function (): void {
     assert_same('failed', $row['status'], 'logged failure');
 };
 
+$tests['empty resend key does not call http'] = function (): void {
+    $app = bootApp();
+    $http = new class implements HttpClient {
+        public function get(string $url, int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('mailer must not GET');
+        }
+        public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('mailer must not POST form');
+        }
+        public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+        {
+            throw new TestFailure('resend must not be called when key empty');
+        }
+    };
+    $email = new EmailService(
+        $app->config,
+        $app->emailLogs(),
+        $app->settings(),
+        new SmtpTransport($app->config),
+        new ResendTransport($app->config, $http),
+    );
+    $result = $email->sendTemplate('test_email', 'owner@example.com', ['language' => 'nl']);
+    assert_same(false, $result['sent'], 'not sent');
+    assert_same('smtp_not_configured', $result['error'], 'reason');
+    assert_same('none', $email->sendPath(), 'no send path');
+};
+
+$tests['resend mailer posts json when key set'] = function (): void {
+    putenv('RESEND_API_KEY=re_test_key');
+    $_ENV['RESEND_API_KEY'] = 're_test_key';
+    try {
+        $config = \Terboekt\Config::fromEnv();
+        $http = new class implements HttpClient {
+            /** @var list<array{url:string,json:array<string,mixed>,headers:array<string,string>}> */
+            public array $calls = [];
+            public function get(string $url, int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('resend must POST JSON');
+            }
+            public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('resend must POST JSON not form');
+            }
+            public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+            {
+                $this->calls[] = ['url' => $url, 'json' => $json, 'headers' => $headers];
+                return new HttpResponse(200, '{"id":"email_test"}');
+            }
+        };
+        $app = new App($config, new Database($config));
+        (new Migrator($app->db))->migrate();
+        $email = new EmailService(
+            $config,
+            $app->emailLogs(),
+            $app->settings(),
+            new SmtpTransport($config),
+            new ResendTransport($config, $http),
+        );
+        $result = $email->sendTemplate('test_email', 'owner@example.com', ['language' => 'nl']);
+        assert_same(true, $result['sent'], 'sent via resend');
+        assert_same('resend', $email->sendPath(), 'path');
+        assert_same(1, count($http->calls), 'one http call');
+        assert_same(ResendTransport::API_URL, $http->calls[0]['url'], 'resend url');
+        assert_true(str_starts_with((string) ($http->calls[0]['headers']['Authorization'] ?? ''), 'Bearer '), 'bearer');
+        assert_true(str_contains((string) $http->calls[0]['json']['from'], $config->smtpFromEmail), 'from mailbox');
+        assert_same(['owner@example.com'], $http->calls[0]['json']['to'], 'to');
+        assert_true(isset($http->calls[0]['json']['html'], $http->calls[0]['json']['text'], $http->calls[0]['json']['subject']), 'body fields');
+        $row = $app->emailLogs()->findById($result['id']);
+        assert_same('sent', $row['status'], 'logged sent');
+    } finally {
+        putenv('RESEND_API_KEY=');
+        $_ENV['RESEND_API_KEY'] = '';
+    }
+};
+
+$tests['mailprotect on railway fails fast without resend'] = function (): void {
+    putenv('RAILWAY_ENVIRONMENT=production');
+    putenv('SMTP_HOST=smtp-auth.mailprotect.be');
+    putenv('SMTP_USERNAME=bookings@example.test');
+    putenv('SMTP_PASSWORD=dummy-not-used');
+    putenv('RESEND_API_KEY=');
+    $_ENV['RAILWAY_ENVIRONMENT'] = 'production';
+    $_ENV['SMTP_HOST'] = 'smtp-auth.mailprotect.be';
+    $_ENV['SMTP_USERNAME'] = 'bookings@example.test';
+    $_ENV['SMTP_PASSWORD'] = 'dummy-not-used';
+    $_ENV['RESEND_API_KEY'] = '';
+    try {
+        $config = \Terboekt\Config::fromEnv();
+        assert_true($config->smtpUnreachableFromThisHost(), 'mailprotect blocked on railway');
+        $http = new class implements HttpClient {
+            public function get(string $url, int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('must not HTTP');
+            }
+            public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('must not HTTP');
+            }
+            public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('must not call resend without key');
+            }
+        };
+        $app = new App($config, new Database($config));
+        (new Migrator($app->db))->migrate();
+        $email = new EmailService(
+            $config,
+            $app->emailLogs(),
+            $app->settings(),
+            new SmtpTransport($config),
+            new ResendTransport($config, $http),
+        );
+        $started = microtime(true);
+        $result = $email->sendTemplate('test_email', 'owner@example.com', ['language' => 'nl']);
+        $elapsed = microtime(true) - $started;
+        assert_true($elapsed < 1.0, 'fail fast instead of SMTP timeout');
+        assert_same(false, $result['sent'], 'not sent');
+        assert_true(str_starts_with((string) $result['error'], 'mailprotect_blocked_use_resend'), 'explains resend');
+        assert_true(str_contains((string) $result['error'], 'RESEND_API_KEY'), 'mentions key');
+        assert_same('none', $email->sendPath(), 'no usable path');
+    } finally {
+        putenv('RAILWAY_ENVIRONMENT=');
+        $_ENV['RAILWAY_ENVIRONMENT'] = '';
+        putenv('SMTP_HOST=');
+        putenv('SMTP_USERNAME=');
+        putenv('SMTP_PASSWORD=');
+        putenv('RESEND_API_KEY=');
+        $_ENV['SMTP_HOST'] = '';
+        $_ENV['SMTP_USERNAME'] = '';
+        $_ENV['SMTP_PASSWORD'] = '';
+        $_ENV['RESEND_API_KEY'] = '';
+    }
+};
+
 $tests['admin password hashing'] = function (): void {
     $app = bootApp();
     $user = $app->auth()->createAdmin('owner@hometerboekt.be', 'super-secret-pass', 'owner');
@@ -365,6 +514,10 @@ $tests['turnstile secret rejects booking without token'] = function (): void {
             public function postForm(string $url, array $fields, int $timeoutSeconds = 20): HttpResponse
             {
                 throw new TestFailure('Turnstile must not call siteverify without a token');
+            }
+            public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+            {
+                throw new TestFailure('Turnstile must not POST JSON');
             }
         };
         $verifier = new \Terboekt\Services\TurnstileVerifier($config, $http);

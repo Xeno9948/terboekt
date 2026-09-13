@@ -157,6 +157,7 @@ final class App
             $this->emailLogs(),
             $this->settings(),
             new Mail\SmtpTransport($this->config),
+            new Mail\ResendTransport($this->config, new Http\CurlHttpClient()),
         );
     }
 

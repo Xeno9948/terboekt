@@ -5,19 +5,6 @@ namespace Terboekt\Mail;
 
 use Terboekt\Config;
 
-final class OutgoingMessage
-{
-    /** @param list<string> $to */
-    public function __construct(
-        public readonly array $to,
-        public readonly string $subject,
-        public readonly string $text,
-        public readonly string $html,
-        public readonly ?string $replyTo = null,
-    ) {
-    }
-}
-
 final class SmtpTransport
 {
     public function __construct(private readonly Config $config)
@@ -54,7 +41,7 @@ final class SmtpTransport
         ]);
         $errno = 0;
         $errstr = '';
-        $fp = @stream_socket_client($remote, $errno, $errstr, 20, STREAM_CLIENT_CONNECT, $context);
+        $fp = @stream_socket_client($remote, $errno, $errstr, 5, STREAM_CLIENT_CONNECT, $context);
         if (!is_resource($fp)) {
             throw new \RuntimeException(
                 "SMTP-verbinding mislukt naar {$host}:{$port}"
@@ -62,7 +49,7 @@ final class SmtpTransport
                 . '. Controleer host/poort of dat de mailserver Railway toelaat.'
             );
         }
-        stream_set_timeout($fp, 20);
+        stream_set_timeout($fp, 5);
 
         try {
             $this->expect($fp, [220]);

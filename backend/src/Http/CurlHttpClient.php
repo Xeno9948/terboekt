@@ -81,4 +81,60 @@ final class CurlHttpClient implements HttpClient
         }
         return new HttpResponse(200, $body);
     }
+
+    public function postJson(string $url, array $json, array $headers = [], int $timeoutSeconds = 20): HttpResponse
+    {
+        $encoded = json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if ($encoded === false) {
+            return new HttpResponse(0, '', 'json encode failed');
+        }
+        $merged = [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'User-Agent' => 'Mozilla/5.0 (compatible; HomeTerboekt/1.0; +https://hometerboekt.be)',
+        ];
+        foreach ($headers as $name => $value) {
+            $merged[$name] = $value;
+        }
+        $headerLines = [];
+        foreach ($merged as $name => $value) {
+            $headerLines[] = $name . ': ' . $value;
+        }
+
+        if (function_exists('curl_init')) {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_TIMEOUT => $timeoutSeconds,
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $encoded,
+                CURLOPT_HTTPHEADER => $headerLines,
+                CURLOPT_SSL_VERIFYPEER => true,
+            ]);
+            $body = curl_exec($ch);
+            $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
+            curl_close($ch);
+            if ($body === false) {
+                return new HttpResponse(0, '', $error ?: 'curl failed');
+            }
+            return new HttpResponse($status, (string) $body, $error);
+        }
+
+        $ctx = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => implode("\r\n", $headerLines) . "\r\n",
+                'content' => $encoded,
+                'timeout' => $timeoutSeconds,
+            ],
+        ]);
+        $body = @file_get_contents($url, false, $ctx);
+        if ($body === false) {
+            return new HttpResponse(0, '', 'fetch failed');
+        }
+        return new HttpResponse(200, $body);
+    }
 }

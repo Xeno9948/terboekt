@@ -40,14 +40,15 @@ if (admin_is_post()) {
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
                 throw new InvalidArgumentException('Ongeldig testadres.');
             }
-            if (!$app->email()->smtpConfigured()) {
-                admin_set_flash('info', 'SMTP is niet ingesteld. Er is geen wachtwoord zichtbaar en er werd niets verstuurd.');
+            $result = $app->email()->sendTemplate('test_email', $to, ['language' => 'nl']);
+            if ($result['sent']) {
+                admin_set_flash('success', 'Testmail verstuurd naar ' . $to . '.');
             } else {
-                $result = $app->email()->sendTemplate('test_email', $to, ['language' => 'nl']);
-                admin_set_flash(
-                    $result['sent'] ? 'success' : 'error',
-                    $result['sent'] ? 'Testmail verstuurd naar ' . $to . '.' : ('Verzenden mislukt: ' . ($result['error'] ?? 'onbekend'))
-                );
+                $error = (string) ($result['error'] ?? 'onbekend');
+                if ($error === 'smtp_not_configured') {
+                    $error = 'Geen mailer ingesteld. Op Railway: zet RESEND_API_KEY. Lokaal kan SMTP (MailProtect) werken als uw IP is toegelaten.';
+                }
+                admin_set_flash('error', 'Verzenden mislukt: ' . $error);
             }
         } elseif ($action === 'retry') {
             $id = (int) ($_POST['id'] ?? 0);
@@ -64,16 +65,43 @@ if (admin_is_post()) {
 }
 
 $failed = $app->emailLogs()->findFailed(50);
-$smtpOk = $app->email()->smtpConfigured();
+$smtpOk = $config->smtpConfigured();
+$resendOk = $config->resendConfigured();
+$sendPath = $app->email()->sendPath();
+$mailOk = $app->email()->mailConfigured();
 $s = $app->settings();
+
+$sendPathLabel = match ($sendPath) {
+    'resend' => 'Resend (HTTP-API) — productiepad',
+    'smtp' => 'SMTP — lokaal/dev',
+    default => 'Geen — berichten worden gelogd als mislukt tot Resend (of lokale SMTP) is ingesteld',
+};
 
 admin_layout_start('E-mail', 'email', $user);
 ?>
 <section class="admin-card">
-    <h2>SMTP-status</h2>
+    <h2>Verzenden</h2>
+    <div class="admin-confirm-box">
+        <p class="admin-help" style="margin:0 0 0.6rem;">
+            Combell MailProtect (<code>smtp-auth.mailprotect.be</code>) laat doorgaans alleen verbindingen toe vanaf hun eigen hosting.
+            Railway-IPs krijgen een TCP-timeout (geen inlogfout). Poort 587 of 465 maakt geen verschil.
+            Productie moet een HTTP-mailer gebruiken: Resend (<code>RESEND_API_KEY</code> op Railway), met geverifieerd afzenderdomein (hometerboekt.be).
+        </p>
+        <?php if ($config->smtpUnreachableFromThisHost() && !$resendOk): ?>
+            <p class="admin-help" style="margin:0;color:#8a241c;">
+                Deze server draait op Railway en MailProtect is het enige pad. SMTP wordt niet geprobeerd (dat zou ~20s time-outen). Zet <code>RESEND_API_KEY</code> op de Railway-service.
+            </p>
+        <?php endif; ?>
+    </div>
     <dl class="admin-dl">
-        <dt>Geconfigureerd</dt>
-        <dd><?= $smtpOk ? 'Ja — verzenden is mogelijk' : 'Nee — berichten worden gelogd als mislukt tot SMTP op de server staat' ?></dd>
+        <dt>Actief pad</dt>
+        <dd><?= h($sendPathLabel) ?></dd>
+        <dt>Resend</dt>
+        <dd><?= $resendOk ? 'Ja — HTTP-API ingesteld' : 'Nee — RESEND_API_KEY ontbreekt' ?></dd>
+        <dt>SMTP-gegevens aanwezig</dt>
+        <dd><?= $smtpOk ? 'Ja' : 'Nee' ?></dd>
+        <dt>Verzenden mogelijk</dt>
+        <dd><?= $mailOk ? 'Ja' : 'Nee — testmail hangt niet; de fout legt uit wat ontbreekt' ?></dd>
         <dt>Afzender (server)</dt>
         <dd><?= h($config->smtpFromName) ?> &lt;<?= h($config->smtpFromEmail) ?>&gt;</dd>
         <dt>Reply-to (server)</dt>
@@ -120,6 +148,7 @@ admin_layout_start('E-mail', 'email', $user);
 
 <section class="admin-card">
     <h2>Testmail</h2>
+    <p class="admin-help">Zelfde pad als gast- en managermails bij een boeking. Boekingen blijven bewaard als mail mislukt.</p>
     <form class="admin-form" method="post">
         <?= admin_csrf_field() ?>
         <input type="hidden" name="action" value="send_test">

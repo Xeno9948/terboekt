@@ -5,6 +5,7 @@ namespace Terboekt\Services;
 
 use Terboekt\Config;
 use Terboekt\Mail\OutgoingMessage;
+use Terboekt\Mail\ResendTransport;
 use Terboekt\Mail\SmtpTransport;
 use Terboekt\Money;
 use Terboekt\Repositories\EmailLogRepository;
@@ -27,11 +28,15 @@ final class EmailService
         'test_email',
     ];
 
+    /** Fail-fast when MailProtect SMTP is the only path on Railway. */
+    public const MAILPROTECT_BLOCKED_ERROR = 'mailprotect_blocked_use_resend: Combell MailProtect (smtp-auth.mailprotect.be) weigert verbindingen vanaf Railway (TCP-timeout). Productie moet Resend gebruiken: zet RESEND_API_KEY op Railway en verifieer het afzenderdomein (hometerboekt.be).';
+
     public function __construct(
         private readonly Config $config,
         private readonly EmailLogRepository $logs,
         private readonly PropertySettingsRepository $settings,
         private readonly SmtpTransport $transport,
+        private readonly ResendTransport $resend,
     ) {
     }
 
@@ -73,7 +78,37 @@ final class EmailService
 
     public function smtpConfigured(): bool
     {
-        return $this->transport->configured();
+        return $this->mailConfigured();
+    }
+
+    public function mailConfigured(): bool
+    {
+        return $this->unavailableReason() === null;
+    }
+
+    public function sendPath(): string
+    {
+        if ($this->resend->configured()) {
+            return 'resend';
+        }
+        if ($this->transport->configured() && !$this->config->smtpUnreachableFromThisHost()) {
+            return 'smtp';
+        }
+        return 'none';
+    }
+
+    public function unavailableReason(): ?string
+    {
+        if ($this->resend->configured()) {
+            return null;
+        }
+        if ($this->config->smtpUnreachableFromThisHost()) {
+            return self::MAILPROTECT_BLOCKED_ERROR;
+        }
+        if ($this->transport->configured()) {
+            return null;
+        }
+        return 'smtp_not_configured';
     }
 
     public function managerEmail(): string
@@ -115,16 +150,17 @@ final class EmailService
             'last_attempt_at' => $this->config->timezone ? gmdate('Y-m-d H:i:s') : gmdate('Y-m-d H:i:s'),
         ]);
 
-        if (!$this->transport->configured()) {
+        $blocked = $this->unavailableReason();
+        if ($blocked !== null) {
             $this->logs->update($id, [
                 'status' => 'failed',
-                'error' => 'smtp_not_configured',
+                'error' => $blocked,
             ]);
-            return ['id' => $id, 'sent' => false, 'status' => 'failed', 'error' => 'smtp_not_configured'];
+            return ['id' => $id, 'sent' => false, 'status' => 'failed', 'error' => $blocked];
         }
 
         try {
-            $this->transport->send(new OutgoingMessage(
+            $this->activeTransportSend(new OutgoingMessage(
                 to: [(string) $row['to_email']],
                 subject: (string) $row['subject'],
                 text: (string) $row['body_text'],
@@ -143,6 +179,15 @@ final class EmailService
             ]);
             return ['id' => $id, 'sent' => false, 'status' => 'failed', 'error' => $e->getMessage()];
         }
+    }
+
+    private function activeTransportSend(OutgoingMessage $message): void
+    {
+        if ($this->resend->configured()) {
+            $this->resend->send($message);
+            return;
+        }
+        $this->transport->send($message);
     }
 
     /** @return array<string, string> */
@@ -251,7 +296,7 @@ final class EmailService
                 'de' => ["Abgelaufen {$ref}", "Reservierung {$ref} von {$name} ist abgelaufen. Daten wurden freigegeben."],
             ],
             'test_email' => [
-                'nl' => ['Testbericht Home Terboekt', "Dit is een testbericht van de Home Terboekt mailer. SMTP werkt."],
+                'nl' => ['Testbericht Home Terboekt', "Dit is een testbericht van de Home Terboekt mailer."],
                 'en' => ['Home Terboekt test email', "This is a test message from the Home Terboekt mailer."],
                 'fr' => ['E-mail test Home Terboekt', "Ceci est un message test."],
                 'de' => ['Test-E-Mail Home Terboekt', "Dies ist eine Testnachricht."],

@@ -21,6 +21,8 @@ final class Config
         public readonly string $smtpFromEmail,
         public readonly string $smtpFromName,
         public readonly string $smtpReplyTo,
+        public readonly ?string $resendApiKey,
+        public readonly bool $onRailway,
         public readonly string $managerEmail,
         public readonly ?string $turnstileSiteKey,
         public readonly ?string $turnstileSecret,
@@ -52,6 +54,8 @@ final class Config
             smtpFromEmail: (string) Env::get('SMTP_FROM_EMAIL', 'info@hometerboekt.be'),
             smtpFromName: (string) Env::get('SMTP_FROM_NAME', 'Home Terboekt'),
             smtpReplyTo: (string) Env::get('SMTP_REPLY_TO', 'info@hometerboekt.be'),
+            resendApiKey: Env::get('RESEND_API_KEY'),
+            onRailway: self::detectRailway(),
             managerEmail: (string) Env::get('MANAGER_EMAIL', 'info@hometerboekt.be'),
             turnstileSiteKey: Env::get('TURNSTILE_SITE_KEY'),
             turnstileSecret: Env::get('TURNSTILE_SECRET_KEY'),
@@ -71,6 +75,23 @@ final class Config
         return $this->smtpHost !== null && $this->smtpHost !== ''
             && $this->smtpUsername !== null && $this->smtpUsername !== ''
             && $this->smtpPassword !== null && $this->smtpPassword !== '';
+    }
+
+    public function resendConfigured(): bool
+    {
+        return $this->resendApiKey !== null && $this->resendApiKey !== '';
+    }
+
+    public function smtpHostLooksLikeMailprotect(): bool
+    {
+        $host = strtolower((string) $this->smtpHost);
+        return $host !== '' && str_contains($host, 'mailprotect');
+    }
+
+    /** Combell MailProtect typically only accepts their own hosting IPs, not Railway. */
+    public function smtpUnreachableFromThisHost(): bool
+    {
+        return $this->smtpHostLooksLikeMailprotect() && $this->onRailway;
     }
 
     public function ratesJsonPath(): string
@@ -115,5 +136,16 @@ final class Config
         }
 
         return 'sqlite:' . TERBOEKT_BACKEND . '/storage/terboekt.sqlite';
+    }
+
+    private static function detectRailway(): bool
+    {
+        foreach (['RAILWAY_ENVIRONMENT', 'RAILWAY_PROJECT_ID', 'RAILWAY_PUBLIC_DOMAIN', 'RAILWAY_SERVICE_ID'] as $key) {
+            $value = Env::get($key);
+            if ($value !== null && $value !== '') {
+                return true;
+            }
+        }
+        return false;
     }
 }

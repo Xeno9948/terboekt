@@ -296,9 +296,6 @@ final class ApiKernel
             ]]);
         }
         if ($method === 'POST' && $path === '/admin/email/test') {
-            if (!$this->app->email()->smtpConfigured()) {
-                JsonResponse::send(200, ['ok' => true, 'sent' => false, 'reason' => 'smtp_not_configured']);
-            }
             $to = (string) ($this->jsonBody()['to'] ?? $user['email']);
             $result = $this->app->email()->sendTemplate('test_email', $to, ['language' => 'nl']);
             JsonResponse::send(200, ['ok' => true] + $result);
