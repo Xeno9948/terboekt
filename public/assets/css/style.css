@@ -1,10 +1,10 @@
 :root {
     --color-primary: #1a1a1a;
     --color-secondary: #f7f5f2;
-    --color-accent: #c0a062;
-    --color-accent-dark: #c0a062;
-    --color-accent-hover: #a8884e;
-    --color-accent-rgb: 192, 160, 98;
+    --color-accent: #6e4e22;
+    --color-accent-dark: #6e4e22;
+    --color-accent-hover: #1a1a1a;
+    --color-accent-rgb: 110, 78, 34;
     --color-text: #2a2a2a;
     --color-text-muted: #4a4a4a;
     --color-white: #ffffff;
@@ -132,10 +132,6 @@ header.nav-open {
 }
 
 .logo a {
-    background: linear-gradient(135deg, var(--color-accent) 0%, #e2c48a 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
     color: var(--color-accent);
 }
 
@@ -1389,7 +1385,7 @@ footer {
 
 .booking-progress button.is-done .booking-progress-index {
     background: rgba(var(--color-accent-rgb), 0.16);
-    color: var(--color-accent-hover);
+    color: var(--color-accent);
 }
 
 .booking-range {
@@ -1397,7 +1393,7 @@ footer {
     padding: 0.55rem 0.8rem;
     border-radius: 999px;
     background: rgba(var(--color-accent-rgb), 0.12);
-    color: var(--color-accent-hover);
+    color: var(--color-accent);
     font-size: 0.82rem;
     font-weight: 600;
     white-space: nowrap;
@@ -1512,7 +1508,7 @@ footer {
 
 .cal-day.is-in-range {
     background: rgba(var(--color-accent-rgb), 0.2);
-    color: var(--color-accent-hover);
+    color: var(--color-accent);
     text-decoration: none;
     border-radius: 10px;
 }
@@ -1931,7 +1927,7 @@ select {
     appearance: none;
     -webkit-appearance: none;
     background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c0a062' d='M1 1.2L6 6.2 11 1.2' stroke='%23c0a062' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236e4e22' d='M1 1.2L6 6.2 11 1.2' stroke='%236e4e22' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.9rem center;
     background-size: 12px;
@@ -1994,36 +1990,6 @@ body.lightbox-open header {
     }
 }
 
-/* Locked contrast: gold #c0a062 fails WCAG on cream and as a white-text button fill */
-.logo a {
-    background: none !important;
-    -webkit-background-clip: unset !important;
-    background-clip: unset !important;
-    -webkit-text-fill-color: #6e4e22 !important;
-    color: #6e4e22 !important;
-}
-
-.btn-primary,
-.btn-nav,
-.lang-switcher a.active,
-.lang-switcher a:hover {
-    background: #6e4e22;
-    border-color: #6e4e22;
-    color: #fff;
-}
-
-.btn-primary:hover,
-.btn-nav:hover {
-    background: #1a1a1a;
-    border-color: #1a1a1a;
-    color: #fff;
-}
-
-.section-label,
-.section-kicker,
-.section-badge,
-.btn-link,
-.checkbox a {
-    color: #6e4e22;
+2;
 }
 

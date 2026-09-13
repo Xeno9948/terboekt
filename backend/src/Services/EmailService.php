@@ -390,7 +390,7 @@ final class EmailService
         return '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><title>'
             . $safeSubject . '</title></head><body style="font-family:Inter,Arial,sans-serif;color:#1c1c1c;background:#f6f4f0;padding:24px;">'
             . '<div style="max-width:640px;margin:0 auto;background:#fff;padding:24px;border-radius:14px;">'
-            . '<p style="color:#9a7340;letter-spacing:.12em;text-transform:uppercase;font-size:12px;">Home Terboekt</p>'
+            . '<p style="color:#6e4e22;letter-spacing:.12em;text-transform:uppercase;font-size:12px;">Home Terboekt</p>'
             . '<h1 style="font-family:Georgia,serif;font-size:22px;">' . $safeSubject . '</h1>'
             . '<div>' . $inner . '</div>'
             . '</div></body></html>';
