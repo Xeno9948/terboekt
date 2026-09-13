@@ -93,6 +93,23 @@ final class PublishedRates
     }
 
     /**
+     * Write the live public payload so static fallbacks (rates.json) match admin.
+     */
+    public function persistPublicFile(string $path): void
+    {
+        $json = json_encode(
+            $this->publicPayload(),
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
+        if ($json === false) {
+            throw new RuntimeException('Could not encode public rates');
+        }
+        if (file_put_contents($path, $json . "\n") === false) {
+            throw new RuntimeException('Could not write public rates: ' . $path);
+        }
+    }
+
+    /**
      * Nightly amount derived from published packages (not invented).
      * Fri/Sat use weekend / 2 nights. Other nights use midweek / 4, else week / 7.
      */
@@ -146,7 +163,14 @@ final class PublishedRates
         $data['email'] = $settings->get('contact_email', (string) ($data['email'] ?? '')) ?? (string) ($data['email'] ?? '');
         $data['checkinFrom'] = $settings->get('checkin_from', (string) ($data['checkinFrom'] ?? '16:00')) ?? '16:00';
         $data['checkoutBefore'] = $settings->get('checkout_before', (string) ($data['checkoutBefore'] ?? '10:00')) ?? '10:00';
-        $data['houseRulesUrl'] = $settings->get('house_rules_url', (string) ($data['houseRulesUrl'] ?? 'voorwaarden.html')) ?? 'voorwaarden.html';
+        $houseRules = $settings->get('house_rules_url', (string) ($data['houseRulesUrl'] ?? '/voorwaarden')) ?? '/voorwaarden';
+        if ($houseRules !== '' && !preg_match('#^https?://#i', $houseRules) && str_ends_with($houseRules, '.html')) {
+            $base = basename($houseRules, '.html');
+            $houseRules = $base === 'index' ? '/' : '/' . $base;
+        } elseif ($houseRules !== '' && !preg_match('#^https?://#i', $houseRules)) {
+            $houseRules = '/' . ltrim($houseRules, '/');
+        }
+        $data['houseRulesUrl'] = $houseRules !== '' ? $houseRules : '/voorwaarden';
         $data['timezone'] = $settings->get('timezone', (string) ($data['timezone'] ?? 'Europe/Brussels')) ?? 'Europe/Brussels';
         $data['depositPercentage'] = $settings->depositPercentage();
         $data['depositDeadlineDays'] = $settings->depositDeadlineDays();

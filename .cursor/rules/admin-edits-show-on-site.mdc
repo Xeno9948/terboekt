@@ -1,0 +1,27 @@
+---
+description: Admin-editable values must update every public surface
+alwaysApply: true
+---
+
+# Admin edits must show on the website
+
+If a field can be changed in `/admin` (prijzen, instellingen, e-mail), every guest-facing copy that mentions that value must update after save. No leftover hardcoded euros, guest counts, emails, addresses, or check-in times.
+
+Applies to: homepage, `/prijzen` (table **and** FAQ **and** JSON-LD), `/contact`, `/voorwaarden`, header, footer, booking quote, emails.
+
+# How
+
+- Live source is the database (`rate_rules`, `property_settings`). `/api/rates` must serve that, not only `rates.json`.
+- Public HTML/i18n uses placeholders (`{weekendLow}`, `{cleaning}`, `{maxGuests}`, `{email}`) filled by `pricing.js` / `TerboektSiteVars`. Never put `€ 800` in `translations.js` or FAQ answers.
+- After an admin save that guests can see, publish the public payload (`publishPublicRates()` if that helper exists).
+- When you add a new admin field, grep the public site for the old hardcoded value and wire it the same way. If you cannot find every surface, say so — do not ship a half-update.
+
+# Examples
+
+```text
+❌ FAQ: "Een weekend is € 800 … € 900"
+✅ FAQ: "Een weekend is {weekendLow} … {weekendHigh}"
+
+❌ Footer email hardcoded after Instellingen → contact e-mail changed
+✅ Footer reads `data-site="email"` from `/api/rates`
+```

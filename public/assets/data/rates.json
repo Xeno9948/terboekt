@@ -7,7 +7,7 @@
   "email": "info@hometerboekt.be",
   "checkinFrom": "16:00",
   "checkoutBefore": "10:00",
-  "houseRulesUrl": "voorwaarden.html",
+  "houseRulesUrl": "/voorwaarden",
   "timezone": "Europe/Brussels",
   "depositPercentage": 30,
   "depositDeadlineDays": 7,

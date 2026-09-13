@@ -305,6 +305,7 @@ if (admin_is_post()) {
             );
             admin_set_flash('success', 'Regel bijgewerkt.');
         }
+        admin_publish_public_rates($app);
     } catch (Throwable $e) {
         admin_handle_action_error($e);
     }

@@ -26,6 +26,7 @@ final class EmailService
         'manager_calendar_sync_warning',
         'manager_booking_expired',
         'test_email',
+        'admin_otp',
     ];
 
     /** Fail-fast when MailProtect SMTP is the only path on Railway. */
@@ -231,6 +232,7 @@ final class EmailService
         $depositPct = (string) (int) ($vars['deposit_percentage'] ?? $this->settings->depositPercentage());
         $approveUrl = trim((string) ($vars['approve_url'] ?? ''));
         $rejectUrl = trim((string) ($vars['reject_url'] ?? ''));
+        $otpCode = trim((string) ($vars['otp_code'] ?? ''));
 
         $map = [
             'booking_request_received' => [
@@ -304,6 +306,12 @@ final class EmailService
                 'en' => ['Home Terboekt test email', "This is a test message from the Home Terboekt mailer."],
                 'fr' => ['E-mail test Home Terboekt', "Ceci est un message test."],
                 'de' => ['Test-E-Mail Home Terboekt', "Dies ist eine Testnachricht."],
+            ],
+            'admin_otp' => [
+                'nl' => ['Uw aanmeldcode', "Beste {$name},\n\nUw code om aan te melden in het beheer is: {$otpCode}\n\nDe code is 10 minuten geldig. Heeft u dit niet gevraagd? Wijzig dan uw wachtwoord."],
+                'en' => ['Your sign-in code', "Hello {$name},\n\nYour admin sign-in code is: {$otpCode}\n\nIt expires in 10 minutes. If you did not request this, change your password."],
+                'fr' => ['Votre code de connexion', "Bonjour {$name},\n\nVotre code d’administration est : {$otpCode}\n\nIl expire dans 10 minutes."],
+                'de' => ['Ihr Anmeldecode', "Hallo {$name},\n\nIhr Admin-Anmeldecode lautet: {$otpCode}\n\nEr gilt 10 Minuten."],
             ],
         ];
 
@@ -390,7 +398,7 @@ final class EmailService
         return '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><title>'
             . $safeSubject . '</title></head><body style="font-family:Inter,Arial,sans-serif;color:#1c1c1c;background:#f6f4f0;padding:24px;">'
             . '<div style="max-width:640px;margin:0 auto;background:#fff;padding:24px;border-radius:14px;">'
-            . '<p style="color:#6e4e22;letter-spacing:.12em;text-transform:uppercase;font-size:12px;">Home Terboekt</p>'
+            . '<p style="color:#c0a063;letter-spacing:.12em;text-transform:uppercase;font-size:12px;">Home Terboekt</p>'
             . '<h1 style="font-family:Georgia,serif;font-size:22px;">' . $safeSubject . '</h1>'
             . '<div>' . $inner . '</div>'
             . '</div></body></html>';

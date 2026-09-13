@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/_layout.php';
+require_once __DIR__ . '/../_pages.php';
 
 [$app, $user] = admin_require();
 $s = $app->settings();
@@ -12,6 +13,29 @@ if (admin_is_post()) {
         admin_redirect('settings.php');
     }
     try {
+        $action = (string) ($_POST['action'] ?? 'save');
+        if ($action === 'enable_otp' || $action === 'disable_otp') {
+            $result = $app->auth()->setOtpEnabledFor(
+                $user,
+                $action === 'enable_otp',
+                (string) ($_POST['password'] ?? '')
+            );
+            if (!$result['ok']) {
+                $message = match ($result['error'] ?? '') {
+                    'invalid_password' => 'Wachtwoord klopt niet.',
+                    'mail_not_configured' => 'Zet eerst e-mail klaar (Resend of SMTP). Anders kan de code niet aankomen.',
+                    default => 'Tweestapsverificatie kon niet gewijzigd worden.',
+                };
+                throw new InvalidArgumentException($message);
+            }
+            admin_set_flash(
+                'success',
+                $action === 'enable_otp'
+                    ? 'Tweestapsverificatie staat aan. Bij de volgende aanmelding krijgt u een code per e-mail.'
+                    : 'Tweestapsverificatie staat uit.'
+            );
+            admin_redirect('settings.php');
+        }
         $keys = [
             'property_name',
             'property_address',
@@ -51,8 +75,12 @@ if (admin_is_post()) {
             if (in_array($key, ['max_guests', 'bedrooms', 'deposit_percentage', 'deposit_deadline_days', 'request_expiry_days'], true)) {
                 $value = $value === '' ? '' : (string) (int) $value;
             }
+            if ($key === 'house_rules_url') {
+                $value = terboekt_clean_public_path($value, '/voorwaarden');
+            }
             $app->settings()->upsert($key, $value === '' ? ($key === 'bank_iban' || $key === 'bank_bic' || $key === 'bank_name' || $key === 'bank_account_holder' || $key === 'privacy_url' || $key === 'cancellation_url' || $key === 'terms_version' ? '' : $value) : $value);
         }
+        admin_publish_public_rates($app);
         admin_set_flash('success', 'Instellingen opgeslagen. Bankvelden blijven leeg tot u ze invult.');
     } catch (Throwable $e) {
         admin_handle_action_error($e);
@@ -159,10 +187,20 @@ admin_layout_start('Instellingen', 'settings', $user);
     </section>
 
     <section class="admin-card">
+        <h2>Website-pagina’s</h2>
+        <p class="admin-help">Publieke paden zonder <code>.html</code>. Nieuwe <code>public/*.html</code>-bestanden komen automatisch in de sitemap. Pas hieronder de URL’s aan die in footer en mails staan.</p>
+        <ul class="admin-help">
+            <?php foreach (terboekt_public_pages() as $page): ?>
+                <li><a href="<?= h($page['path']) ?>" target="_blank" rel="noopener"><?= h($page['path']) ?></a> ← <?= h($page['file']) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+
+    <section class="admin-card">
         <h2>Voorwaarden</h2>
         <div class="form-group">
             <label for="house_rules_url">Huur- en boekingsvoorwaarden (URL)</label>
-            <input type="text" id="house_rules_url" name="house_rules_url" value="<?= h($val($s, 'house_rules_url')) ?>">
+            <input type="text" id="house_rules_url" name="house_rules_url" value="<?= h(terboekt_clean_public_path($val($s, 'house_rules_url'), '/voorwaarden')) ?>" placeholder="/voorwaarden">
         </div>
         <div class="form-group">
             <label for="privacy_url">Privacy (URL)</label>
@@ -179,5 +217,32 @@ admin_layout_start('Instellingen', 'settings', $user);
         <button class="btn btn-primary" type="submit">Bewaar instellingen</button>
     </section>
 </form>
+
+<section class="admin-card">
+    <h2>Tweestapsverificatie</h2>
+    <?php if ($app->auth()->otpEnabled($user)): ?>
+        <p>Aan. Na het wachtwoord krijgt u een code op <?= h((string) $user['email']) ?>.</p>
+        <form class="admin-form" method="post">
+            <?= admin_csrf_field() ?>
+            <input type="hidden" name="action" value="disable_otp">
+            <div class="form-group">
+                <label for="otp_off_password">Bevestig met uw wachtwoord</label>
+                <input type="password" id="otp_off_password" name="password" required autocomplete="current-password">
+            </div>
+            <button class="btn btn-outline" type="submit">Zet tweestapsverificatie uit</button>
+        </form>
+    <?php else: ?>
+        <p class="admin-help">Aanbevolen. Na het wachtwoord sturen we een eenmalige code naar <?= h((string) $user['email']) ?>. E-mail moet werken (Resend in productie).</p>
+        <form class="admin-form" method="post">
+            <?= admin_csrf_field() ?>
+            <input type="hidden" name="action" value="enable_otp">
+            <div class="form-group">
+                <label for="otp_on_password">Bevestig met uw wachtwoord</label>
+                <input type="password" id="otp_on_password" name="password" required autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary" type="submit">Zet tweestapsverificatie aan</button>
+        </form>
+    <?php endif; ?>
+</section>
 <?php
 admin_layout_end();

@@ -7,6 +7,7 @@
     <meta name="description"
         content="Home Terboekt — luxe vakantiewoning voor 8 personen in Nationaal Park Hoge Kempen, Genk. Vier slaapkamers, verwarmd privézwembad, ruime tuin en moderne voorzieningen.">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hometerboekt.be/">
     <meta property="og:title" content="Home Terboekt — luxe vakantiewoning in Genk">
     <meta property="og:description"
         content="Vier slaapkamers, verwarmd privézwembad en de poort van Nationaal Park Hoge Kempen voor de deur.">
@@ -18,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=c0a064">
 </head>
 
 <body class="has-hero">
@@ -30,7 +31,7 @@
             <h1 data-i18n="hero_title">Exclusief verblijven in het groene hart van Genk</h1>
             <p data-i18n="hero_subtitle">Een oase van rust, design en privacy aan de poort van Nationaal Park Hoge Kempen.</p>
             <div class="hero-buttons">
-                <a href="contact.html" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+                <a href="/contact" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
                 <a href="#about" class="btn btn-secondary" data-i18n="cta_explore">Ontdek de woning</a>
             </div>
         </div>
@@ -52,15 +53,51 @@
         </div>
         <div class="container">
             <dl class="stat-bar">
-                <div><dt>8</dt><dd data-i18n="stat_guests">personen</dd></div>
-                <div><dt>4</dt><dd data-i18n="stat_rooms">slaapkamers</dd></div>
+                <div><dt data-site="maxGuests">8</dt><dd data-i18n="stat_guests">personen</dd></div>
+                <div><dt data-site="bedrooms">4</dt><dd data-i18n="stat_rooms">slaapkamers</dd></div>
                 <div><dt>1</dt><dd data-i18n="stat_pool">privézwembad</dd></div>
                 <div><dt>4</dt><dd data-i18n="stat_cars">auto’s op eigen terrein</dd></div>
             </dl>
         </div>
     </section>
 
-    <section class="soft">
+    <section class="home-avail soft" id="availability">
+        <div class="container">
+            <div class="home-avail-layout">
+                <div class="home-avail-aside">
+                    <div class="home-avail-copy">
+                        <span class="section-label" data-i18n="home_avail_kicker">Beschikbaarheid</span>
+                        <h2 data-i18n="home_avail_title">Wanneer wilt u komen?</h2>
+                        <p data-i18n="book_dates_help">Tik op aankomst, daarna op vertrek. Geblokkeerde dagen kunt u niet kiezen.</p>
+                    </div>
+                    <div class="home-avail-dates">
+                        <div>
+                            <span data-i18n="form_checkin">Aankomst</span>
+                            <strong data-home-checkin>—</strong>
+                        </div>
+                        <div>
+                            <span data-i18n="form_checkout">Vertrek</span>
+                            <strong data-home-checkout>—</strong>
+                        </div>
+                    </div>
+                    <div class="home-avail-foot">
+                        <div class="cal-legend">
+                            <span><i class="leg-available"></i> <span data-i18n="book_legend_available">Beschikbaar</span></span>
+                            <span><i class="leg-range"></i> <span data-i18n="book_legend_selected">Selectie</span></span>
+                            <span><i class="leg-blocked"></i> <span data-i18n="book_unavailable">Niet beschikbaar</span></span>
+                        </div>
+                        <a href="/contact" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+                        <p class="home-avail-carry" data-i18n="home_avail_carry">Uw gekozen data worden meegenomen naar de reservatie.</p>
+                    </div>
+                </div>
+                <div class="home-avail-card">
+                    <div data-home-cal class="cal" aria-label="Beschikbaarheidskalender"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
         <div class="container">
             <div class="text-center mb-4">
                 <h2 data-i18n="why_title">Waarom kiezen voor Home Terboekt</h2>
@@ -242,7 +279,7 @@
                     <h3 data-i18n="rules_card">Huisregels</h3>
                     <p data-i18n="prac_pets">Huisdieren zijn niet toegelaten om hygiënische redenen</p>
                     <p data-i18n="prac_parties">Drinkpartijen en feesten zijn niet toegelaten</p>
-                    <a class="btn-link" href="voorwaarden.html">
+                    <a class="btn-link" href="/voorwaarden">
                         <span data-i18n="prac_rules">Huisreglement en reservatievoorwaarden</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
@@ -287,7 +324,7 @@
                     <li><i class="fa-solid fa-bicycle"></i><span data-i18n="dist_cycle">Direct aan het fietsroutenetwerk</span></li>
                     <li><i class="fa-solid fa-train"></i><span data-i18n="dist_maastricht">25–30 minuten naar Maastricht</span></li>
                 </ul>
-                <a href="genk.html" class="btn btn-outline"><span data-i18n="btn_explore_area">Bekijk alle uitstappen</span> <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/genk" class="btn btn-outline"><span data-i18n="btn_explore_area">Bekijk alle uitstappen</span> <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -382,89 +419,14 @@
         </div>
     </section>
 
-    <section class="home-avail" id="availability">
-        <div class="container home-avail-shell">
-            <div class="home-avail-copy">
-                <span class="section-label" data-i18n="home_avail_kicker">Beschikbaarheid</span>
-                <h2 data-i18n="home_avail_title">Wanneer wilt u komen?</h2>
-                <p data-i18n="book_dates_help">Tik op aankomst, daarna op vertrek. Geblokkeerde dagen kunt u niet kiezen.</p>
-                <p class="booking-range is-empty" data-home-range>Kies aankomst en vertrek</p>
-                <div class="cal-legend">
-                    <span><i class="leg-available"></i> <span data-i18n="book_legend_available">Beschikbaar</span></span>
-                    <span><i class="leg-range"></i> <span data-i18n="book_legend_selected">Selectie</span></span>
-                    <span><i class="leg-blocked"></i> <span data-i18n="book_unavailable">Niet beschikbaar</span></span>
-                </div>
-                <p class="form-help booking-note" data-home-note hidden></p>
-                <a href="contact.html" class="btn btn-primary" data-home-cta data-i18n="cta_book">Reserveer nu</a>
-            </div>
-            <div class="form-card home-avail-cal">
-                <div data-home-cal class="cal" aria-label="Beschikbaarheidskalender"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="rates-section">
+    <section class="tight">
         <div class="container">
-            <div class="section-intro">
-                <span class="section-label" data-i18n="rates_label">Prijzen</span>
-                <h2 data-i18n="rates_title">Transparante tarieven</h2>
-                <p data-i18n="rates_lead">Prijs voor de hele woning, tot 8 personen. Geen verborgen kamertoeslag.</p>
-            </div>
-            <div class="rate-table-wrap">
-                <table class="rate-table">
-                    <thead>
-                        <tr>
-                            <th data-i18n="col_stay">Verblijf</th>
-                            <th><span data-i18n="low">Laagseizoen</span><small data-i18n="season_low_short">nov–mrt</small></th>
-                            <th><span data-i18n="high">Hoogseizoen</span><small data-i18n="season_high_short">apr–sep + schoolvakanties</small></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-rate-package="weekend">
-                            <th><span data-i18n="rate_weekend">Weekend, 2 nachten</span><small data-i18n="rate_weekend_sub">vrijdag–zondag</small></th>
-                            <td data-rate="weekend" data-season="low">€ 800</td>
-                            <td data-rate="weekend" data-season="high">€ 900</td>
-                        </tr>
-                        <tr data-rate-package="extended">
-                            <th><span data-i18n="rate_extended">Verlengd weekend</span><small data-i18n="rate_extended_sub">vrijdag–maandag</small></th>
-                            <td data-rate="extended" data-season="low">€ 1.100</td>
-                            <td data-rate="extended" data-season="high">€ 1.250</td>
-                        </tr>
-                        <tr data-rate-package="midweek">
-                            <th><span data-i18n="rate_midweek">Midweek, 4 nachten</span><small data-i18n="rate_midweek_sub">maandag–vrijdag</small></th>
-                            <td data-rate="midweek" data-season="low">€ 1.250</td>
-                            <td data-rate="midweek" data-season="high">€ 1.500</td>
-                        </tr>
-                        <tr data-rate-package="week">
-                            <th><span data-i18n="rate_week">Week, 7 nachten</span><small data-i18n="rate_week_sub">vrijdag–vrijdag</small></th>
-                            <td data-rate="week" data-season="low">€ 2.100</td>
-                            <td data-rate="week" data-season="high">€ 2.400</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="rate-notes">
-                <article>
-                    <h3 data-i18n="included_title">Inbegrepen</h3>
-                    <p data-i18n="prac_linen">Bed- en badlinnen inbegrepen</p>
-                    <p data-i18n="feat_wifi">Supersnelle wifi</p>
-                    <p data-i18n="feat_park">Parking tot 4 auto’s</p>
-                </article>
-                <article>
-                    <h3 data-i18n="extras_title">Extra</h3>
-                    <p data-i18n="fee_cleaning">Verplichte eindschoonmaak: € 100</p>
-                    <p data-i18n="fee_tax">Toeristenbelasting: € 1,50 per persoon per nacht</p>
-                    <p data-i18n="fee_deposit">Huurwaarborg: € 500</p>
-                    <p data-i18n="fee_sunday">Zondagavond tot 19.00 uur bijboeken: € 150</p>
-                    <p data-i18n="fee_extra_guest" data-extra-guest hidden>Extra gast vanaf de 5e persoon: € 0 per nacht</p>
-                </article>
-            </div>
             <div class="cta-band">
                 <div>
-                    <h3 data-i18n="cta_band_title">Zien we jou binnenkort?</h3>
-                    <p data-i18n="cta_band_text">Vraag een reservatie aan voor onze luxueuze vakantiewoning.</p>
+                    <h2 data-i18n="rates_title">Transparante tarieven</h2>
+                    <p data-i18n="rates_lead">Prijs voor de hele woning, tot 8 personen. Geen verborgen kamertoeslag.</p>
                 </div>
-                <a href="contact.html" class="btn btn-primary" data-i18n="cta_book">Reserveer nu</a>
+                <a href="/prijzen" class="btn btn-outline" data-i18n="prices_more">Bekijk alle prijzen</a>
             </div>
         </div>
     </section>

@@ -34,6 +34,7 @@ if (admin_is_post()) {
             if ($fromEmail !== '') {
                 $app->settings()->upsert('contact_email', $fromEmail);
             }
+            admin_publish_public_rates($app);
             admin_set_flash('success', 'E-mailgegevens opgeslagen. Nieuwe aanvragen gaan naar het manageradres.');
         } elseif ($action === 'send_test') {
             $to = trim((string) ($_POST['to'] ?? $user['email']));

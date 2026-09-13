@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /editor
+Disallow: /api
+
+Sitemap: https://hometerboekt.be/sitemap.xml

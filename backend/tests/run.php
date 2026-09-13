@@ -168,6 +168,7 @@ $tests['admin pricing and settings appear in public rates payload'] = function (
     );
     $app->settings()->upsert('contact_email', 'nieuw@hometerboekt.be');
     $app->settings()->upsert('property_name', 'Villa Test');
+    $app->settings()->upsert('house_rules_url', 'voorwaarden.html');
     $payload = $app->publishedRates()->publicPayload();
     $weekend = null;
     foreach ($payload['packages'] as $pkg) {
@@ -181,6 +182,14 @@ $tests['admin pricing and settings appear in public rates payload'] = function (
     assert_same(12300, (int) $payload['fees']['cleaningCents'], 'live cleaning fee');
     assert_same('nieuw@hometerboekt.be', (string) $payload['email'], 'live contact email');
     assert_same('Villa Test', (string) $payload['propertyName'], 'live property name');
+    assert_same('/voorwaarden', (string) $payload['houseRulesUrl'], 'house rules url is clean');
+    $tmp = sys_get_temp_dir() . '/terboekt-public-rates-test.json';
+    $app->publishedRates()->persistPublicFile($tmp);
+    $written = json_decode((string) file_get_contents($tmp), true);
+    unlink($tmp);
+    assert_true(is_array($written), 'persisted public rates is JSON');
+    assert_same('nieuw@hometerboekt.be', (string) ($written['email'] ?? ''), 'persisted contact email');
+    assert_same('Villa Test', (string) ($written['propertyName'] ?? ''), 'persisted property name');
 };
 
 $tests['all statuses persist and illegal transitions rejected'] = function (): void {
@@ -564,6 +573,47 @@ $tests['admin password hashing'] = function (): void {
     $user = $app->auth()->createAdmin('owner@hometerboekt.be', 'super-secret-pass', 'owner');
     assert_true(password_verify('super-secret-pass', (string) $user['password_hash']), 'hash verifies');
     assert_true($user['password_hash'] !== 'super-secret-pass', 'not stored plaintext');
+};
+
+$tests['admin email otp is optional and required after enable'] = function (): void {
+    $app = bootApp();
+    $user = $app->auth()->createAdmin('otp-owner@hometerboekt.be', 'super-secret-pass', 'owner');
+    $app->auth()->startSession();
+    $csrf = \Terboekt\Security\Csrf::token();
+    $plain = $app->auth()->login('otp-owner@hometerboekt.be', 'super-secret-pass', $csrf);
+    assert_true(!empty($plain['ok']) && empty($plain['needs_otp']), '2fa off logs in immediately');
+    assert_true($app->auth()->currentUser() !== null, 'session after password-only login');
+    $app->auth()->logout();
+
+    $fresh = $app->admins()->findById((int) $user['id']);
+    assert_true($fresh !== null, 'admin exists');
+    $app->auth()->startSession();
+    $enabled = $app->auth()->setOtpEnabledFor($fresh, true, 'wrong-pass');
+    assert_same('invalid_password', $enabled['error'] ?? null, 'enable needs password');
+    $enabled = $app->auth()->setOtpEnabledFor($fresh, true, 'super-secret-pass');
+    assert_true(!empty($enabled['ok']), 'enable otp');
+
+    $csrf = \Terboekt\Security\Csrf::token();
+    $step = $app->auth()->login('otp-owner@hometerboekt.be', 'super-secret-pass', $csrf);
+    assert_true(!empty($step['needs_otp']), 'password then otp');
+    assert_true($app->auth()->currentUser() === null, 'not logged in before otp');
+    assert_true($app->auth()->pendingOtp(), 'otp pending');
+
+    $log = $app->db->fetchOne("SELECT * FROM email_logs WHERE template_key = 'admin_otp' ORDER BY id DESC LIMIT 1");
+    assert_true($log !== null, 'otp email logged');
+    assert_true(preg_match('/\b(\d{6})\b/', (string) $log['body_text'], $match) === 1, 'six digit code');
+    $code = $match[1];
+
+    $csrf = \Terboekt\Security\Csrf::token();
+    $bad = $app->auth()->verifyOtp('000000', $csrf);
+    assert_same('invalid_otp', $bad['error'] ?? null, 'wrong otp');
+
+    $csrf = \Terboekt\Security\Csrf::token();
+    $ok = $app->auth()->verifyOtp($code, $csrf);
+    assert_true(!empty($ok['ok']), 'correct otp logs in');
+    $sessionUser = $app->auth()->currentUser();
+    assert_true($sessionUser !== null && (string) $sessionUser['email'] === 'otp-owner@hometerboekt.be', 'logged in after otp');
+    $app->auth()->logout();
 };
 
 $tests['booking persist independent of email'] = function (): void {

@@ -237,6 +237,26 @@ final class ApiKernel
                 $code = $result['error'] === 'rate_limited' ? 429 : 401;
                 JsonResponse::error($code, $result['error'] ?? 'unauthorized', 'Login failed');
             }
+            if (!empty($result['needs_otp'])) {
+                JsonResponse::send(200, [
+                    'ok' => true,
+                    'needs_otp' => true,
+                    'email' => $result['email'] ?? null,
+                    'csrf' => Csrf::token(),
+                ]);
+            }
+            JsonResponse::send(200, ['ok' => true, 'user' => $result['user'], 'csrf' => Csrf::token()]);
+        }
+        if ($method === 'POST' && $path === '/admin/otp') {
+            $body = $this->jsonBody();
+            $result = $this->app->auth()->verifyOtp(
+                (string) ($body['otp'] ?? $body['code'] ?? ''),
+                (string) ($body['csrf'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')
+            );
+            if (!$result['ok']) {
+                $code = $result['error'] === 'rate_limited' ? 429 : 401;
+                JsonResponse::error($code, $result['error'] ?? 'unauthorized', 'OTP failed');
+            }
             JsonResponse::send(200, ['ok' => true, 'user' => $result['user'], 'csrf' => Csrf::token()]);
         }
         if ($method === 'POST' && $path === '/admin/logout') {

@@ -1,3 +1,15 @@
 RewriteEngine On
 RewriteRule ^calendar/unavailable\.ics$ api/ical.php [L,QSA]
 RewriteRule ^admin/?$ admin/index.php [L,QSA]
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+RewriteRule ^index\.html$ / [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+([a-z0-9-]+)\.html[\s?] [NC]
+RewriteCond %{DOCUMENT_ROOT}/%1.html -f
+RewriteRule ^([a-z0-9-]+)\.html$ /$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([a-z0-9-]+)/?$ $1.html [L]

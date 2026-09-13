@@ -563,13 +563,10 @@ section.tight { padding: 3rem 0; }
 .rate-notes p { margin-bottom: 0.4rem; }
 
 .prices-copy {
-    max-width: 42rem;
+    max-width: 38rem;
 }
 .prices-copy h2 {
-    margin: 1.75rem 0 0.7rem;
-}
-.prices-copy p + p {
-    margin-top: 0.85rem;
+    margin: 0 0 0.7rem;
 }
 .prices-links {
     display: flex;
@@ -577,23 +574,57 @@ section.tight { padding: 3rem 0; }
     gap: 0.75rem;
     margin-top: 1.5rem;
 }
+.season-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 1.35rem 0 0;
+}
+.season-pills span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    background: var(--color-secondary);
+    border: 1px solid var(--color-line);
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: var(--color-primary);
+}
+.story {
+    max-width: 38rem;
+}
+.story-follow {
+    margin-top: 1.5rem;
+}
+.story-lead-in {
+    margin: 0 0 1.5rem;
+}
+.story + .facts,
+.story + .info-cards,
+.story + .village-grid,
+.story + .stat-bar {
+    margin-top: 1.75rem;
+}
 .faq-list {
     display: grid;
-    gap: 1.35rem;
+    gap: 1rem;
     margin: 1.5rem 0 2.25rem;
-    max-width: 46rem;
 }
 .faq-list article {
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--color-line);
-}
-.faq-list article:last-child {
-    border-bottom: 0;
-    padding-bottom: 0;
+    padding: 1.35rem 1.4rem 1.3rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
 }
 .faq-list h3 {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
     font-size: 1.15rem;
+}
+.faq-list p {
+    margin: 0;
+    color: var(--color-text-muted);
 }
 
 .facts {
@@ -1898,6 +1929,7 @@ footer {
     width: 100%;
     max-width: 28rem;
     justify-self: end;
+    margin-inline: 0;
     padding: 1.55rem 1.6rem 1.65rem;
     background: var(--color-white);
     border: 1px solid var(--color-line);
@@ -1950,6 +1982,7 @@ footer {
         grid-template-columns: minmax(0, 1fr);
         gap: 1.35rem;
         align-items: stretch;
+        justify-items: stretch;
     }
 
     .home-avail-aside {
@@ -1958,7 +1991,12 @@ footer {
 
     .home-avail-copy { order: 1; }
     .home-avail-dates { order: 2; }
-    .home-avail-card { order: 3; }
+    .home-avail-card {
+        order: 3;
+        justify-self: center;
+        margin-inline: auto;
+        max-width: min(28rem, 100%);
+    }
     .home-avail-foot { order: 4; }
 }
 

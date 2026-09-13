@@ -110,6 +110,12 @@ final class App
         );
     }
 
+    public function publishPublicRates(): void
+    {
+        $this->publishedRates = null;
+        $this->publishedRates()->persistPublicFile($this->config->ratesJsonPath());
+    }
+
     public function pricing(): Services\PricingService
     {
         return $this->pricing ??= new Services\PricingService($this->rates(), $this->settings(), $this->publishedRates());
@@ -177,7 +183,7 @@ final class App
 
     public function auth(): Services\AuthService
     {
-        return $this->auth ??= new Services\AuthService($this->db, $this->admins(), $this->config);
+        return $this->auth ??= new Services\AuthService($this->db, $this->admins(), $this->config, $this->email());
     }
 
     public function mailActions(): Services\ManagerMailAction

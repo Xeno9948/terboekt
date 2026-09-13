@@ -62,6 +62,40 @@ final class AdminUserRepository
         );
     }
 
+    public function setOtpEnabled(int $id, bool $enabled): void
+    {
+        $this->db->query(
+            'UPDATE admin_users SET otp_enabled = :e, otp_code_hash = NULL, otp_expires_at = NULL, otp_attempts = 0, updated_at = :u WHERE id = :id',
+            ['e' => $enabled ? 1 : 0, 'u' => $this->db->now(), 'id' => $id]
+        );
+    }
+
+    public function storeOtp(int $id, string $hash, string $expiresAt): void
+    {
+        $this->db->query(
+            'UPDATE admin_users SET otp_code_hash = :h, otp_expires_at = :e, otp_attempts = 0, updated_at = :u WHERE id = :id',
+            ['h' => $hash, 'e' => $expiresAt, 'u' => $this->db->now(), 'id' => $id]
+        );
+    }
+
+    public function incrementOtpAttempts(int $id): int
+    {
+        $this->db->query(
+            'UPDATE admin_users SET otp_attempts = otp_attempts + 1, updated_at = :u WHERE id = :id',
+            ['u' => $this->db->now(), 'id' => $id]
+        );
+        $row = $this->findById($id);
+        return (int) ($row['otp_attempts'] ?? 0);
+    }
+
+    public function clearOtp(int $id): void
+    {
+        $this->db->query(
+            'UPDATE admin_users SET otp_code_hash = NULL, otp_expires_at = NULL, otp_attempts = 0, updated_at = :u WHERE id = :id',
+            ['u' => $this->db->now(), 'id' => $id]
+        );
+    }
+
     /** @return list<array<string, mixed>> */
     public function all(): array
     {

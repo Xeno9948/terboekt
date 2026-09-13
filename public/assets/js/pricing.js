@@ -37,9 +37,23 @@
         return formatEuro(low) + ' / ' + formatEuro(high);
     }
 
+    function packageById(data, id) {
+        const packages = data.packages || [];
+        for (let i = 0; i < packages.length; i += 1) {
+            if (packages[i] && packages[i].id === id) {
+                return packages[i];
+            }
+        }
+        return null;
+    }
+
     function siteVarsFromRates(data) {
         const fees = data.fees || {};
         const extra = data.extraGuest || {};
+        const weekend = packageById(data, 'weekend') || {};
+        const extended = packageById(data, 'extended') || {};
+        const midweek = packageById(data, 'midweek') || {};
+        const week = packageById(data, 'week') || {};
         return {
             cleaning: formatEuro(Number(fees.cleaningCents) || 0),
             tax: formatEuro(Number(fees.touristTaxPerPersonPerNightCents) || 0),
@@ -54,7 +68,15 @@
             propertyName: data.propertyName || 'Home Terboekt',
             checkinFrom: data.checkinFrom || '16:00',
             checkoutBefore: data.checkoutBefore || '10:00',
-            depositPercent: String(data.depositPercentage != null ? data.depositPercentage : 30)
+            depositPercent: String(data.depositPercentage != null ? data.depositPercentage : 30),
+            weekendLow: formatEuro(Number(weekend.lowCents) || 0),
+            weekendHigh: formatEuro(Number(weekend.highCents) || 0),
+            extendedLow: formatEuro(Number(extended.lowCents) || 0),
+            extendedHigh: formatEuro(Number(extended.highCents) || 0),
+            midweekLow: formatEuro(Number(midweek.lowCents) || 0),
+            midweekHigh: formatEuro(Number(midweek.highCents) || 0),
+            weekLow: formatEuro(Number(week.lowCents) || 0),
+            weekHigh: formatEuro(Number(week.highCents) || 0)
         };
     }
 
@@ -74,6 +96,17 @@
             el.textContent = vars.email;
             if (el.tagName === 'A') {
                 el.setAttribute('href', 'mailto:' + vars.email);
+            }
+        });
+        document.querySelectorAll('[data-site="maxGuests"]').forEach((el) => {
+            el.textContent = vars.maxGuests;
+        });
+        document.querySelectorAll('[data-site="bedrooms"]').forEach((el) => {
+            el.textContent = vars.bedrooms;
+        });
+        document.querySelectorAll('[data-site="houseRulesUrl"]').forEach((el) => {
+            if (el.tagName === 'A' && data.houseRulesUrl) {
+                el.setAttribute('href', data.houseRulesUrl);
             }
         });
 
@@ -140,23 +173,87 @@
         });
 
         applySiteChrome(data);
+        applyJsonLd(data);
+    }
+
+    function schemaPrice(cents) {
+        return (Math.max(0, Number(cents) || 0) / 100).toFixed(2);
+    }
+
+    function applyJsonLd(data) {
+        const script = document.querySelector('script[type="application/ld+json"]');
+        if (!script) {
+            return;
+        }
+        let graph;
+        try {
+            graph = JSON.parse(script.textContent);
+        } catch (e) {
+            return;
+        }
+        const nodes = graph['@graph'] || (Array.isArray(graph) ? graph : [graph]);
+        const packages = {
+            weekend: packageById(data, 'weekend'),
+            midweek: packageById(data, 'midweek'),
+            week: packageById(data, 'week')
+        };
+        const fees = data.fees || {};
+        const offerPrices = {
+            'https://hometerboekt.be/prijzen#offer-weekend-low': packages.weekend ? packages.weekend.lowCents : null,
+            'https://hometerboekt.be/prijzen#offer-weekend-high': packages.weekend ? packages.weekend.highCents : null,
+            'https://hometerboekt.be/prijzen#offer-midweek-low': packages.midweek ? packages.midweek.lowCents : null,
+            'https://hometerboekt.be/prijzen#offer-midweek-high': packages.midweek ? packages.midweek.highCents : null,
+            'https://hometerboekt.be/prijzen#offer-week-low': packages.week ? packages.week.lowCents : null,
+            'https://hometerboekt.be/prijzen#offer-week-high': packages.week ? packages.week.highCents : null,
+            'https://hometerboekt.be/prijzen#offer-cleaning': fees.cleaningCents,
+            'https://hometerboekt.be/prijzen#offer-tax': fees.touristTaxPerPersonPerNightCents,
+            'https://hometerboekt.be/prijzen#offer-deposit': fees.securityDepositCents,
+            'https://hometerboekt.be/prijzen#offer-sunday': fees.sundayEveningExtraCents
+        };
+        const interpolate = root.interpolateTranslation;
+        const dict = (root.translations && (root.translations[root.currentLang || 'nl'] || root.translations.nl)) || {};
+        nodes.forEach((node) => {
+            if (!node) {
+                return;
+            }
+            if (node['@type'] === 'Offer' && node['@id'] && offerPrices[node['@id']] != null) {
+                node.price = schemaPrice(offerPrices[node['@id']]);
+            }
+            if (node['@type'] === 'FAQPage' && Array.isArray(node.mainEntity) && typeof interpolate === 'function') {
+                node.mainEntity.forEach((item, index) => {
+                    const key = 'prices_faq_' + (index + 1) + '_a';
+                    if (item && item.acceptedAnswer && dict[key]) {
+                        item.acceptedAnswer.text = interpolate(dict[key]);
+                    }
+                });
+            }
+        });
+        script.textContent = JSON.stringify(graph);
+    }
+
+    async function fetchJson(url) {
+        const res = await fetch(url, {
+            headers: { Accept: 'application/json' },
+            cache: 'no-store'
+        });
+        if (!res.ok) {
+            throw new Error('HTTP ' + res.status);
+        }
+        return res.json();
     }
 
     async function loadRates() {
-        try {
-            const api = await fetch('api/rates', { headers: { Accept: 'application/json' } });
-            if (api.ok) {
-                const json = await api.json();
+        const apiPaths = ['/api/rates', 'api/rates'];
+        for (let i = 0; i < apiPaths.length; i += 1) {
+            try {
+                const json = await fetchJson(apiPaths[i]);
                 if (json && json.rates) {
                     return json.rates;
                 }
-            }
-        } catch (e) { /* API optional on static hosting */ }
+            } catch (e) { /* try next source */ }
+        }
         try {
-            const res = await fetch('assets/data/rates.json', { headers: { Accept: 'application/json' } });
-            if (res.ok) {
-                return await res.json();
-            }
+            return await fetchJson('assets/data/rates.json');
         } catch (e) { /* keep fallback */ }
         return FALLBACK;
     }

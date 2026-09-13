@@ -1,0 +1,26 @@
+---
+description: Keep public routes, sitemap, robots, and admin URL fields in sync
+alwaysApply: true
+---
+
+# Public routes
+
+Guest URLs are clean (`/contact`, `/prijzen`). Files stay `public/{slug}.html`. `index.html` is `/`.
+
+When you add, rename, or remove a public page:
+
+1. Keep the file in `public/*.html` (not under `editor/`). `public/sitemap.php` lists those files automatically.
+2. Point `robots.txt` at `https://hometerboekt.be/sitemap.xml`. Disallow `/admin`, `/editor`, `/api`. Add a Disallow only for new private trees.
+3. Update every guest link: `header.js`, `footer.js`, in-page CTAs, canonical, `og:url`. Never leave `.html` in a public href.
+4. If Apache/router rewrites change, update both `public/router.php` and `public/.htaccess`.
+5. Old `/{slug}.html` must 301 to `/{slug}`.
+
+# Admin must adapt the same route
+
+If the URL is shown or stored anywhere guests see (footer, mails, house rules):
+
+- There must be an Instellingen field (`house_rules_url`, `privacy_url`, `cancellation_url`, …).
+- Change the default and any existing DB/JSON value to the new clean path (`/voorwaarden`, not `voorwaarden.html`).
+- After save, `publishPublicRates()` must run so the website chrome updates.
+
+Do not add a public page that only lives in nav. Either it is a `public/*.html` file (sitemap picks it up) or it is an external URL edited in admin.

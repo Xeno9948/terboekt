@@ -69,6 +69,15 @@ function admin_redirect(string $url): never
     exit;
 }
 
+function admin_publish_public_rates(App $app): void
+{
+    try {
+        $app->publishPublicRates();
+    } catch (Throwable $e) {
+        error_log('publish public rates: ' . $e->getMessage());
+    }
+}
+
 function admin_money(int $cents): string
 {
     return Money::formatEuro($cents);
