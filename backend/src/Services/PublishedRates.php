@@ -79,4 +79,38 @@ final class PublishedRates
     {
         return $this->data;
     }
+
+    /**
+     * Nightly amount derived from published packages (not invented).
+     * Fri/Sat use weekend / 2 nights. Other nights use midweek / 4, else week / 7.
+     */
+    public function impliedNightlyCents(string $ymd, string $season): ?int
+    {
+        $key = $season === 'high' ? 'highCents' : 'lowCents';
+        $weekday = (int) (new \DateTimeImmutable($ymd))->format('w');
+        $weekend = $this->packageById('weekend');
+        $midweek = $this->packageById('midweek');
+        $week = $this->packageById('week');
+        if (in_array($weekday, [5, 6], true) && $weekend && !empty($weekend[$key])) {
+            return intdiv((int) $weekend[$key], max(1, (int) $weekend['nights']));
+        }
+        if ($midweek && !empty($midweek[$key])) {
+            return intdiv((int) $midweek[$key], max(1, (int) $midweek['nights']));
+        }
+        if ($week && !empty($week[$key])) {
+            return intdiv((int) $week[$key], max(1, (int) $week['nights']));
+        }
+        return null;
+    }
+
+    /** @return array<string, mixed>|null */
+    public function packageById(string $id): ?array
+    {
+        foreach ($this->packages() as $package) {
+            if (($package['id'] ?? '') === $id) {
+                return $package;
+            }
+        }
+        return null;
+    }
 }

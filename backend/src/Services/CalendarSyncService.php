@@ -58,6 +58,33 @@ final class CalendarSyncService
     }
 
     /**
+     * Import Airbnb (and any other enabled iCal) if we have never succeeded
+     * or the last success is older than $maxAgeSeconds.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function refreshIfStale(int $maxAgeSeconds = 900): array
+    {
+        $due = [];
+        foreach ($this->calendars->findEnabled() as $connection) {
+            $success = $connection['last_successful_sync_at'] ?? null;
+            if ($success === null || $success === '') {
+                $due[] = $connection;
+                continue;
+            }
+            $ts = strtotime((string) $success);
+            if ($ts === false || (time() - $ts) >= $maxAgeSeconds) {
+                $due[] = $connection;
+            }
+        }
+        $out = [];
+        foreach ($due as $connection) {
+            $out[] = $this->refresh($connection);
+        }
+        return $out;
+    }
+
+    /**
      * Failed fetch does not delete existing imported blocks (conservative / stale cache).
      *
      * @param array<string, mixed> $connection

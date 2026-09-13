@@ -16,7 +16,7 @@ final class Database
         $this->pdo = self::connect($config->databaseUrl);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $this->isMysql());
         if ($this->isSqlite()) {
             $this->pdo->exec('PRAGMA foreign_keys = ON');
             $this->pdo->exec('PRAGMA busy_timeout = 5000');

@@ -28,14 +28,15 @@ $confirmed = $count($app, "SELECT COUNT(*) AS c FROM bookings WHERE status = :s 
 ]);
 $expiring = $app->db->fetchAll(
     "SELECT * FROM bookings
-     WHERE (status = :await AND deposit_due_at IS NOT NULL AND deposit_due_at <= :soon)
-        OR (status = :req AND created_at <= :soon)
+     WHERE (status = :await AND deposit_due_at IS NOT NULL AND deposit_due_at <= :soon_deposit)
+        OR (status = :req AND created_at <= :soon_created)
      ORDER BY COALESCE(deposit_due_at, created_at) ASC
      LIMIT 20",
     [
         'await' => BookingStatus::AWAITING_DEPOSIT,
         'req' => BookingStatus::REQUESTED,
-        'soon' => $soon,
+        'soon_deposit' => $soon,
+        'soon_created' => $soon,
     ]
 );
 $arrivals = $app->db->fetchAll(

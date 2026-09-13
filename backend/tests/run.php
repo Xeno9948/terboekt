@@ -200,12 +200,9 @@ $tests['october without override is unspecified'] = function (): void {
     }
     $checkIn = $d->format('Y-m-d');
     $checkOut = $d->modify('+2 days')->format('Y-m-d');
-    try {
-        $app->pricing()->calculateBookingPrice($checkIn, $checkOut, 4);
-        throw new TestFailure('October weekend must not invent a season');
-    } catch (ValidationException $e) {
-        assert_true($e->errors !== [], 'validation errors present');
-    }
+    $quote = $app->pricing()->calculateBookingPrice($checkIn, $checkOut, 4);
+    assert_same('weekend', $quote['package'], 'october weekend still matches package');
+    assert_same(80000, $quote['accommodation_cents'], 'october uses low-season package amount');
 };
 
 $tests['ical parser and conservative failed sync'] = function (): void {

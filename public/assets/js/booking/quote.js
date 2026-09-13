@@ -39,7 +39,11 @@
             return;
         }
         if (mode === 'error') {
-            target.innerHTML = '<p class="form-error show">' + (state.message || t('book_quote_error')) + '</p>';
+            var raw = String(state.message || '');
+            var friendly = /package|nightly|arrangement|nachttarief|weekend|midweek/i.test(raw)
+                ? t('book_quote_error')
+                : (raw || t('book_quote_error'));
+            target.innerHTML = '<p class="form-error show">' + friendly + '</p>';
             return;
         }
         if (!quote) {

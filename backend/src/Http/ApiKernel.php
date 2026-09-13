@@ -126,6 +126,7 @@ final class ApiKernel
         if ($from === '' || $to === '') {
             JsonResponse::error(400, 'bad_request', 'from and to (YYYY-MM-DD) are required');
         }
+        $this->app->calendarSync()->refreshIfStale();
         JsonResponse::send(200, ['ok' => true] + $this->app->availability()->getAvailability($from, $to));
     }
 

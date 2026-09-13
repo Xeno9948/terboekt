@@ -14,7 +14,7 @@ final class CurlHttpClient implements HttpClient
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_TIMEOUT => $timeoutSeconds,
                 CURLOPT_CONNECTTIMEOUT => 10,
-                CURLOPT_USERAGENT => 'HomeTerboekt-CalendarSync/1.0',
+                CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; HomeTerboekt/1.0; +https://hometerboekt.be)',
                 CURLOPT_HTTPHEADER => ['Accept: text/calendar, text/plain, */*'],
                 CURLOPT_SSL_VERIFYPEER => true,
             ]);

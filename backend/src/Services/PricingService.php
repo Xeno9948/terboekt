@@ -100,10 +100,7 @@ final class PricingService
         $package = $this->matchPackage($range, $season);
         $canNightly = $this->canPriceNightly($range);
         if ($package === null && !$canNightly) {
-            $errors[] = 'Stay does not match a published package (weekend, extended weekend, midweek, week) and no nightly rate is configured';
-        }
-        if ($season === 'unspecified' && $package === null && !$canNightly) {
-            $errors[] = 'October is not assigned high or low season on the site; configure a date-range rate or pick a published package in a defined season';
+            $errors[] = 'Deze data passen niet bij een gepubliceerd arrangement (weekend, verlengd weekend, midweek of week) en er is geen nachttarief ingesteld.';
         }
         return [
             'ok' => $errors === [],
@@ -271,15 +268,13 @@ final class PricingService
         if ($candidates === []) {
             return null;
         }
-        if ($season === 'high' || $season === 'low') {
-            foreach ($candidates as $rule) {
-                if ((string) $rule['season'] === $season) {
-                    return $rule;
-                }
+        $prefer = $season === 'high' ? 'high' : 'low';
+        foreach ($candidates as $rule) {
+            if ((string) $rule['season'] === $prefer) {
+                return $rule;
             }
         }
-        // Mixed or unspecified: do not guess a season. Prefer an explicit covering seasonal rule instead.
-        return null;
+        return $candidates[0] ?? null;
     }
 
     private function canPriceNightly(DateRange $range): bool
@@ -336,6 +331,16 @@ final class PricingService
                 'date' => $ymd,
                 'amount_cents' => (int) $fallback,
                 'applied' => ['settings.default_nightly_cents'],
+            ];
+        }
+        $season = $this->seasonForDate($ymd);
+        $implied = $this->published->impliedNightlyCents($ymd, $season === 'unspecified' ? 'low' : $season);
+        if ($implied !== null) {
+            return [
+                'source' => 'implied_package_nightly',
+                'date' => $ymd,
+                'amount_cents' => $implied,
+                'applied' => ['published_package_nightly'],
             ];
         }
         return null;
